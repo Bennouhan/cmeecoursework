@@ -1,0 +1,41 @@
+;   commands separated by a ; are executed sequentially. The shell waits for each command to terminate in turn
+&&   command after && is executed if, and only if, command before && returns an exit status of zero. You can think of it as AND operator
+|   a pipe. In expression command1 | command2 The standard output of command1 is connected via a pipe to the standard input of command2. so the output is the ouput of command 2, having don it on the output of command 1.
+
+
+Wildcards:
+Like regular expressions (regex) in python.
+* = zero or more characters (with a dot at the start which makes it hidden.
+? = any single character (only 1), except a leading dot, as with *
+[A-Z] = defining a class of character, specifically upperclass characters a to z. [1-5] would mean numbers 1-5, [b-t] would mean lowercase letters between b and t inclusive.
+Can sub these in to file names when referring to them, eg ls File[1-2].txt will list File1.txt and File2.txt if they exist.
+Hence, DONT use *, ? or [] in names of files
+
+
+
+You can get files from github if you know the path using wget, e.g. wget https://raw.githubusercontent.com/mhasoba/TheMulQuaBio/master/content/data/spawannxs.txt
+
+
+
+Use grep to search a file for something, eg grep Falco spawannxs.txt
+- use -i after grep to stop being case sensitive
+- use -w for it to match full words
+- use -i -w to do both
+- use -A x, to show x number of lines after the line matched
+- -B is same but before, not after
+- -n gives the number of the line before the line itself
+- -v does something else - test it if you want 
+
+
+
+Use find to search through yourdirectories to give you files matching your input:
+- find . -name hi.txt #will return that if it extists.
+- -iname makes it case insesitive.
+-you can use wildcards here - hi.t* will return the same thing
+- -maxdepth 2 will limit it to 1 sub directory and 1 file (etc)
+- -not -name *.txt will exclude .txts rather than searching only for them
+- find . -type d will search for directories not files
+
+
+
+

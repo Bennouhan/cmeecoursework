@@ -1,0 +1,6 @@
+Git Lecture:
+
+Once you push, making changes gets much higher
+dont use git for binary files, or version control graphics (already generated figires) - use git ignore. Files are too big to constantly version ontrol - only really do it with text files
+add samrat as a collaborator with push access (mhasoba or however it's spelt)
+
