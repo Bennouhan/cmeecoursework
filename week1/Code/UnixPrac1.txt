@@ -1,0 +1,10 @@
+# Q1
+wc -l ../Data/fasta/*.fasta
+# Q2
+tail -n +2 ../Data/fasta/E.coli.fasta
+# Q3
+tail -n +2 ../Data/fasta/E.coli.fasta | wc -c
+# Q4
+tail -n +2 ../Data/fasta/E.coli.fasta | tr -d "\n" | grep -oi atgc | wc -l
+# Q5
+fGC=$(tail -n +2 ../Data/fasta/E.coli.fasta | tr -d "\n" | grep -io "t\|a" | wc -l) && fTA=$(tail -n +2 ../Data/fasta/E.coli.fasta | tr -d "\n" | grep -io "c\|g" | wc -l) && echo $fGC/$fTA | bc -l

@@ -93,3 +93,15 @@ Git commit and push every time you do some significant amount of coding work (af
     The only practical submission for git is pushing your coursework git repository, .gitgnore and readme files included. Make sure your .gitignore has meaningful exclusions, and your readme has useful information. Google “readme good practices” or something like that to find online tips.
 
     Also, invite your assessor to your coursework repository (e.g, CMEECourseWork) repository with write privileges. The current assessor is s.pawar@imperial.ac.uk (or “mhasoba” on both bitbucket and github)
+    
+    
+LATEX
+
+Test CompileLaTeX.sh with FirstExample.tex and bring it under verson control underWeek1 in your repository. Make sure that CompileLaTeX.sh will work if I ran it from my computer using FirstExample.tex as an input.
+Practicals wrap-up¶
+
+Make sure you have your Week 1 directory organized with Data, Sandbox and Code with the necessary files and this week’s (functional!) scripts in there. Every script should run without errors on my computer. This includes the five solutions (single-line commands you came up with) in UnixPrac1.txt.
+
+Commit and push every time you do some significant amount of coding work (after testing it), and then again before the given deadline (this will be announced in class).
+
+    

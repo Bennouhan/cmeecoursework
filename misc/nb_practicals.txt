@@ -20,6 +20,17 @@ Git commit and push every time you do some significant amount of coding work (af
 
 
 
+MARKING
+
+Samraat will mark the code by himself eventually, which will include some factors like:
+- whether there're errors/random outputs
+- script documentation (i.e. hashtag comments on top of the scripts)
+- speed of scripts (it's fine if it's not super slow or drain too much resource)
+- cosmetics: sufficient comments, script readability (e.g. spacing)
+
+You can ask for Samraat's verbal confirmation of what he's looking for a few weeks later, but I'm so sure that he cannot give you a clear answer, the reason is because pure objectivity will eventually lead to everybody having the same marks (as all of you will become good scientific programmers after these few months), so subjectivity has to be included (e.g. script readibility), but these criteria can't be verbally explained
+
+
 
 
 

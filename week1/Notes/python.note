@@ -17,4 +17,10 @@ These are the most versatile, and can contain compound data. They are “mutable
 In Python3 there is no difference between “classes” and “types”. They are in most cases used as synonyms.
 
 Tuples¶
-Tuples are like a list, but “immutable”, that is, a particular pair or sequence of strings or numbers cannot be modified after it is created. So a tuple is like a read-only list.
+Tuples are like a list, but “immutable”, that is, a particular pair or sequence of strings or numbers cannot be modified after it is created. So a tuple is like a read-only list. BUT, pairings can be modified as a whole, given_tuple[number of pair you want to change eg 0]=("kaef","oufhse").
+
+Sets¶
+You can convert a list to an immutable “set” — an unordered collection with no duplicate elements. Once you create a set you can perform set operations on it
+
+Dictionaries¶
+A dictionary is a set of values (any python object) indexed by keys (string or number). So they are a bit like R lists.
