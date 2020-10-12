@@ -1,0 +1,105 @@
+Things to bear in mind throughout course!!!!!
+
+Review (especially if you got lost along the way) and make sure you can run and understand all the commands and get the expected outputs we have covered in ALL CHAPTERS you do.
+
+    Make sure you have your directories organized with code, data etc and the necessary files, under your coursework directory (e.g., CMEECourseWork/week1).
+
+    Along with the completeness of the practicals/exercises themselves, you will be marked on the basis of how complete and well-organized your directory structure and content is – in all coming weeks as well. SO TAKE FIRST POINT SERIOUSLY! Complete may include all the files it asks to make and that they all run
+
+All scripts should run on any other Unix/Linux machine — for example, always call data from the data directory using relative paths.
+
+    Make sure there is a readme file in every week’s directory. This file should give an overview of the weekly directory contents, listing all the scripts and what they do. This is different from the readme for your overall git repository, of which Week 1 is a part. You will write a similar readme for each subsequent weekly submission.
+
+    Don’t put any scripts that are part of the submission in your home/bin directory! You can put a copy there, but a working version should be in your repository.
+
+Git-specific:  
+Don’t modify anything (or refer to any files) in your local copy of the git repository of these notes (on Github). Copy whatever you need from the master repository to your own repository.
+
+Git commit and push every time you do some significant amount of coding work (after testing it), and then again before the given deadline (this will be announced in class). This includes UnixPrac1.txt from the Unix Chapter.
+
+
+
+
+
+
+
+README File Guide (by me)
+ - they're like the face of the project
+ - first thing encountered when opening a source tree
+ - very brief, basic introduction to the software
+ - maybe refer users to screenshots in a sub-directory to demonstrate things if apt (never have README anywhere but in the main directory of project tho)
+ - help a new user get started - how to compile, how to install, how to start integrating - how to run!
+ - see fb message from self for instructions
+ - include language, compatibility
+
+
+README SECTIONS
+
+
+Project title
+
+A little info about your project and/ or overview that explains what the project is about.
+Motivation
+
+A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
+Build status
+
+Build status of continus integration i.e. travis, appveyor etc. Ex. -
+
+Build Status Windows Build Status
+Code style
+
+If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
+
+js-standard-style
+Screenshots
+
+Include logo/demo screenshot etc.
+Tech/framework used
+
+Ex. -
+
+Built with
+
+    Electron
+
+Features
+
+What makes your project stand out?
+Code Example
+
+Show what the library does as concisely as possible, developers should be able to figure out how your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
+Installation
+
+Provide step by step series of examples and explanations about how to get a development env running.
+API Reference
+
+Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+Tests
+
+Describe and show how to run the tests with code examples.
+How to use?
+
+If people like your project they’ll want to learn how they can use it. To do so include step by step guide to use your project.
+Contribute
+
+Let people know how they can contribute into your project. A contributing guideline will be a big plus.
+Credits
+
+Give proper credits. This could be a link to any repo which inspired you to build this project, any blogposts or links to people who contrbuted in this project.
+Anything else that seems useful
+License
+
+A short snippet describing the license (MIT, Apache etc)
+
+MIT © Yourname
+
+
+EXAMPLES
+
+https://github.com/akashnimare/foco/blob/master/readme.md
+https://github.com/sindresorhus/pageres
+https://github.com/noffle/art-of-readme 
+https://github.com/matiassingers/awesome-readme
+https://github.com/dbader/readme-template
+https://github.com/jehna/readme-best-practices

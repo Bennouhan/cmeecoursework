@@ -1,0 +1,95 @@
+Week 1 Practicals¶
+
+due by monday 19th
+
+
+
+UNIX/LINUX
+
+Instructions¶
+
+    Review (especially if you got lost along the way) and make sure you can run and understand all the commands and get the expected outputs we have covered above.
+
+    Make sure you have your directory organized with code, data etc and the necessary files, under your coursework directory (e.g., CMEECourseWork/week1).
+
+    Along with the completeness of the practicals/exercises themselves, you will be marked on the basis of how complete and well-organized your directory structure and content is – in all coming weeks as well.
+
+    Please put (judicious) comments in all of your script files - thorough and concise
+
+(a) Bash command challenge
+
+Here is a somewhat complicated bash command using two pipes (you are not expected to include the answer to this one as part of your weekly submission):
+
+find . -type f -exec ls -s {} \; | sort -n | head -10
+
+What does this command do? (Hint: try it on the test directories and files we created in sandbox)
+
+(b) FASTA exercise
+
+In the directory /data/fasta you will find some FASTA files. These files have an header starting with > followed by the name of the sequence and other metadata. The sequence data start from the second line. Write a file called UnixPrac1.txt with UNIX shell commands that do the following (number each command with a hashed comment like so – #1, #2, etc):
+
+    Count how many lines there are in each file
+
+    Print everything starting from the second line for the E. coli genome
+
+    Count the sequence length of this genome
+
+    Count the matches of a particular sequence, “ATGC” in the genome of E. coli (hint: Start by removing the first line and removing newline characters)
+
+    Compute the AT/GC ratio. That is, the (A+T)/(G+C) ratio. This is a summary measure of base composition of double-stranded DNA. DNA from different organisms and lineages has different ratios of the A-to-T and G-to-C base pairs. For example DNA from organisms that live in hot springs have a higher GC content, which takes advantage of the increased thermal stability of the GC base pair (google “Chargaff’s rule”).
+
+Note that there may be some Y and R’s in DNA sequences, denoting bases where there is uncertainty about identity, with R denoting purine (A or G) and Y pyrimidine (C or T) ribonucleotides. No agreed symbols exist for the other possible combinations, but these too may arbitrarily be reprsented by some non ATGC letters. To handle these, the calculation should be done by keeping these extra letters in place. That is, do not delete them before calculating the ratio, as this will shift the sequences.
+
+    Save UnixPrac1.txt in the code directory.
+
+    Please make sure that each command calls the data from the data directory!
+
+Do not write any of the above as shell scripts (that’s not been covered yet; see Shell Scripting Chapter – each answer should be a single line solution made of (potentially piped together) UNIX commands.
+
+
+
+
+
+SHELL SCRIPTING
+
+
+Instructions¶
+
+    Along with the completeness of the practicals/exercises themselves, you will be marked on the basis of how complete and well-organized your directory structure and content is.
+
+    Review (especially if you got lost along the way) and make sure all the shell scripts you created in this chapter are functional.
+
+    Make sure you have your weekly directory organized with data, sandbox, code with the necessary files, under CMEECourseWork/week1.
+
+    All scripts should run on any other Unix/Linux machine — for example, always call data from the data directory using relative paths.
+
+    Make sure there is a readme file in every week’s directory. This file should give an overview of the weekly directory contents, listing all the scripts and what they do. This is different from the readme for your overall git repository, of which Week 1 is a part. You will write a similar readme for each subsequent weekly submission.
+
+    Don’t put any scripts that are part of the submission in your home/bin directory! You can put a copy there, but a working version should be in your repository.
+
+(a) Improve the existing scripts
+
+Note that some of the shell scripts that you have created in this chapter above requires input files. For example, tabtocsv.sh needs one input file, and ConcatenateTwoFiles.sh needs two. When you run any of these scripts without inputs (e.g., just bash tabtocsv.sh), you either get no result, or an error.
+
+    Make each such script robust so that it gives feedback to the user and exits if the right inputs are not provided. Also should take more than just txt files, but shouldn't take incompatible files
+
+(b) A new shell script
+
+    Write a csvtospace.sh shell script that takes a comma separated values and converts it to a space separated values file. However, it must not change the input file — it should save it as a differently named file.
+
+    Make this script robust, as you were asked to doin the previous exercise (a).
+
+    Save the script in CMEECourseWork/week1/code, and run it on the csv data files that are in Temperatures in the master repository’s Data directory.
+
+
+GIT
+
+Instructions¶
+
+Don’t modify anything (or refer to any files) in your local copy of the git repository of these notes (on Github). Copy whatever you need from the master repository to your own repository.
+
+Git commit and push every time you do some significant amount of coding work (after testing it), and then again before the given deadline (this will be announced in class). This includes UnixPrac1.txt from the Unix Chapter.
+
+    The only practical submission for git is pushing your coursework git repository, .gitgnore and readme files included. Make sure your .gitignore has meaningful exclusions, and your readme has useful information. Google “readme good practices” or something like that to find online tips.
+
+    Also, invite your assessor to your coursework repository (e.g, CMEECourseWork) repository with write privileges. The current assessor is s.pawar@imperial.ac.uk (or “mhasoba” on both bitbucket and github)

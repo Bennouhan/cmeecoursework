@@ -1,0 +1,9 @@
+Breakdown:
+
+find . -type f -exec ls -s {} \; | sort -n | head -10
+
+type gives file type
+exec executes a command on everything - read each of them,  -s is file size
+
+then, sorts numerically
+then, prints first 10 lines

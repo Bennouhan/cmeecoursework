@@ -1,0 +1,20 @@
+GENERAL
+
+unlike most langs, forces you to indent your code, makes it easier to follow and simplifies syntax - much strutcture is done with indentation
+good for numerical stuff, scripting etc.  does numerical more effieicntly than R
+difference in use for pythion and R a bit blurred, but good to know both
+
+DEFINITIONS
+
+ipython
+sort of combines terminal with python, and sort of acts like a script (with numbered lines). eg can do ls to see working directory etc
+
+a mutable object can be changed after it is created (with [object]=[value]), and an immutable object can’t - the "=" function will teturn an error
+
+Lists¶ [ ]
+These are the most versatile, and can contain compound data. They are “mutable”
+
+In Python3 there is no difference between “classes” and “types”. They are in most cases used as synonyms.
+
+Tuples¶
+Tuples are like a list, but “immutable”, that is, a particular pair or sequence of strings or numbers cannot be modified after it is created. So a tuple is like a read-only list.
