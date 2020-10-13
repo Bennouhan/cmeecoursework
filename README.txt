@@ -12,4 +12,4 @@ Current notewrothy exlusions:
 - .exe files
 - files without extensions
 - all graphic filetypes
-
+- all sandbox directories

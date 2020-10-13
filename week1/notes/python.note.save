@@ -1,0 +1,39 @@
+GENERAL
+
+unlike most langs, forces you to indent your code, makes it easier to follow and simplifies syntax - much strutcture is done with indentation
+good for numerical stuff, scripting etc.  does numerical more effieicntly than R
+difference in use for pythion and R a bit blurred, but good to know both
+
+DEFINITIONS
+
+ipython
+sort of combines terminal with python, and sort of acts like a script (with numbered lines). eg can do ls to see working directory etc
+
+a mutable object can be changed after it is created (with [object]=[value]), and an immutable object can’t - the "=" function will teturn an error
+
+Lists¶ [ ]
+These are the most versatile, and can contain compound data. They are “mutable”
+
+In Python3 there is no difference between “classes” and “types”. They are in most cases used as synonyms.
+
+Tuples¶
+Tuples are like a list, but “immutable”, that is, a particular pair or sequence of strings or numbers cannot be modified after it is created. So a tuple is like a read-only list. BUT, pairings can be modified as a whole, given_tuple[number of pair you want to change eg 0]=("kaef","oufhse").
+
+Sets¶
+You can convert a list to an immutable “set” — an unordered collection with no duplicate elements. Once you create a set you can perform set operations on it
+
+Dictionaries¶
+A dictionary is a set of values (any python object) indexed by keys (string or number). So they are a bit like R lists.
+
+
+
+CONVENTIONS
+
+Use ""“docstrings”"" to document how to use the code
+and #comments (ideally on blank lines) to explain why and how the code works
+
+Don't use reserved names
+
+Wrap lines to be <80 characters long. You can use parentheses () or signal that the line continues using a backslash \
+
+Separate functions using a blank line
