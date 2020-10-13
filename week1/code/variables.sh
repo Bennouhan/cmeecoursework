@@ -1,6 +1,11 @@
 #!/bin/bash
+# Author: Ben Nouhan, bjn20@ucl.ac.uk
+# Script: variables.sh
+# Desc: Repeats a user-input string; returns the sum of two user-input numbers
+# Arguments: -
+# Date: 12 Oct 2020
 
-# Shows the use of variables
+### Shows the use of variables
 MyVar='some string'
 echo 'the current value of the variable is:' $MyVar
 echo 'Please enter a new string'
@@ -8,6 +13,7 @@ while true; do
     read MyVar
     # request input from user if blank
     if [ -z "$MyVar" ]; then
+    #checks for blank input
         echo "No string entered. Please enter a new string"
     else
         break
@@ -15,19 +21,21 @@ while true; do
 done
 echo 'the current value of the variable is:' $MyVar
 
-## Reading multiple values
-echo 'Enter two numbers separated by space(s)'
+### Reading multiple values, handling errors
+echo 'Enter two itegers separated by space(s)'
 while true; do
-    num='^[0-9]+$'
-    read a b
-    #
-    if [ $a -ne $num ] || [ $b -ne $num ]; then
-        echo "Error: please enter two numbers separated by space(s)"#test with no or wrong no entries
+    #numb='^[0-9]+$'
+    read a b c
+    #user inputs variables; including c absorbs any extra inputs without error
+    if [[ $((a)) != $a ]] || [[ $((b)) != $b ]]; then
+    #checks that both a and b equal themselves arithmetically - ie they're both numbers
+        echo "Error: please enter two integers separated by space(s)"
     else
         break
     fi
 done
-echo 'you entered' $a 'and' $b '. Their sum is:'
-mysum=`expr $a + $b`
-echo $mysum
+
+mysum=$(echo -e  $a + $b | bc -l)
+#adds a and b, even if decimals (decimals will compute but with an error)
+echo -e 'You entered' $a 'and' $b ' \nTheir sum is' $mysum
 exit
