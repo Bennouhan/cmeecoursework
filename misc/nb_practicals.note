@@ -22,6 +22,9 @@ Git commit and push every time you do some significant amount of coding work (af
 
 MARKING
 
+points deducted for any extra files in pushed directories - remove all clutter! only have what book told us to make!
+points deducted 
+
 Samraat will mark the code by himself eventually, which will include some factors like:
 - whether there're errors/random outputs
 - script documentation (i.e. hashtag comments on top of the scripts)

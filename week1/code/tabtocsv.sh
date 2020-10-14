@@ -2,7 +2,7 @@
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 # Script: tabtocsv.sh
 # Desc: Sub tabs with commas; Saves output into a .csv file
-# Arguments: 1 -> tab delimited file
+# Arguments: 1 -> tab-delimited file
 # Date: 12 Oct 2020
 
 ### request one argument from user if no. of arguments entered =/= 1
@@ -26,10 +26,11 @@ if [ $num_tab -lt 1 ]; then
 fi
 
 ### checks if what will be the resulting file already exists, asks to overwrite
-Base=`echo "$1" | cut -d'.' -f1`
+Base=$(echo -e $(basename $1) | cut -d'.' -f1)
 #removes extension; returns full name if no "."
-if [ -f "$Base.csv" ]; then
-#checks for presence of file which would be overwritten
+#$(basename $1) used, else any dots in path eg ".." in "../dir" will be cut instead
+if [ -f $(dirname $1)/$Base.csv ]; then
+#checks for presence of file which would be overwritten. path added back, after removed for cutting
   echo "File already exists, are you sure you wish to overwrite?"
   read -r -p "Are you sure? [y/N] " response
   if ! [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]

@@ -1,8 +1,9 @@
 In python, you delineate a function (recall what a function means from the table above) by using indentation. For example:
+REMEMBER TO LEAVE A BLANK LINE AFtER FUNCTION!
 
 def foo(x):
-    x *= x # (same as x = x*x)
-    print (x)
-    return x
-#squares the number in bracket
+    x *= x # (same as x = x*x) #squares the number in bracket
+    print (x) #prints output; but can't set value to a variable
+    return x #returns output;allows you to store it, eg y=foo(2), y would be set as 4
+
 Now you will have a function object called foo in your workspace. You can check this using the %whos magic command, which lists and describes all the objects in your workspace:
