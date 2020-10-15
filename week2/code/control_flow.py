@@ -3,6 +3,7 @@
 """Some functions exemplifying the use of control statements"""
 #docstrings are considered part of the running code (normal comments are
 #stripped). Hence, you can access your docstrings at run time.
+import ipdb
 __author__ = 'Samraat Pawar (s.pawar@imperial.ac.uk)'
 __version__ = '0.0.1'
 
@@ -29,6 +30,9 @@ def largest_divisor_five(x=120):
     else: # When all other (if, elif) conditions are not met
         return "No divisor found for %d!" % x # Each function can return a value or a variable.
     return "The largest divisor of %d is %d" % (x, largest)
+
+
+ipdb.set_trace()
 
 def is_prime(x=70):
     """Find whether an integer is prime."""
