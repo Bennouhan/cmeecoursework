@@ -31,9 +31,8 @@ def largest_divisor_five(x=120):
         return "No divisor found for %d!" % x # Each function can return a value or a variable.
     return "The largest divisor of %d is %d" % (x, largest)
 
-
-ipdb.set_trace()
-
+#ipdb.set_trace()  #allows enter ipdb command prompt mid-running of programme
+#sometimes gives weird outcome or error but doesnt break, useful to come out here
 def is_prime(x=70):
     """Find whether an integer is prime."""
     for i in range(2, x): #  "range" returns a sequence of integers
