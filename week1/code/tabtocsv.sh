@@ -29,7 +29,7 @@ fi
 Base=$(echo -e $(basename $1) | cut -d'.' -f1)
 #removes extension; returns full name if no "."
 #$(basename $1) used, else any dots in path eg ".." in "../dir" will be cut instead
-if [ -f $(dirname $1)/$Base.csv ]; then
+if [ -f ../results/$Base.csv ]; then
 #checks for presence of file which would be overwritten. path added back, after removed for cutting
   echo "File already exists, are you sure you wish to overwrite?"
   read -r -p "Are you sure? [y/N] " response
@@ -42,8 +42,8 @@ if [ -f $(dirname $1)/$Base.csv ]; then
 fi
 
 ### gets file content; swaps tabs for commas; saves as new file, replacing any extension with .csv
-echo "Creating a comma delimited version of $1 ..."
-cat $1 | tr -s "\t" "," > "${1%.*}.csv"
+echo "Creating a comma delimited version of $1 in results/ ..."
+cat $1 | tr -s "\t" "," > "../results/$Base.csv"
 #identifies basename, saves with new extension.     #ignore#  using this is alternative: cut -f 1 -d "."
 echo "Done!"
 exit

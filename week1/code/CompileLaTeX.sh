@@ -20,9 +20,8 @@ pdflatex $(dirname $1)/$Base.tex
 bibtex $(dirname $1)/$Base
 pdflatex $(dirname $1)/$Base.tex
 pdflatex $(dirname $1)/$Base.tex
-evince $Base.pdf &
 
-## Cleanup
+### Cleanup
 rm *~
 rm *.aux
 rm *.dvi
@@ -31,3 +30,11 @@ rm *.nav
 rm *.out
 rm *.snm
 rm *.toc
+rm *.blg
+rm *.bbl
+
+### move to data directory, opens from there
+echo -e "\n\n\n\nMoving $Base.pdf to results directory and opening..."
+mv $Base.pdf ../results
+evince ../results/$Base.pdf &
+echo "Done!"

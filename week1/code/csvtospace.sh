@@ -29,7 +29,7 @@ fi
 Base=$(echo -e $(basename $1) | cut -d'.' -f1)
 #removes extension; returns full name if no "."
 #$(basename $1) used, else any dots in path eg ".." in "../dir" will be cut instead
-if [ -f $(dirname $1)/$Base.ssv ]; then
+if [ -f ../results/$Base.ssv ]; then
 #checks for presence of file which would be overwritten. path added back, after removed for cutting
   echo "File already exists, are you sure you wish to overwrite?"
   read -r -p "Are you sure? [y/N] " response
@@ -42,8 +42,8 @@ if [ -f $(dirname $1)/$Base.ssv ]; then
 fi
 
 ### gets file content; swaps 1=< adjacent commas for a space; saves as new file, replacing any extension with .ssv
-echo "Creating a space-delimited version of $1 ..."
-cat $1 | tr -s "," " " > "${1%.*}.ssv"
+echo "Creating a space-delimited version of $1 in results/ ..."
+cat $1 | tr -s "," " " > "../results/$Base.ssv"
 #identifies basename, saves with new extension. Different methos than above, useful to know. 
 echo "Done!"
 exit
