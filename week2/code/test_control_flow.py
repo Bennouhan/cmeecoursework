@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-"""Some functions exemplifying the use of control statements"""
+"""Copy of control_flow.py, used to demonstrate the doctest module"""
+
+
 #docstrings are considered part of the running code (normal comments are
 #stripped). Hence, you can access your docstrings at run time.
 __author__ = 'Samraat Pawar (s.pawar@imperial.ac.uk)'

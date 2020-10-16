@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 
 """Some functions exemplifying the use of control statements"""
-#docstrings are considered part of the running code (normal comments are
-#stripped). Hence, you can access your docstrings at run time.
+
+
 import ipdb
-__author__ = 'Samraat Pawar (s.pawar@imperial.ac.uk)'
+__author__ = 'Ben Nouhan (b.nouhan.20@imperial.ac.uk)'
 __version__ = '0.0.1'
 
 import sys
 
-def even_or_odd(x=0): # if not specified, x should take value 0.
 
+def even_or_odd(x=0): # if not specified, x should take value 0.
     """Find whether a number x is even or odd."""
     if x % 2 == 0: #The conditional if
         return "%d is Even!" % x
     return "%d is Odd!" % x
+
 
 def largest_divisor_five(x=120):
     """Find which is the largest divisor of x among 2,3,4,5."""
@@ -33,6 +34,7 @@ def largest_divisor_five(x=120):
 
 #ipdb.set_trace()  #allows enter ipdb command prompt mid-running of programme
 #sometimes gives weird outcome or error but doesnt break, useful to come out here
+
 def is_prime(x=70):
     """Find whether an integer is prime."""
     for i in range(2, x): #  "range" returns a sequence of integers
@@ -41,6 +43,7 @@ def is_prime(x=70):
           return False
     print("%d is a prime!" % x)
     return True 
+
 
 def find_all_primes(x=22):
     """Find all the primes up to x"""
@@ -51,7 +54,9 @@ def find_all_primes(x=22):
     print("There are %d primes between 2 and %d" % (len(allprimes), x))
     return allprimes
       
+      
 def main(argv):
+    """Demonstrates each function of the module using arbitrary arguments, printing the output"""
     print(even_or_odd(22))
     print(even_or_odd(33))
     print(largest_divisor_five(120))
@@ -60,6 +65,7 @@ def main(argv):
     print(is_prime(59))
     print(find_all_primes(100))
     return 0
+
 
 if (__name__ == "__main__"):
     status = main(sys.argv)

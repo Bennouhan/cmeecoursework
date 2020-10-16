@@ -1,3 +1,7 @@
+
+"""Examples of for and while loops"""
+
+
 # FOR loops in Python
 for i in range(5):
     print(i)

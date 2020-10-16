@@ -1,3 +1,8 @@
+
+"""Script to print objects within a tuple of tuples, in two ways"""
+
+
+
 birds = ( ('Passerculus sandwichensis','Savannah sparrow',18.7),
           ('Delichon urbica','House martin',19),
           ('Junco phaeonotus','Yellow-eyed junco',19.5),

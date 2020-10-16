@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
-"""Description of this program or application.
-You can use several lines"""
+"""Prints off a simple message to help explain programmes and modules"""
 
-__appname__ = '[application name here]'
-__author__ = 'Your Name (your@email.address)'
+
+__author__ = 'Ben Nouhan (b.nouhan.20@imperial.ac.uk)'
 __version__ = '0.0.1'
-__license__ = "License for this code/program"
 
 ## imports ##
 import sys # module to interface our program with the operating system
@@ -21,6 +19,5 @@ def main(argv):
     return 0
 
 if __name__ == "__main__": 
-    """Makes sure the "main" function is called from command line"""  
     status = main(sys.argv)
     sys.exit(status)

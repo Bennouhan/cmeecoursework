@@ -1,3 +1,7 @@
+
+"""Scripts to extract specific tuples from a list of tuples"""
+
+
 # Average UK Rainfall (mm) for 1910 by month
 # http://www.metoffice.gov.uk/climate/uk/datasets
 rainfall = (('JAN',111.4),

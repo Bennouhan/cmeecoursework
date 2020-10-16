@@ -1,3 +1,7 @@
+
+"""Script to populate a dictionary called taxa_dic from a list of taxa"""
+
+
 taxa = []
 taxa_dic = {}
 taxa = [('Myotis lucifugus', 'Chiroptera'),
