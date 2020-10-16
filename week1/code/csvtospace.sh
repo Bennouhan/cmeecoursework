@@ -1,8 +1,8 @@
 #!/bin/bash
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 # Script: csvtospace.sh
-# Desc: Sub commas with spaces; Saves output into a .ssv file
-# Arguments: 1 -> csv file (but really any text file with a >= 1 comma)
+# Desc: Substitutes commas with spaces; Saves output into a .ssv file in results/
+# Arguments: 1 -> csv file (but really any text file with >= 1 commas)
 # Date: 14 Oct 2020
 
 ### request one argument from user if no. of arguments entered =/= 1

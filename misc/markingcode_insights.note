@@ -1,0 +1,232 @@
+
+
+
+INSIGHTS DERIVED FROM THE BELOW CODE
+
+- have a .gitignore in master directory
+- have a readme in master directory
+- have a readme in each week
+- make sure all files in code/ end with '.sh', '.py', '.ipynb', '.r' ,'.txt' ,'.bib' , or '.tex'
+- make sure in .py files, num_docstrings = num_def + 1 ; one script-level doc string, then 1 for each def (hence no defs, only one doc string)
+- make sure all scripts run as planned, AND all scripts run without an argument without error (go through one by one, painstaking as it may be)
+
+(assumed: he will go through any which don't run, and give error without argument. hence above)
+ 
+OTHER
+
+- use only relative paths, so it runs on linux and unix
+- ensure scripts are highly legible, inc """docstrings""" and #coments
+- fewer lines the better - although, in theory, comments and additional functions don't count (tell samraat if penalised for extra work, he will give back points apparently)
+
+from PokMan:
+Samraat will mark the code by himself eventually, which will include some factors like:
+- whether there're errors/random outputs
+- script documentation (i.e. hashtag comments on top of the scripts)
+- speed of scripts (it's fine if it's not super slow or drain too much resource)
+- cosmetics: sufficient comments, script readability (e.g. spacing)
+
+You can ask for Samraat's verbal confirmation of what he's looking for a few weeks later, but I'm so sure that he cannot give you a clear answer, the reason is because pure objectivity will eventually lead to everybody having the same marks (as all of you will become good scientific programmers after these few months), so subjectivity has to be included (e.g. script readibility), but these criteria can't be verbally explained
+
+[11:57] Ho, Pok
+    more junk code, less points, that's logical, right?
+[11:57] Ho, Pok
+    those are different functions, not junk; so they'll be treated differently
+if Samraat deduct points because of that, tell him and you'll get back those points
+​[11:58] Ho, Pok
+    also, annotation is a different thing which is not checked in these automated feedbacks
+
+
+
+####this seems to be code for more than just week 1 - possibly al of them? definitely some .py and .r mentioned. 
+Go through, write down how I think each module affects scrore, and address these insights in your code###
+
+
+
+#####################################################################################################################################################################	
+
+	azz.write('Checking for key files in parent directory...\n\n')
+	if '.gitignore' in TempFiles:
+		azz.write('Found .gitignore in parent directory, great! \n\n')
+		azz.write('Printing contents of .gitignore:\n')
+		g = open(RepoPath + '/.gitignore', 'r')
+		azz.write('*'*70 + '\n')
+		for line in g:
+			azz.write(line,)
+		azz.write('*'*70 + '\n\n')
+	else:
+		azz.write('.gitignore missing, 1 pt deducted\n\n')
+		Points = Points - 1
+		azz.write('Current Points = ' + str(Points) + '\n\n')
+		
+#####################################################################################################################################################################	
+		
+Just make sure you have a .gitignore
+		
+		
+		
+#####################################################################################################################################################################	
+
+	224
+	readme = 'n'
+	for name in TempFiles:
+		if 'readme' in name.lower() and not '~' in name.lower():
+			azz.write('Found README in parent directory, named: ' + name + '\n\n')
+			azz.write('Printing contents of ' + name + ':' + '\n')
+			g = open(RepoPath + '/' + name, 'r')
+			azz.write('*'*70 + '\n')
+			for line in g:
+				azz.write(line,)
+			azz.write('*'*70 + '\n\n')
+			readme = 'y'
+			break
+	if readme == 'n':
+		azz.write('README file missing, 1 pt deducted\n\n')
+		Points = Points - 1
+		azz.write('Current Points = ' + str(Points) + '\n\n')
+		
+#####################################################################################################################################################################	
+		
+Just have a README file. have in master and in each week to be safe
+
+
+
+#####################################################################################################################################################################	
+
+		262
+		for week in WeekDirs:
+		if not args.Week.lower() in week.lower().replace(" ", ""):
+			continue # only assess for current week - no week 10 and 1, for eg
+		azz.write('='*70 + '\n')
+		WeekPth = RepoPath+'/'+week
+		azz.write('Assessing ' + week.upper()+'...\n\n')
+		DirCont = os.listdir(WeekPth)
+		TempDirs = [name for name in DirCont if os.path.isdir(WeekPth +'/' + name)]
+		TempFiles = [name for name in DirCont if os.path.isfile(WeekPth +'/' + name)]
+		azz.write('Found the following directories: '\
+		 + ', '.join(TempDirs) + '\n\n')
+		azz.write('Found the following files: '\
+		 + ', '.join(TempFiles) + '\n\n')
+		 
+		azz.write('Checking for readme file in weekly directory...\n\n')
+		readme = 'n'
+		for name in TempFiles:
+			if 'readme' in name.lower() and not '~' in name.lower():
+				azz.write('Found README in parent directory, named: ' + name + '\n\n')
+				azz.write('Printing contents of ' + name + ':' + '\n')
+				g = open(WeekPth + '/' + name, 'r')
+				azz.write('*'*70 + '\n')
+				for line in g:
+					azz.write(line,)
+				g.close()
+				azz.write('*'*70 + '\n\n')
+				readme = 'y'
+				break
+		if readme == 'n':
+			azz.write('README file missing, 1 pt deducted\n\n')
+			Points = Points - 1
+			azz.write('Current Points = ' + str(Points) + '\n\n')
+			
+#####################################################################################################################################################################				
+			
+only assesses current week. make sure you have READ.ME in week dirs as well as master (cmeewc)		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+#####################################################################################################################################################################				
+			
+		320	
+		## Now get all code file paths for testing
+		Scripts = []
+		ScriptNames = []
+		for root, dirs, files in os.walk(WeekPth + '/' + CodDir[0]):
+			for file in files:
+				if file.lower().endswith(('.sh','.py','.ipynb','.r','.txt','.bib','.tex')):
+					 Scripts.append(os.path.join(root, file))
+					 ScriptNames.append(file) 
+
+		azz.write('Found ' + str(len(Scripts)) + ' code files: ' + ', '.join(ScriptNames) + '\n\n')
+		files = [fname for fname in files if fname not in ignore_files] # remove files to be ignored
+		if len(ScriptNames) < len(files):
+			extras = list(set(files) - set(ScriptNames))
+			extras = [name for name in extras if not (name.lower().endswith(('~', 'pyc')))] #ignore certain extensions
+			azz.write('Found the following extra files: ' + ', '.join(extras) + '\n')		
+			Points = Points - .5 * len(extras)
+			azz.write('0.5 pt deducted per extra file\n\n')
+			azz.write('Current Points = ' + str(Points) + '\n\n')
+			
+#####################################################################################################################################################################				
+
+specific to code directory:
+make sure all scripts you want assessed end with ('.sh','.py','.ipynb','.r','.txt','.bib','.tex')
+	counts all files ending with these, counts total number of files in dir
+	lose .5 points for each extra file (difference between these two counts)
+
+		
+			
+#####################################################################################################################################################################				
+			
+			if os.path.basename(name).lower().endswith('.sh'):
+				p, output, err, time = run_popen('bash ' + os.path.basename(name), timeout)
+			elif os.path.basename(name).lower().endswith('.py'):
+				azz.write(os.path.basename(name) + ' is a Python script file;\n\nchecking for docstrings...\n\n')
+				with open(os.path.basename(name)) as f:
+>					funcs = re.findall(r'def\s.+:',f.read(),re.MULTILINE)
+				with open(os.path.basename(name)) as f:
+>					dstrngs = re.findall(r'"""[\w\W]*?"""',f.read(),re.MULTILINE)
+					
+					if len(funcs)>0 and len(dstrngs)>0:
+						azz.write('Found one or more docstrings and functions\n\n')
+						if len(dstrngs) < len(funcs) + 1:
+							azz.write('Missing docstring, either in one or functions and/or at the script level\n')
+>>>							Points = Points - (len(funcs) + 1 - len(dstrngs)) * 0.5
+							azz.write('\n')
+					elif len(funcs)>0 and len(dstrngs)==0:
+						azz.write('Found one or more functions, but completely missing docstrings\n')
+>>>						Points = Points - 2 - len(funcs)*0.5 
+						azz.write('2 pts deducted for missing docstring for script, and .5 pt deducted per missing docstring for function\n\n')
+					elif len(funcs)==0 and len(dstrngs)==1:
+						azz.write('Found no functions, but one docstring for the script, good\n\n')
+					elif len(funcs)==0 and len(dstrngs)>2:
+						# import ipdb; ipdb.set_trace()
+						azz.write('Found too many docstrings.  Check your script.\n\n')
+					else:
+						azz.write('No functions, but no script-level docstring either\n')
+>>>						Points = Points - 2
+						azz.write('2 pts deducted\n\n')
+
+				azz.write('Current Points = ' + str(Points) + '\n\n')
+				
+#####################################################################################################################################################################					
+
+specific to .py:				
+counts "def"s, counts doc strings, lose 0.5 points if you dont have one docstring per def AND one for the whole script (script-level). no. def + 1 = no. required doc strings!!!!!!!!	
+penalised more if zero doc strings			
+if no docstrings, only expects 1 docstring. doesnt want more than 1!!
+				
+insight: every .py script must have a general doc string, and one doc string per def. No more, no less.
+			
+				
+#####################################################################################################################################################################				
+
+azz.write('='*70 + '\n')
+	azz.write('='*70 + '\n')
+	azz.write('\nFINISHED WEEKLY ASSESSMENT\n\n')
+	azz.write('Current Points for the Week = ' + str(Points) + '\n\n')
+	azz.write('NOTE THAT THESE ARE POINTS, NOT MARKS FOR THE WEEK!')
+	
+#####################################################################################################################################################################	
+	
+Just a tally of points
+	
+	
+	
+	
+	
+	
+	

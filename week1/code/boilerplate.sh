@@ -8,4 +8,3 @@
 echo -e "\nThis is a shell script! \n"
 # -e allows it to interpret \n despits being between inverted commas. Would take it literally otherwise. same as \t etc
 
-#exit

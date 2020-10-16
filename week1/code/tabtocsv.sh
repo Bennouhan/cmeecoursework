@@ -1,8 +1,8 @@
 #!/bin/bash
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 # Script: tabtocsv.sh
-# Desc: Sub tabs with commas; Saves output into a .csv file
-# Arguments: 1 -> tab-delimited file
+# Desc: Substitutes tabs with commas; Saves output into a .csv file in results/
+# Arguments: 1 -> tab-delimited file (but really any text file with >= 1 tabs)
 # Date: 12 Oct 2020
 
 ### request one argument from user if no. of arguments entered =/= 1

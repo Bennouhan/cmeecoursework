@@ -1,5 +1,10 @@
 #!/bin/bash
-#don't include .tex!!! just write basename
+# Author: Ben Nouhan, bjn20@ucl.ac.uk
+# Script: CompileLaTeX.sh
+# Desc: Compiles a .tex file into a new pdf document in data/
+# Arguments: 1 -> .tex file
+# Date: 15 Oct 2020
+
 
 ### request one argument from user if no. of arguments entered =/= 1
 if [ $# -ne 1 ]; then

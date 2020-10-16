@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 # Script: Countlines.sh
-# Desc: returns the number of lines of a file
+# Desc: Returns the number of lines of a file
 # Arguments: 1 -> text file
 # Date: 13 Oct 2020
 

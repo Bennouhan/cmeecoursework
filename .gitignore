@@ -1,4 +1,99 @@
+# ALWAYS ADD TO BOTTOM! The exe and bin files addition below requires such.
+# use this periodically to add all files > 100mb: find . -size +100M | cat >> ~/cmeecoursework/.gitignore
+
+# all log files, executables and temp files will be ignored when comitting all 
 *~ 
 *.tmp
-#all log files, executables and temp files will be ignored when comitting all
-#may want to add to this to stop large files eg binary or graphic files too
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# executable files and other binary files without an extension
+*.exe
+*
+!/**/
+!*.*
+
+# graphic files
+*.jpg
+*.jpeg
+*.jpe
+*.jif
+*.jfif
+*.jfi
+*.jp2
+*.j2k
+*.jpf
+*.jpx
+*.jpm
+*.mj2
+*.jxr
+*.hdp
+*.wdp
+*.gif
+*.raw
+*.webp
+*.png
+*.apng
+*.mng
+*.tiff
+*.tif
+*.svg
+*.svgz
+*.xbm
+*.bmp
+*.dib
+*.ico
+*.3dm
+*.max
+
+*.mp3
+*.aac
+*.he-aac
+*.ac3
+*.eac3
+*.wma
+*.pcm
+
+*.mp4
+*.m4a
+*.m4v
+*.mov
+*.3gp
+*.ogg
+*.wmv
+*.webm
+*.flv
+*.avi
+*.hdv
+*.mxf
+*.wav
+*.vob
+
+# .idea file for pycharm when cmeecoursework set as the project directory
+.idea
+
+# all sandbox directories, notes, misc
+sandbox/
+.note
+notes/
+/home/bennouhan/cmeecoursework/misc/
+
+# unwanted latex outputs
+.bbl
+.blg
+
+# unwanted python objects
+__pycache__
+
+# don't ignore .gitignore
+!.gitignore

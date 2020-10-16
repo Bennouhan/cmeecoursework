@@ -34,6 +34,53 @@ Samraat will mark the code by himself eventually, which will include some factor
 You can ask for Samraat's verbal confirmation of what he's looking for a few weeks later, but I'm so sure that he cannot give you a clear answer, the reason is because pure objectivity will eventually lead to everybody having the same marks (as all of you will become good scientific programmers after these few months), so subjectivity has to be included (e.g. script readibility), but these criteria can't be verbally explained
 
 
+GROUP WORK
+
+Any inconsistincies between our work will lose 5 marks! all must collaborate, agree and have identical code!
+More details on this (and everything else) on Coursework Assessment apendix in TheMulQual book
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -51,18 +98,17 @@ README SECTIONS
 
 
 Project title
-
 A little info about your project and/ or overview that explains what the project is about.
+
 Motivation
-
 A short description of the motivation behind the creation and maintenance of the project. This should explain why the project exists.
-Build status
 
+Build status
 Build status of continus integration i.e. travis, appveyor etc. Ex. -
 
 Build Status Windows Build Status
-Code style
 
+Code style
 If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
 
 js-standard-style
@@ -80,6 +126,7 @@ Built with
 Features
 
 What makes your project stand out?
+
 Code Example
 
 Show what the library does as concisely as possible, developers should be able to figure out how your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
@@ -108,19 +155,4 @@ A short snippet describing the license (MIT, Apache etc)
 
 MIT © Yourname
 
-
-EXAMPLES
-
-https://github.com/akashnimare/foco/blob/master/readme.md
-https://github.com/sindresorhus/pageres
-https://github.com/noffle/art-of-readme 
-https://github.com/matiassingers/awesome-readme
-https://github.com/dbader/readme-template
-https://github.com/jehna/readme-best-practices
-
-
-GROUPWORK
-
-Any inconsistincies between our work will lose 5 marks! all must collaborate, agree and have identical code!
-More details on this (and everything else) on Coursework Assessment apendix in TheMulQual book
 
