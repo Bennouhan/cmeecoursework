@@ -94,6 +94,7 @@ notes/
 
 # unwanted python objects
 __pycache__
+.log
 
 # don't ignore .gitignore
 !.gitignore
