@@ -57,6 +57,8 @@ FILES LIST
 //////////
 
 
+############# write doc strings for all; use the first one as desc, like # desc last week. modify script. ######################
+
 boilerplate.sh - Example script to print out simple statement
 
 FirstExample.tex - Example LaTeX file

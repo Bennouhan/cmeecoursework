@@ -1,4 +1,6 @@
+
 """Reads .csv file (data/testcsv.csv), extracts species name and bodymass columns, and writes into a new file (results/bodymass.csv)"""
+
 
 import csv
 
@@ -8,7 +10,6 @@ __version__ = '0.0.1'
 # Read a file containing:
 # 'Species','Infraorder','Family','Distribution','Body mass male (Kg)'
 f = open('../data/testcsv.csv','r')
-
 csvread = csv.reader(f)
 temp = []
 for row in csvread:
