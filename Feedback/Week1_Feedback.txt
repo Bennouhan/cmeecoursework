@@ -468,7 +468,7 @@ Please enter three arguments: two text files to concatenate, then one new destin
 
 Code ran without errors
 
-Time consumed = 0.00391s
+Time consumed = 0.00407s
 
 ======================================================================
 Inspecting script file tiff2png.sh...
@@ -526,7 +526,7 @@ There is no .tif file in this directory
 
 Code ran without errors
 
-Time consumed = 0.00496s
+Time consumed = 0.00420s
 
 ======================================================================
 Inspecting script file UnixPrac1.txt...
@@ -620,7 +620,7 @@ No string entered. P
 
 Code ran without errors
 
-Time consumed = 10.06024s
+Time consumed = 10.06198s
 
 ======================================================================
 Inspecting script file CountLines.sh...
@@ -665,7 +665,7 @@ Please enter one file name as an argument for its lines to be counted
 
 Code ran without errors
 
-Time consumed = 0.01081s
+Time consumed = 0.00974s
 
 ======================================================================
 Inspecting script file FirstBiblio.bib...
@@ -755,7 +755,7 @@ Please enter one argument; a comma-separated values file
 
 Code ran without errors
 
-Time consumed = 0.00943s
+Time consumed = 0.01271s
 
 ======================================================================
 Inspecting script file CompileLaTeX.sh...
@@ -822,7 +822,7 @@ Please enter one argument; a .tex file to be converted to pdf
 
 Code ran without errors
 
-Time consumed = 0.00856s
+Time consumed = 0.00976s
 
 ======================================================================
 Inspecting script file boilerplate.sh...
@@ -857,7 +857,7 @@ This is a shell script!
 
 Code ran without errors
 
-Time consumed = 0.01069s
+Time consumed = 0.00918s
 
 ======================================================================
 Inspecting script file FirstExample.tex...
@@ -968,7 +968,7 @@ Please enter one argument; a tab-delimited file
 
 Code ran without errors
 
-Time consumed = 0.01007s
+Time consumed = 0.01301s
 
 ======================================================================
 Inspecting script file MyExampleScript.sh...
@@ -1005,7 +1005,7 @@ Hello mhasoba
 
 Code ran without errors
 
-Time consumed = 0.00806s
+Time consumed = 0.00834s
 
 ======================================================================
 ======================================================================
