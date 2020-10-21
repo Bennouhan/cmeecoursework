@@ -15,6 +15,7 @@ while true; do
     if [ -z "$MyVar" ]; then
     #checks for blank input
         echo "No string entered. Please enter a new string"
+        exit
     else
         break
     fi
