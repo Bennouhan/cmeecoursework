@@ -103,22 +103,7 @@ protected under UN article 11(1)(a), used to practice command line functions
 
 /Temperature/180*.csv - CSV files used to test conversion using csvtospace.sh script
 
-
-
-//////////
-   RESULTS
-//////////
-
-
-1800.ssv - Output of csvtospace.sh script
-
-abomination.txt - Output of ConcatenateTwoFiles.sh script
-
-FirstExample.pdf - Output of CompileLaTeX.sh script
-
-test.csv - Output of tabtocsv.sh script
  
-
 
 ----------------------
 ----------------------

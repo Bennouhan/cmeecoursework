@@ -30,6 +30,7 @@ while true; do
     if [[ $((a)) != $a ]] || [[ $((b)) != $b ]]; then
     #checks that both a and b equal themselves arithmetically - ie they're both numbers
         echo "Error: please enter two integers separated by space(s)"
+        exit
     else
         break
     fi
