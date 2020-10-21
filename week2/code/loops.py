@@ -23,7 +23,7 @@ while z < 100:
     z = z + 1
     print(z)
 
-b = True
-while b:
-    print("GERONIMO! infinite loop! ctrl+c to stop!")
-# ctrl + c to stop!
+# b = True
+# while b:
+#     print("GERONIMO! infinite loop! ctrl+c to stop!")
+#was annoying
