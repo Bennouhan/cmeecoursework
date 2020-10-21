@@ -29,12 +29,12 @@ def even_or_odd(x=0): # if not specified, x should take value 0.
     '-2 is Even!'
     
     """
-    #defin function to be tested
+    #d e f in function to be tested
     if x % 2 == 0: #
         return "%d is Even!" % x
     return "%d is Odd!" % x
 
-#def main(argv):
+#d e f main(argv):
 #    print(even_or_odd(22))
 #    print(even_or_odd(33))
 #    return 0
