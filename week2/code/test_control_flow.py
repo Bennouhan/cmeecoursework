@@ -2,10 +2,7 @@
 
 """Copy of control_flow.py, used to demonstrate the doctest module"""
 
-
-#docstrings are considered part of the running code (normal comments are
-#stripped). Hence, you can access your docstrings at run time.
-__author__ = 'Samraat Pawar (s.pawar@imperial.ac.uk)'
+__author__ = 'Ben Nouhan (b.nouhan.20@imperial.ac.uk)'
 __version__ = '0.0.1'
 
 import sys
@@ -13,6 +10,16 @@ import doctest # imports doctest module, allows it to run
 
 def even_or_odd(x=0): # if not specified, x should take value 0.
     """Find whether a number x is even or odd.
+    
+    Parameters:
+
+    x - number
+
+
+    Returns:
+
+    Statement that x is even or odd 
+
 
     >>> even_or_odd(10)
     '10 is Even!'
@@ -29,19 +36,17 @@ def even_or_odd(x=0): # if not specified, x should take value 0.
     '-2 is Even!'
     
     """
-    #d e f in function to be tested
+    ###function to be tested
     if x % 2 == 0: #
         return "%d is Even!" % x
     return "%d is Odd!" % x
 
-#d e f main(argv):
-#    print(even_or_odd(22))
-#    print(even_or_odd(33))
-#    return 0
+def main(argv):
+   print(even_or_odd(22))
+   print(even_or_odd(33))
+   doctest.testmod()
+   return 0
 
-#if (__name__ == "__main__"):
-#    status = main(sys.argv)
-#    sys.exit(status)
-doctest.testmod() #To run with embedded tests
-#run test using, in ipython3: run test_control_flow.py -v
-#unittest and pytest also good options
+if (__name__ == "__main__"):
+   status = main(sys.argv)
+   sys.exit(status)

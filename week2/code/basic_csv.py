@@ -1,5 +1,6 @@
 
-"""Reads .csv file (data/testcsv.csv), extracts species name and bodymass columns, and writes into a new file (results/bodymass.csv)"""
+"""Reads .csv file (data/testcsv.csv), extracts species name and bodymass\
+ columns, and writes into a new file (results/bodymass.csv)"""
 
 
 import csv

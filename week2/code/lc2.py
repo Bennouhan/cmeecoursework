@@ -20,7 +20,7 @@ rainfall = (('JAN',111.4),
 # (1) Use a list comprehension to create a list of month,rainfall tuples where
 # the amount of rain was greater than 100 mm.
 
-tuples_over100 = [i for i in rainfall if i[1] > 100]                       # ignore ########### must be this order: conditional comes after for i in [object]
+tuples_over100 = [i for i in rainfall if i[1] > 100]
 print(tuples_over100)
 
  

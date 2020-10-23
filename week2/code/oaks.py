@@ -4,13 +4,25 @@
 
 ## Finds just those taxa that are oak trees from a list of species
 
-taxa = ['Quercus robur','Fraxinus excelsior','Pinus sylvestris','Quercus cerris','Quercus petraea']
+taxa = ['Quercus robur','Fraxinus excelsior','Pinus sylvestris',\
+'Quercus cerris','Quercus petraea']
 
 def is_an_oak(name):
-    """Determines whether an object, made lower-case, begins with 'quercus '"""
+    """Determines whether an object, made lower-case, begins with 'quercus '
+    
+    Parameters:
+    
+    name - genus and species of tree species
+    
+    
+    Returns:
+    
+    True OR False - depending on whether name starts with 'quercus '
+    
+    """
     return name.lower().startswith('quercus ')
     
-#if when made lowercase it starts with 'quercus ', return True, else return False
+#if when made lowercase it starts with 'quercus ', return True, else False
 
 ##Using for loops
 oaks_loops = set()

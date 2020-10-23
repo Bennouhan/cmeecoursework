@@ -1,8 +1,9 @@
 
-"""Collection of scripts demonstrating variable scope"""
+"""Collection of scripts demonstrating and explaining variable scope"""
 
 
-print("\n\n" + "_a_global can be overwritten in a function, but is not changed in the workspace:\n")
+print("\n\n" + "_a_global can be overwritten in a function, but is not changed \
+in the workspace:\n")
 
 _a_global = 10  # a global variable
 
@@ -11,7 +12,8 @@ if _a_global >= 5:
 
 
 def a_function():
-    """Sets global and a local variables, uses a conditional to alter their value, prtints out their current values"""
+    """Sets global and a local variables, uses a conditional to alter their\
+     value, prtints out their current values"""
     _a_global = 5  # a local variable
 
     if _a_global >= 5:
@@ -33,7 +35,8 @@ print("Outside the function, the value of _b_global is ", _b_global)
 
 ##########################################################
 
-print("\n\n" + "But global variables, if set prior, are available in subsequent functions:\n")
+print("\n\n" + "But global variables, if set prior, are available in subsequent\
+ functions:\n")
 
 _a_global = 10
 
@@ -52,7 +55,8 @@ print("Outside the function, the value of _a_global is", _a_global)
 
 ############################################################
 
-print("\n\n" + "The global keyword, ie 'global _a_global', allows the global variable to be reassigned within a function:\n")
+print("\n\n" + "The global keyword, ie 'global _a_global', allows the global \
+variable to be reassigned within a function:\n")
 
 _a_global = 10
 
@@ -60,7 +64,9 @@ print("Outside the function, the value of _a_global is", _a_global)
 
 
 def a_function():
-    """Sets global and a local variables within, in a way that changes the global (but not local) variable in the workspace too, prtints out their current values"""
+    """Sets global and a local variables within, in a way that changes the\
+     global (but not local) variable in the workspace too, prtints out\
+     their current values"""
     global _a_global
     _a_global = 5
     _a_local = 4
@@ -77,10 +83,14 @@ print("Outside the function, the value of _a_global now is", _a_global)
 
 ##############################################################
 
-print("\n\n" + "If used within nested functions, where the variable was initially set within the outer function, global reassigns the variable in workspace, but not the outer function or therefore the nested function:\n")
+print("\n\n" + "If used within nested functions, where the variable was \
+initially set within the outer function, global reassigns the variable in \
+workspace, but not the outer function or therefore the nested function:\n")
 
 def a_function():
-    """Sets global variable within, defines a nested function (which reassigns global variable in the workspace but not the function), prints global variable, calls the nested function, and prints the value again"""
+    """Sets global variable within, defines a nested function (which reassigns\
+     global variable in the workspace but not the function), prints global\
+     variable, calls the nested function, and prints the value again"""
     _a_global = 10
 
     def _a_function2():
@@ -103,15 +113,20 @@ print("The value of a_global in main workspace / namespace is ", _a_global)
 
 ##############################################################
 
-print("\n\n" + "Whereas if set prior, the outer function has the same variable value as the workspace, hence both are changed if global is used in the nested function:\n")
+print("\n\n" + "Whereas if set prior, the outer function has the same variable \
+value as the workspace, hence both are changed if global is used in the \
+nested function:\n")
 
 _a_global = 10
 
 
 def a_function():
-    """Inherits global variable value, defines a nested function (which reassigns global variable in the workspace), prints global variable, calls the nested function, and prints the value again"""
+    """Inherits global variable value, defines a nested function (which \
+     reassigns global variable in the workspace), prints global variable, \
+     calls the nested function, and prints the value again"""
     def _a_function2():
-        """reassigns global variable in the workspace and the function, since the function inherits the value from the workspace"""
+        """reassigns global variable in the workspace and the function, since \
+          the function inherits the value from the workspace"""
         global _a_global
         _a_global = 20
 

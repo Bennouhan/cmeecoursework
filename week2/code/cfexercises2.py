@@ -1,5 +1,6 @@
 
-"""Examples of loops containing conditionals, which collectively print "hello" 22 times"""
+"""Examples of loops containing conditionals, which collectively print\
+ "hello" 22 times"""
 
 
 for j in range(12):

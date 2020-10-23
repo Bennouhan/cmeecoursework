@@ -15,7 +15,7 @@ taxa = [('Myotis lucifugus', 'Chiroptera'),
         ('Arctocephalus gazella', 'Carnivora'),
         ('Canis lupus', 'Carnivora')]
 
-# Write a short python script (not programme) to populate a dictionary called taxa_dic
+# Write a short python script to populate a dictionary called taxa_dic
 # derived from  taxa so that it maps order names to sets of taxa.
 # E.g. 'Chiroptera' : set(['Myotis lucifugus']) etc.
 
