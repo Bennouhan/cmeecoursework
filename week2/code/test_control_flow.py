@@ -42,10 +42,11 @@ def even_or_odd(x=0): # if not specified, x should take value 0.
     return "%d is Odd!" % x
 
 def main(argv):
-   print(even_or_odd(22))
-   print(even_or_odd(33))
-   doctest.testmod()
-   return 0
+    """Uses even_or_odd() twice, then runs doctest on it"""
+    print(even_or_odd(22))
+    print(even_or_odd(33))
+    doctest.testmod()
+    return 0
 
 if (__name__ == "__main__"):
    status = main(sys.argv)
