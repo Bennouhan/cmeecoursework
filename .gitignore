@@ -19,9 +19,6 @@
 
 # executable files and other binary files without an extension
 *.exe
-*
-!/**/
-!*.*
 
 # graphic files
 *.jpg
@@ -82,12 +79,6 @@
 # .idea file for pycharm when cmeecoursework set as the project directory
 .idea
 
-# all sandbox directories, notes, misc
-sandbox/
-.note
-notes/
-/home/bennouhan/cmeecoursework/misc/
-
 # unwanted latex outputs
 .bbl
 .blg
@@ -98,3 +89,14 @@ __pycache__
 
 # don't ignore .gitignore
 !.gitignore
+
+
+# all sandbox directories, notes, misc
+sandbox/
+.note
+notes/
+notes
+/notes/
+misc_cmee/
+results/*
+!results/.gitkeep 

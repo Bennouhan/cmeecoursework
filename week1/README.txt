@@ -62,25 +62,25 @@ FILES LIST
 
 boilerplate.sh - Example script to print out simple statement
 
-FirstExample.tex - Example LaTeX file
-
-tabtocsv.sh - Substitutes tabs with commas; Saves output into a .csv file in results/
-
-variables.sh - Repeats a user-input string; returns the sum of two user-input numbers
-
-tiff2png.sh - Converts a .tif file in working directory to a .png
-
-CountLines.sh - Returns the number of lines of a file
-
-FirstBiblio.bib - Example citation for use in LaTeX files
-
 CompileLaTeX.sh - Compiles a .tex file into a new pdf document in data/
-
-csvtospace.sh - Substitutes commas with spaces; Saves output into a .ssv file in results/
 
 ConcatenateTwoFiles.sh - Creates a third, new file in results/ with the content of the second file appended to content of the first
 
+CountLines.sh - Returns the number of lines of a file
+
+csvtospace.sh - Substitutes commas with spaces; Saves output into a .ssv file in results/
+
+FirstBiblio.bib - Example citation for use in LaTeX files
+
+FirstExample.tex - Example LaTeX file
+
 MyExampleScript.sh - Greets the user, repeats greeting
+
+tabtocsv.sh - Substitutes tabs with commas; Saves output into a .csv file in results/
+
+tiff2png.sh - Converts a .tif file in working directory to a .png
+
+variables.sh - Repeats a user-input string; returns the sum of two user-input numbers
 
 UnixPrac1.txt - Contains 5 terminal commands for the following analyses on FASTA files: 
   1. Count how many lines there are
