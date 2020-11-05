@@ -3,7 +3,7 @@
 #
 # Script: sample.R
 #
-# Desc: Demonstration of apply function to vectorised a user-made function
+# Desc: Demonstration of vectorization involving lapply and sapply
 #
 # Arguments:
 # -
@@ -51,7 +51,7 @@ loopy_sample3 <- function(popn, n, num){
 
 ## To run "num" iterations of the experiment using vectorization with lapply:
 lapply_sample <- function(popn, n, num){
-    result4 <- lapply(1:num, function(i) myexperiment(popn, n))
+    result4 <- lapply(1:num, function(i) myexperiment(popn, n)) #not sure what function(i) is here... just "do the following function"?
     return(result4)
 }
 
@@ -60,3 +60,32 @@ sapply_sample <- function(popn, n, num){
     result5 <- sapply(1:num, function(i) myexperiment(popn, n))
     return(result5)
 }
+
+
+
+popn <- rnorm(1000) # Generate the population
+hist(popn)
+
+
+
+### run and time different functions
+n <- 20 # sample size for each experiment
+num <- 1000 # Number of times to rerun the experiment
+
+print("The loopy, non-preallocation approach takes:" )
+print(system.time(loopy_sample1(popn, n, num)))
+
+print("The loopy, but with preallocation approach takes:" )
+print(system.time(loopy_sample2(popn, n, num)))
+
+print("The loopy, non-preallocation approach on a list takes:" )
+print(system.time(loopy_sample3(popn, n, num)))
+
+print("The vectorized sapply approach takes:" )
+print(system.time(sapply_sample(popn, n, num)))
+
+print("The vectorized lapply approach takes:" )
+print(system.time(lapply_sample(popn, n, num)))
+
+
+#4 and 5 are much faster than rest, 1 is slowest

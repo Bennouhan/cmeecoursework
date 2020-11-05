@@ -21,4 +21,5 @@ SomeOperation <- function(v){ #if sum of all cells in v > 0, multiplies it by 10
 }
 
 M <- matrix(rnorm(100), 10, 10)
-print (apply(M, 1, SomeOperation))
+print (apply(M, 1, SomeOperation)) #so here I've made a function to apply, rather than eg "mean"
+#note: as shown in sample.R, you can include the apply within the function, or apply like this
