@@ -2,7 +2,7 @@
 #
 # Script: TAutoCorr.R
 #
-# Desc: Determines if the annual mean temperatures in a given location one year
+# Desc: Determines if the annual mean temperature in a given location one year
 #       is significantly correlated with the next (successive years)
 #
 # Arguments:
@@ -80,6 +80,9 @@ sapp_acc_perm <- function(Tyear_ordered, num_calcs, acc){
 }
 #should it be 2-tailed tho? question is "signif. correlated", doesn't
 #specify if positive or negative, but was said in Q&A just 1-tailed
+
+### Set seed for random sampling to ensure reproducible outome
+set.seed(294)
 
 ### Runs sapp_acc_perm with 10000 as num_calc, prints off explanatory statement
 cat("The approximate p-value is", sapp_acc_perm(ats$Temp,100000,acc_ats), "\n")

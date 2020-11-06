@@ -1,5 +1,7 @@
 \documentclass[12pt]{article}
+
 \usepackage{graphicx}
+\usepackage[skip=2pt,font=scriptsize]{caption}
 
 \title{Are consecutive annual mean temperatures in a given location
 significantly correlated?}
@@ -12,52 +14,69 @@ significantly correlated?}
 \begin{document}
 \maketitle
 
-\section{Introduction}
+\vspace{2mm} 
 
-The aim of this study was to determine whether temperatures in a 
-This paper investigates whether temperatures of one year significantly
-correlates with the next year for successive years, across years in a 
-given location.
-
-The null hypothesis states that temperatures of one year do not 
-significantly correlate with the next year for successive years, across
-years in a given location. The alternative hypothesis states that 
-temperatures are correlated. Temperature data across multiple years in 
-Key West, Florida is being investigated in this paper.
-
-A significance level of less than 0.05 is required for the correlation to be
-significant. However, temperature data between years are not independent, thus 
-samples of randomly ordered temperature data is generated in order to calculate
-the p-value.
-
-\begin{figure}[hbt!]
-\centering
-\includegraphics[width = 4in, height = 6in]{../data/ACC_Data.pdf}
-\caption{A scatterplot showing the relationship between Temperatures 
-(Degrees celcius) and Years at Key West, Florida.}
-\label{fig:Fig1}
-\end{figure}
-    
-\newpage
+\setcounter{section}{3}
 \section{Results}
-The analysis calculates the correlation coefficient between successive 
-years to be 0.326 (3 s.f.), which signifies that there is a slight 
-positive correlation for temperatures between successive years.
 
-\begin{figure}[hbt!]
+
+We used mean annual temperatures from 100 years, 1901-2000, in Key West,
+Florida. The mean of the mean temperatures across all years was  25.31, with a
+range of 23.75-36.35 and SD of 0.50 (Fig. 1a). There is a clear positive
+correlation between year and mean annual temperature.
+
+When mean temperature of one year is plotted against 
+the mean temperature of the next, any correlation that may exist is less clear 
+(Fig. 1b). The aim of this study was to determine if there was a such a
+correlation, and if so was it statistically significant. Therefore, the null 
+hypothesis is that the correlation coefficient is not significantly more than 0, 
+and the alternate hypothesis is that it is.
+
+We wanted to test this hypothesis at the 5%
+significance level, but unfortunately the lab's statistical tables book set on 
+fire in a horrific accident, and the WiFi was down. Hence, we needed to estimate 
+the p-value from first principles.
+
+Having calculated the Pearson's auto-
+correlation coefficient (ACC) of the data in Fig. 1b, 0.326, this required us to 
+randomise the data by 'shuffling' the measured temperatures associated with each 
+year, find the autocorrelation coefficient of that randomised data, repeat the 
+process 10,000 times, and compare the 10,000 ACCs with the ACC of the real data. 
+
+In order to ensure reproducibility, the seed was set to 294 prior to the 
+random sampling. This lead to the distribution of 10,000 ACC values shown in 
+Fig. 2.
+
+\begin{figure}[tp!]
 \centering
-\includegraphics[width = 4in, height = 3in]{../data/ACC_Hist.pdf}
-\caption{A histogram showing the distribution of correlation 
-coefficients from randomly ordered temperatures.} 
-\label{fig:Fig2}
+\includegraphics[width = 6in, height = 7in]{../data/ACC_Data.pdf}
+\caption{Scatterplots plotting mean annual Temperature against the year it 
+was measured (a, above), and the mean temperature of one year against 
+the mean temperature of the next (b, below). All temperatures were measured in
+degrees celsius, at a site in Key West, Florida.}
+\label{fig:Figure 1a&b}
 \end{figure}
 
 \newpage
-Due to the random sampling, the p-value would fluctuate, however the 
-seed had been set at 1 for reproducibility. The range of p-values 
-obtained are much smaller than 0.05, which rejects the null hypothesis 
-and accepts the alternative hypothesis where there is a strong 
-significance in the correlation for temperatures between successive 
-years. 
+
+\begin{figure}[hbp!]
+\centering
+\includegraphics[width = 4in, height = 5in]{../data/ACC_Hist.pdf}
+\caption{A histogram showing the distribution of autocorrelation 
+coefficients from 10,000 randomly reordered versions of our original dataset. 
+The vertical dotted line denotes where 0.326, the true autocorrelation
+coefficient of the data, would lie on the distribution.} 
+\label{fig:Figure 2}
+\end{figure}
+
+\vspace{10mm} 
+
+Of the 10,000 ACC values based on shuffled data, only 18 were larger than 
+the ACC of the real data, 0.326. This gives us an estimated p-value of less than 
+0.01.
+
+We can therefore reject the null hyothesis, and accept that the autocorrelation 
+of temperature between successive years is significant. 
+
 
 \end{document}

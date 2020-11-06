@@ -64,6 +64,6 @@ MyWrangledData$Count <- as.integer(MyWrangledData$Count)
 str(MyWrangledData)
 head(MyWrangledData)
 dim(MyWrangledData)
-fix(MyWrangledData)
+#fix(MyWrangledData)
 
 ############# Exploring the data (extend the script below)  ###############
