@@ -15,8 +15,20 @@
 
 rm(list= ls())
 
-### loads, summarises & plots the data frame "ats" from the below file in data/
-load("../data/KeyWestAnnualMeanTemperature.RData"); plot(ats); print(str(ats))
+### loads & summarises the data frame "ats" from the below file in data/
+load("../data/KeyWestAnnualMeanTemperature.RData"); print(str(ats))
+
+### plots data, writes to a pdf in results/
+pdf("../data/ACC_Data.pdf")#to data so available for .tex file; would be results
+par(mfcol=c(2,1))
+par(mfg = c(1,1))
+plot(ats$Year, ats$Temp, pch = 19, col = "darkred", cex = 0.6,
+    xlab = "Year", ylab = "Mean Temp (°C)")
+par(mfg = c(2,1))
+plot(ats$Temp[1:99], ats$Temp[2:100], pch = 19, col = "darkblue", cex = 0.6,
+    xlab = "Mean Temp in Year 'n' (°C)", ylab = "Mean Temp in Year 'n+1' (°C)")
+graphics.off();
+
 
 ### Calculates temperature autocorrelation coefficient (ACC) for ats data
 acc_ats <- cor(ats$Temp[1:99], ats$Temp[2:100], method="pearson")
@@ -40,7 +52,8 @@ acc_perm <- function(Tyear_ordered){
 }
 
 ### Runs "num_calc" interations of acc_perm, finds fraction of resultant ACCs
-#   stronger than abs(acc_ats), ie the approx p-value from first principles
+#   stronger than abs(acc_ats), ie the approx p-value from first principles, 
+#   and writes a pdf plotting the histogram of acc_vect 
 #
 # ARGUMENTS
 #
@@ -56,8 +69,11 @@ acc_perm <- function(Tyear_ordered){
 # p_value:       Returns the p_value for the auto-correlation coefficient of
 #                Tyear_ordered, based on "num_calcs" iterations
 #
-sapp_acc_perm <- function(Tyear_ordered, num_calcs){
+sapp_acc_perm <- function(Tyear_ordered, num_calcs, acc){
     acc_vect <- sapply(1:num_calcs, function(i) acc_perm(Tyear_ordered))
+    pdf("../data/ACC_Hist.pdf") #to data so available for .tex file
+    hist(acc_vect,xlab="Randomised ACC Values", main="")
+    abline(v=acc, col="black", lty=3); graphics.off();
     return( p_value <- sum(acc_vect > abs(acc_ats)) / num_calcs )
     # abs(acc_ats) alows it to work with negative correlations & be 1-tailed
     # expected no. < -acc_ats == expected no. > +acc_ats so this works
@@ -65,11 +81,6 @@ sapp_acc_perm <- function(Tyear_ordered, num_calcs){
 #should it be 2-tailed tho? question is "signif. correlated", doesn't
 #specify if positive or negative, but was said in Q&A just 1-tailed
 
-
 ### Runs sapp_acc_perm with 10000 as num_calc, prints off explanatory statement
-cat("The approximate p-value is", sapp_acc_perm(ats$Temp,10000000), "\n")
+cat("The approximate p-value is", sapp_acc_perm(ats$Temp,100000,acc_ats), "\n")
 # add more zeros for a more precise p-value; will asymptote on true p-value
-
-#####!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#####
-##### DON'T FORGET TO PRESENT THIS IN LATEX!!!!!!!!#####
-##### pdf file and the .tex file it came from!!!!!!#####

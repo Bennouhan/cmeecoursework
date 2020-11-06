@@ -16,6 +16,8 @@
 #
 # Date: 5 Nov 2020
 
+rm(list = ls())
+
 ### Load and prepare the data
 mydf <- read.csv("../data/EcolArchives-E089-51-D1.csv")
 # make these factors so we can use them as grouping variables
