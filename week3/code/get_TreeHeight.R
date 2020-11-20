@@ -57,20 +57,17 @@ TreeHeight <- function(degrees, distance){
 #
 # NULL
 #
+
 getCSV_addTreeHeight <- function(filename.csv){
     MyData <- read.csv(filename.csv, header = TRUE)
     MyData["Tree.Height.m"] <- NA
-    for (i in 1:nrow(MyData)){
-        MyData[i,4] <- TreeHeight(MyData[i,3], MyData[i,2])
-    }
+    MyData[,4] <- TreeHeight(MyData[,3], MyData[,2])
     basename <- tools::file_path_sans_ext(basename(filename.csv))
     #tool removes extension, basename() removes filepath
     new_fpath <- paste("../results/",basename,"_treeheights.csv", sep = "")
     write.csv(MyData, new_fpath)
     return (NULL)
 }
-
-
 
 term_args <- commandArgs(trailingOnly = TRUE); csv_count <- 0
 
@@ -82,17 +79,17 @@ for (i in term_args){
             toString(header_check[1,3]) == "Angle.degrees"){
                 csv_count <- csv_count + 1
                 getCSV_addTreeHeight(i); cat("Finished converting", i, "\n")
-
+        # Checks the columns contain the right data type
         } else {
             (cat(paste(i, "is incompatible. The second header must be",
             "'Distance.m' and the third header 'Angle.degrees'\n")))
-        }
+        } #check file exists and has csv extension
     } else {
         (cat(i, "is not an existing .csv file; please enter a .csv file", "\n"))
     }
-
 }
 
+# no file entered or no compatible csvs entered, uses default
 if (length(term_args) == 0 || csv_count == 0) { # If no file converted or argued
     cat("No appropriate .csv file entered, using default: ../data/trees.csv\n")
     getCSV_addTreeHeight("../data/trees.csv")

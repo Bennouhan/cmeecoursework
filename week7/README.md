@@ -36,7 +36,7 @@ This is all the assessed coursework from Week 7 (16th Nov - 22nd Nov 2020) of th
 
 All work was done through VSCode on a system running Ubuntu 20.04, and is explained in further details in The Multilingual Quantitative Biologist book (link below). <br/><br/>
 
-Advanced Python topics covered this week include: <br/><br/>
+Advanced Python topics covered this week include: 
 
 
 
@@ -107,7 +107,7 @@ using_os.py &emsp;-&emsp; Script demonstrating use of subprocess.os.walk
 
 <br/>
 
-blackbirds.txt &emsp;-&emsp; Text file containing list of blackbirds in awkward format - used by blackbirds.py for regex exercise
+blackbirds.txt &emsp;-&emsp; Text file containing list of blackbirds in awkward format; used by blackbirds.py for regex exercise
 protected under UN article 11(1)(a), used to practice command line functions
 
 NagyEtAl1999.csv &emsp;-&emsp; Dataset including field metabolic rate and body mass from Nagy et al, 1999 study, used by fmr.R for plotting

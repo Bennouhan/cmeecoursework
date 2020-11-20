@@ -1,4 +1,3 @@
-
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 #
 # Script: apply1.R
