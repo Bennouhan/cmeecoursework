@@ -12,7 +12,7 @@
 #
 # Date: 5 Nov 2020
 
-
+rm(list = ls())
 # To load the packages
 library(sqldf)
 
@@ -56,7 +56,7 @@ dbGetQuery(db, "SELECT * FROM Consumer WHERE ConPhylum='Chordata'")
 # The easiest way is to read the csv files into R as data frames.
 # Then the data frames are imported into the database.
 
-Resource <- read.csv("../Data/Resource.csv")  # Read csv files into R
+Resource <- read.csv("../data/Resource.csv")  # Read csv files into R
 
 # Import data frames into database
  dbWriteTable(conn = db, name = "Resource", value = Resource, row.names = FALSE)

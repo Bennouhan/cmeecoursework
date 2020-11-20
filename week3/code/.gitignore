@@ -1,9 +1,0 @@
-# All files in this dir
-*
-
-# Except this one and files
-!.gitignore
-!*.*
-
-.Rhistory
-.RData
