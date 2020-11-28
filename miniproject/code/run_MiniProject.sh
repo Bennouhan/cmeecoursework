@@ -8,12 +8,11 @@
 #
 # Desc: Runs Miniproject workflow: data prep, modelling, plotting & compilation
 
+PYTHONHASHSEED=0 python3 1_prep_data.py #pythonhashseed only needed for debugging; remove after?
 
-python3 1_prep_data.py 
+Rscript 2_fit_models.R plot #swicth to make script plot too
 
-Rscript 2_fit_models.R 
-
-Rscript 3_plot+analyse.R 
+Rscript 3_analyse.R 
 
 bash 4_compile_report.sh 4_report.tex > /dev/null #prevents expected output
 #remove this but: the "&" in "&>"above prevents unexpected errors;

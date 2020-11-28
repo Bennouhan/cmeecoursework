@@ -8,78 +8,113 @@
 # 
 # Output: 
 #
-# Desc: Imports preped_data.csv as data frame, fits the data from each
-#       experiment to various models
+# Desc: Imports preped_data.csv as data frame, fits the data from each experiment to various models, plots them and adds them to a dataframe for subsequent analysis
+
+### Clear workspace, clear results folder, load packages
+rm(list = ls())
+unlink("../results/*"); unlink("../data/ID_dictionary_expand.csv")
+
+library(tidyverse)
+library(minpack.lm)
+library(parallel)
+
+### Finds start values for non-linear models, aproximations based off maths
+find_startVals <- function(df) { 
+    N0S <- min(df$logN);  NmaxS <- max(df$logN)
+    r_maxS <- 0; for (dp in 2:length(df$t)) {
+                   RoC <- (df[dp, 3] - df[dp-1, 3]) / (df[dp, 4] - df[dp-1, 4]) 
+                   if (RoC > r_maxS & RoC != "NaN") { r_maxS <- RoC; DP <- dp }}
+    t_lagS <- df[DP, 4] - (df[DP, 3] - N0S) / r_maxS
+    return(c(N0S, NmaxS, r_maxS, t_lagS))
+}
+
+### Functions representing the formulae of the 4 non-linear models
+logistic <- function(t, N0, Nmax, r_max) {
+    return(N0 * Nmax * exp(r_max * t) / (Nmax + N0 * (exp(r_max * t) - 1)))
+}
+gompertz <- function(t, N0, Nmax, r_max, t_lag) {
+    return(N0 + (Nmax - N0) * exp(-exp(r_max * exp(1) * (t_lag - t) / ((Nmax - N0) * log(10)) + 1)))
+}
+baranyi <- function(t, N0, Nmax, r_max, t_lag) {
+    return(Nmax + log10((-1 + exp(r_max * t_lag) + exp(r_max * t)) / (exp(r_max * t) - 1 + exp(r_max * t_lag) * 10 ^ (Nmax - N0))))
+}
+buchanan <- function(t, N0, Nmax, r_max, t_lag) {
+    return(N0 + (t >= t_lag) * (t <= (t_lag + (Nmax - N0) * log(10) / r_max)) * r_max * (t - t_lag) / log(10) +
+    (t >= t_lag) * (t > (t_lag + (Nmax - N0) * log(10) / r_max)) * (Nmax - N0))
+}
+### Analyses model and inputs results in dict; plots if switched on in terminal
+analyseMod <- function(fit, df, mod_num, row_num) { 
+    # Blank dataframe entries if fitting failed
+    if (class(fit) == "try-error"){
+      dict[row_num, 1 + mod_num] <- NA
+      dict[row_num, 9 + mod_num] <- NA
+      dict[row_num,] <<- dict[row_num,]
+    } else {
+    # Find AIC, BIC and adjusted R^2 for the fit
+    RSS <- sum(residuals(fit)^2)
+    TSS <- sum((df$logN - mean(df$logN))^2)
+    R2 <- 1 - (RSS/TSS) #not good for NLLS, only using for model verification
+    BIC <- BIC(fit) #just using BIC; more weight on no. paramaters
+    if (is.na(R2)) { BIC <- NA }
+    # Writes them into dict dataframe
+    dict[row_num, 1+mod_num] <- signif(R2, 3)
+    dict[row_num, 9+mod_num] <- signif(BIC, 4)
+    dict[row_num,] <<- dict[row_num,]
+
+    ### Plots the model; switched on only if extra argument provided in terminal
+    if (length(commandArgs(trailingOnly = T)) > 0){
+    # Creates df of timepoints and predicted N values for regression line
+    Reg_ts <- seq(0, max(df$t), length.out = 100) 
+    Reg_Ns <- predict(fit, data.frame(t=Reg_ts))
+    Reg_df <- data.frame(Reg_ts, Reg_Ns)
+    # Plots dataset with regression line, R2, BIC and model number, saves as PDF
+    p <- ggplot(df, aes(x = t, y = logN)) + geom_point(size=2)
+    p <- p + geom_line(data = Reg_df, aes(x = Reg_ts, y = Reg_Ns), colour="red")
+    p <- p + theme(aspect.ratio=1) + labs(x="Time (Hrs)", y="log(Population)")
+    p <- p + geom_text(aes(x = max(Reg_ts)/9, y = max(Reg_Ns)/1.2,
+             label = paste("ID",ID[1], "\nMODEL ",mod_num, ":\n\n",
+             "R2: ",R2, "\nBIC: ",BIC)), size = 7, colour = "Darkblue")
+    pdf(paste("../results/",df$ID[1],"mod",mod_num,".pdf")); print(p); graphics.off() } }
+    return(dict)
+}
+
+### Performs fitting and analysis of all 8 models for the given dataset
+vect_fitting <- function(dataset, dict, group) {
+    # Fit data to linear models of input orders, and returns list of lm fits
+    lms <- lapply(1:4, function(x) lm(logN ~ poly(t, x), data = dataset))
+
+    # Finds adequate start values for nlm parameters, formats them for nlsLM()
+    SV <- find_startVals(dataset)
+    SV <- list(N0=SV[1], Nmax=SV[2], r_max=SV[3], t_lag=SV[4])
+    # Lists the nlm functions, applies each to dataset, adds to list of fits
+    funs <- list(gompertz, baranyi, buchanan) #don't forget logistic!!!!
+    models <- c(lms, lapply(funs, function(x) try(nlsLM(logN ~ x(t=t, N0, Nmax, r_max, t_lag), dataset, SV), silent = T)))
+
+    # Find number of corresponding row in dictionary
+    IDrow <- which(grepl(dataset$ID[1], dict$ID))
+    # Analyse each of the 8 models in the fit list, and plot them if switched on
+    dict <- try(lapply(1:7, function(x) analyseMod(models[[x]], dataset, x, IDrow)), silent = F)
+    return(dict[[7]][IDrow,])
+}
 
 
-library(plyr)
+### Load ID dictionary, initialise extra rows for later input
+dict <- read_csv('../data/ID_dictionary.csv', col_types = cols())
+columnsToAdd <- c(paste("Model", 1:8, "R^2"), paste("Model", 1:8, "BIC"))
+dict[, columnsToAdd] = 0
+dict <- dict[, colnames(dict)[c(1,7:22,2:6)]] #rearrange
 
+### Load, group and split the prepared dataset into vector of groups
+data <- read_csv('../data/preped_data.csv', col_types = cols()) %>%
+  # Reduce and rename dataset, group by Experiment_ID
+  select(ID, N=Pop_Size, logN=log2.Pop_Size, t=Time_hrs) %>% group_by(ID) %>%
+  # Filter small datasets; set size exclusion parameter
+  filter(n() > 4) %>% #num parameters plus 1
+  group_split() #splits by group into array
 
-### Whatever first thing is
+### Fits each group to each model and analyses them in vectorised fashion
+dict_array <- mclapply(1:length(data), function(x) vect_fitting(data[[x]], dict), mc.cores = 6)  #NB: will use cores available on your computer up to this number
 
-
-#'..data/preped_data.csv'
-
-
-
-
-
-# Model fitting script ¶
-
-# A separate script that does the Model fitting. For example, it may have the 
-#   following features:
-
-#    -Opens the(new, modified) dataset from previous step.
-
-#    -Does model fitting. Ultimately you need to fit at least one mechanistic or
-#       nonlinear model along with one or more linear models, but for building
-#       your workflow, just go ahead an fit a couple of different linear models
-#       (e.g., linear regression bvs quadratic and / or cubic polynomial) .
-
-#    -Calculates AIC, BIC, R2, and other statistical measures of model fit
-#       (you decide what you want to include; isn't R2 no good here?
-
-#    -Exports the results to a csv that the final plotting script can read.
-
-
-
-# Note:
-
-# Some data series(e.g., a single growth rate or functional response curve) may
-#   have insufficient data points for fitting a particular model.
-
-# That is, the number of unique x - axis values is ≤𝑘, where 𝑘 is the number of
-#   parameters in the model(e.g., a regression line has two parameters). 
-
-# Your model fitting will fail on such datasets, but you can deal with those
-#   failures later (e.g., by using the try keyword that you have learned in
-#   both Python and R chapters).
-  
-# In particular, the model fitting(or estimation of goodness of fit statistics)
-#   will fail for datasets with small sample sizes, and you can then filter
-#   these datasets after the Model fitting script has finished running and you
-#   are in the Analysis phase.
-
-
-
-# data_subset = data[data['ID'] ==
-#                    'Chryseobacterium.balustinum_5_TSB_Bae, Y.M., Zheng, L., Hyun, J.E., Jung, K.S., Heu, S. and Lee, S.Y., 2014. Growth characteristics and biofilm formation of various spoilage bacteria isolated from fresh produce. Journal of food science, 79(10), pp.M2072-M2080.']
-# data_subset.head()
-
-#sigmoidal, as with previous example in practical in sandbox
-
-#https: // mhasoba.github.io/TheMulQuaBio/notebooks/Appendix-MiniProj.html
-
-#alt models:
-#https://www.ncbi.nlm.nih.gov/pmc/articles/PMC184525/
-#also: Linear
-#      Quadratic
-#      Cubic
-#      one with like 6 just for the lols?
-
-
-#package? #http://www.simecol.de/modecol/
-
-#look at past students! and current, all on github
-# eg https://github.com/Bennouhan/Coursework/tree/master/Miniproject/Code
-#   run_Miniproject.sh shows order of scripts - try do an extra model at least
+### Converts array output of mclapply into dataframe, writes it into CSV
+dict=NULL; for (i in 1:length(data)){ dict <- bind_rows(dict, dict_array[[i]]) }
+write_csv(dict, '../data/ID_dictionary_expand.csv')
