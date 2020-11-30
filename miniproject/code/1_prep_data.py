@@ -56,7 +56,7 @@ data['log2.Pop_Size'] = log2(data['PopBio']+1)
 # Gives more descriptive/merged colnames
 data = data.rename({'Time':'Time_hrs', 'PopBio':'Pop_Size', "PopBio_units":"Pop_Size_units", 'Temp':'Temp_C', 'Rep':'Repeat'}, axis=1)
 # Creates dictionary (not literally) of IDs and their contributing components
-ID_dict = data[["ID",'Temp_C','Medium','Species','Repeat',"Citation"]].drop_duplicates()
+ID_dict = data[["ID",'Pop_Size_units','Temp_C','Medium','Species','Repeat',"Citation"]].drop_duplicates()
 # Reorders columns to more intuitive order, excluding obsolete columns 
 data = data[['ID', 'Time_hrs', 'log2.Pop_Size', 'Pop_Size', 'Pop_Size_units']]
 

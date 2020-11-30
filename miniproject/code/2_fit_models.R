@@ -12,8 +12,8 @@
 
 ### Clear workspace, clear results folder and dict, disable warns, load packages
 rm(list = ls())
-unlink("../results/*"); unlink("../data/ID_dictionary_expand.csv")
-options(warn=-1)
+unlink("../results/*"); unlink("../data/ID_dictionary_expanded.csv")
+#options(warn=-1)
 
 library(tidyverse)
 library(minpack.lm)
@@ -53,10 +53,10 @@ nlls_multifit <- function(df, SV, mod_num, count) {
 
     ### Uses start values to recreate bounds, rather than pass to each analysis
     dp <- as.integer(SV[5]); Nmax <- SV[2]
-    lower <- c(0,       Nmax/1.05,    (Nmax/max(df$t)),      0          )
-    upper <- c(Nmax,    Nmax*1.05,     Nmax,                 df$t[dp+1] ) #nmax +/- 5%
+    lower <- c(0,     Nmax/1.05,  (Nmax/max(df$t)),  0          )
+    upper <- c(Nmax,  Nmax*1.05,   Nmax,             df$t[dp+1] ) #nmax +/- 5%
 
-    ### Lists the nlm functions, applies appropriate one
+    ### Lists the nlm functions, applies appropriate one n times with randomly generated SVs from a normal distribution around original starting values
     funs <- list(logistic, gompertz, baranyi, buchanan)
     if (mod_num == 5){
     fits <- lapply(1:n, function(x) try(nlsLM(logN ~ funs[[mod_num-4]](
@@ -70,7 +70,7 @@ nlls_multifit <- function(df, SV, mod_num, count) {
 
     ### Finds model with highest BIC value and returns it
     bics <- lapply(1:n, function(x) try(BIC(fits[[x]]), silent=T))
-    if (length(which.min(bics)) > 0){ 
+    if (length(which.min(bics)) > 0){ # Prevents warnings
     return(fits[[which.min(bics)]]) } else { 
     return(fits[[1]]) }  # Or returns random failed model if none successful
 }
@@ -78,8 +78,8 @@ nlls_multifit <- function(df, SV, mod_num, count) {
 ### Analyses model and inputs results in dict; plots if switched on in terminal
 analyseMod <- function(fit, df, SV, mod_num, row_num) {
     ### Calculates R2 and BIC, uses them to decide which models to multifit
-    count <- 0 ###########CHANGE COUNT BACK TO 10 v ######
-    while (count < 25){  #change if need be, & you may need to loosen bounds
+    count <- 0
+    while (count < 25){ 
         RSS <- try(sum(residuals(fit) ^ 2), silent = T)
         TSS <- try(sum((df$logN - mean(df$logN)) ^ 2), silent = T)
         R2 <- try(1 - (RSS / TSS), silent = T) #for model verification only!
@@ -87,10 +87,12 @@ analyseMod <- function(fit, df, SV, mod_num, row_num) {
         
         ### Breaks while loop if linear model or a well-fitted non-linear model
         if (class(fit) == "lm") { break;}
-        else if (class(R2) != "numeric" | R2 < 0.2) {
+        # Keeps running them through 25 times or till fit isnt completely wrong
+        else if (class(R2) != "numeric" | R2 < 0.5) {
             count <- count + 1 
-            if (count > 2 & mod_num == 5){break;} #gompertz fit easily but have poor R values
-            fit <- nlls_multifit(df, SV, mod_num, count)    #funs[mod_num-4]
+        # Break if logistic and gone through 2 iterations; all get fit, it's just a bad model so low R values, waste of time running them 25 times
+            if (count > 2 & mod_num == 5){break;} 
+            fit <- nlls_multifit(df, SV, mod_num, count) #run multifit on model
        }else{ break;}
     }
     ### Enters values into dict for CSV writing
@@ -103,7 +105,16 @@ analyseMod <- function(fit, df, SV, mod_num, row_num) {
     # Otherwsie writes BIC and R2 into dict dataframe
         dict[row_num, 1+mod_num] <- signif(R2, 3)
         dict[row_num, 9+mod_num] <- signif(BIC, 4)
+        # Saves gompertz converged parameters for later use
+        if (mod_num == 6){
+            for (i in 1:4){
+            dict[row_num, 23+i] <- summary(fit)$coefficients[i]}
+            #print(class(summary(fit)$coefficients[1:4]))}
+            # print(fit$parameters)
+            # print(class(fit))
+        }
         dict[row_num,] <<- dict[row_num,]
+    
 
     ### Plots the model; switched on only if extra argument provided in terminal
     ################################ SWITCH ####################################
@@ -124,7 +135,7 @@ analyseMod <- function(fit, df, SV, mod_num, row_num) {
 }
 
 ### Performs fitting and analysis of all 8 models for the given dataset
-vect_fits <- function(df, dict, group) {
+vect_fits <- function(df, dict) {
   # Fit data to linear models of input orders, and returns list of lm fits
   mods <- lapply(1:4, function(x) lm(logN ~ poly(t, x), data = df))
   # Finds adequate start values for nlm parameters, formats them for nlsLM()
@@ -143,15 +154,15 @@ vect_fits <- function(df, dict, group) {
   IDrow <- which(grepl(df$ID[1], dict$ID))
   # Analyse each of the 8 models in the fit list, and plot them if switched on
   dict <- try(lapply(1:8, function(x) analyseMod(mods[[x]], df, SV, x, IDrow)), silent = F)
-  return(dict[[8]][IDrow,])
+  return(dict[[8]][IDrow,]) #creates array of rows from mclapply
 }
 
 
 ### Load ID dictionary, initialise extra rows for later input
 dict <- read_csv('../data/ID_dictionary.csv', col_types = cols())
-columnsToAdd <- c(paste("Model", 1:8, "R^2"), paste("Model", 1:8, "BIC"))
+columnsToAdd <- c(paste("Model", 1:8, "R^2"), paste("Model", 1:8, "BIC"), "gomN0", "gomNmax", "gomRmax", "gomTlag")
 dict[, columnsToAdd] = 0
-dict <- dict[, colnames(dict)[c(1,7:22,2:6)]] #rearrange
+dict <- dict[, colnames(dict)[c(1,8:23,2:7,24:27)]] #rearrange
 
 ### Load, group and split the prepared dataset into vector of groups
 data <- read_csv('../data/preped_data.csv', col_types = cols()) %>%
@@ -165,6 +176,6 @@ dict_array <- mclapply(1:n, function(x) vect_fits(data[[x]], dict), mc.cores=6)#
 
 ### Converts array output of mclapply into dataframe, writes it into CSV
 dict=NULL; for (i in 1:n) { dict <- bind_rows(dict, dict_array[[i]]) }
-write_csv(dict, '../data/ID_dictionary_expand.csv')
+write_csv(dict, '../data/ID_dictionary_expanded.csv')
 
-print(map(dict, ~ sum(is.na(.)))[c(6:9)]) #6:9,14:17 with logistic
+print(map(dict, ~ sum(is.na(.)))[c(6:9,24:27)]) # num. NAs /col
