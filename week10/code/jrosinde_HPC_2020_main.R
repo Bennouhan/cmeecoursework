@@ -4,7 +4,7 @@
 name <- "Ben Nouhan"
 preferred_name <- "Ben"
 email <- "bjn20@ic.ac.uk"
-username <- "bennouhan"
+username <- "bjn20"
 
 # please remember *not* to clear the workspace here, or anywhere in this file. If you do, it'll wipe out your username information that you entered just above, and when you use this file as a 'toolbox' as intended it'll also wipe away everything you're doing outside of the toolbox.  For example, it would wipe away any automarking code that may be running and that would be annoying!
 
@@ -158,7 +158,7 @@ neutral_time_series <- function(community,duration)  {
 
 # Question 8
 question_8 <- function() {
-### Plots a time-series graph of species richness over 100 generations simulated with the neutral theory model, starting with a community of 200 individuals all of different species (no speciation)
+### Plots a time-series graph of species richness over 200 generations simulated with the neutral theory model, starting with a community of 100 individuals all of different species (no speciation)
 #
 # Arguments: -
 #
@@ -211,7 +211,7 @@ neutral_step_speciation <- function(community,speciation_rate)  {
   pair <- choose_two(length(community))
 
   ### Applies a probability of "speciation_rate" that the replacement number is changed to a new number (ie speciation occurs)
-  if (runif(1) < speciation_rate){ pair[[2]] <- max(community)+1 #quicker to argue preallocated runif dist?#this number may have existed; doesnt matter for species richness but may for other stuff
+  if (runif(1) < speciation_rate){ pair[[2]] <- max(community)+1 #quicker to argue preallocated runif dist?#this number may have existed; doesnt matter for species richness but may for other stuff; ideally use count
  }else{                            pair[[2]] <- community[pair[2]] } 
 
   ### Replace first with value of second within community
@@ -279,7 +279,7 @@ neutral_time_series_speciation <- function(community,speciation_rate,duration) {
 
 # Question 12
 question_12 <- function()  {
-### Plots a time-series graph of species richness over 100 generations simulated with the neutral theory model, starting with a community of 200 individuals all of different species (blue) and all the same species (red), with speciation as a possibility
+### Plots a time-series graph of species richness over 200 generations simulated with the neutral theory model, starting with a community of 100 individuals all of different species (blue) and all the same species (red), with speciation as a possibility
 #
 # Arguments: -
 #
@@ -292,20 +292,23 @@ question_12 <- function()  {
 
   ### Generate the data; one richness vector with each max and min richness
   generations_vect <- 0:200
-  max_species_richness <- neutral_time_series_speciation(1:100, 0.1, 200)
+  max_species_richness <- neutral_time_series_speciation(1:100,      0.1, 200)
   min_species_richness <- neutral_time_series_speciation(rep(1,100), 0.1, 200)
 
   ### Plots max_species_richness against generations_vect
   plot(generations_vect, max_species_richness,
       # labels axes and graph as a whole
       xlab="Generations Elapsed", ylab="Species Richness",
-      main="Species Richness of maximally and minimally diverse communities \n with a speciation rate of 0.1 over 200 Generations",
+      main="Species Richness of Maximally and Minimally Diverse Communities \n with a Speciation Rate of 0.1 over 200 Generations",
       # adds line, removes datapoints, sets its colour and width
       col="mediumblue", type="l", lwd=3,
       # disable numerical axes labels, sets edge of axes to origin
       xaxt="n", yaxt="n", xaxs="i", yaxs="i", ylim=c(0, 100), xlim=c(-.5, 200))
       # plots min_species_richness against generations_vect, formats line
   lines(generations_vect, min_species_richness, col="maroon", lwd=3)
+      # adds legend for the lines in topright corner 
+  legend("topright", col=c("mediumblue","maroon"), lwd=3, cex=0.8, 
+         legend=c("Maximum Initial Richness","Minimum Initial Richness"))
       # adds custom numerical axes labels, and minor axis ticks
   axis(1, seq(0, 200, by=20), las=1,          labels=TRUE)
   axis(2, seq(0, 100, by=10), las=2,          labels=TRUE)
@@ -315,9 +318,6 @@ question_12 <- function()  {
   ### Statement
   return("Speciation introduces a force to increase species richness, where before there was only a force to decrease it. The community of maximum species richness has nowhere to go but a species richness decrease, and vice versa. They will hence meet in the middle, where these two forces reach an equilibrium. With such a small sample, random variation introduces significant fluctuations even at equilibrium, but as population size and generation number increase, these lines will converge.")
 }
-
-
-
 
 
 # Question 13
@@ -347,11 +347,10 @@ octaves <- function(abundance_vector) {
 # Returns:  vector of integers 0 to Inf; vector of octave class frequencies in ascending order of class size
 #
 ########
-  #table(factor(floor(log2(y)), levels=0:max(floor(log2(y)))))long but no transf
+  
   ### log2()+1 transforms data, rounds each down, finds frequencies of result
-  return(tabulate(floor(log2(y)+1)))
+  return(tabulate(floor(log2(abundance_vector)+1)))
 }
-################# ask about above
 
 
 # Question 15
@@ -369,16 +368,16 @@ sum_vect <- function(x, y) {
   vector_ls  <- list(x,y)
   max_length <- max(sapply(vector_ls, length))
  
-  ### Adds zeros to shorter vector, making them same length
+  ### Adds zeros to shorter vector in list, making them same length
   vector_ls <- lapply(vector_ls, function(x) c(x, rep(0, max_length-length(x))))
 
   return(vector_ls[[1]] + vector_ls[[2]])
 }
-#################### said use if statement, ok if not?
+
 
 # Question 16 
 question_16 <- function()  {
-### 
+### Plots a bargraph of mean octave class frquencies, representning mean species abundance distribution, from 100 evenly-spaced samples of 2000 post-burn-off period generations of neutral model simulations for a community of 100 individuals. 
 #
 # Arguments: -
 #
@@ -389,26 +388,83 @@ question_16 <- function()  {
   ### Clear all graphics
   graphics.off()
 
-  ### Generate the data; one richness vector with each max and min richness
-  generations_vect <- 0:200
-  max_species_richness <- neutral_time_series_speciation(1:100, 0.1, 200)
-  min_species_richness <- neutral_time_series_speciation(rep(1,100), 0.1, 200)
+  ### Generate the community of 100 individuals with maximum species richness
+  community_max <- init_community_max(100)
 
-  
-  ### Statement
-  return(" ")
+  ### Attain state of community after 200-gen burn-in period, and the octave
+  for (gen in 1:200){
+    community_max <- neutral_generation_speciation(community_max, 0.1)}
+  oct_total <- octaves(species_abundance(community_max)); oct_count <- 1
+
+  ### Run rimulation 2000 more times, take a sample every 20 generations, add to total, and ultimately didvide by number of octaves total for the mean
+  for (gen in 1:2000){
+    community_max <- neutral_generation_speciation(community_max, 0.1)
+    if (gen %% 20 == 0){ 
+      oct_total <- sum_vect(oct_total,octaves(species_abundance(community_max)))
+      oct_count <- oct_count + 1 }}
+  mean_oct <- oct_total/oct_count
+
+  ### Creates barplot of the mean species abundance distriubtion, as octaves, for the equilibrium period
+  barplot(mean_oct, names.arg=1:length(mean_oct),
+      # labels axes and graph as a whole
+      xlab="Octave Class", ylab="Mean Octave Class Frequency",
+      main="Estimated Mean Species Abundance Distribution as Octaves \n over 2000 Generations",
+      # disable numerical axes labels, sets edge of axes to origin, sets limit
+      yaxt ="n", yaxs="i", ylim=c(0, 12))
+      # adds custom numerical x axis labels and minor ticks
+      axis(2, seq(0, 12,  by=1),   las=1,        labels=TRUE)
+      axis(2, seq(0, 12,  by=0.2), lwd.ticks=.3, labels=FALSE)
+
+  return("The initial condition of the system does not matter using these parameters; as explained in question 12, 200 generations (the burn-off period used here) is more than enough time for equilibrium to be reached from the two extremes of species richness. Hence, at the start of the subsequent 2000 generation simulation, the expected start-point regardless of initial conditions is expected to be the same, differing only due to random fluctuations owing to the small sample size.")
 }
-
-
 
 
 
 # Question 17
 cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, output_file_name)  {
+### 
+#
+# Arguments:
+#   speciation_rate     - +ve numeric 0-1; 
+#   size                - +ve integer; 
+#   wall_time           - +ve integer; 
+#   interval_rich       - +ve integer; 
+#   interval_oct        - +ve integer; 
+#   burn_in_generations - +ve integer; 
+#   output_file_name    - character string; 
+#
+# Returns:  
+#
+########
     
+  ### Generates community of specified size and of minimum diversity 
+  community <- init_community_min(size)
+ 
+  ### Starts clock; creates generation count, and empty data structures to fill
+  ptm <- proc.time(); nGens <- 1; richness_vect <- NULL; oct_vect <- list()
+
+  ### Simulates generatrions until 60*wall_time seconds have elapsed
+  while(proc.time()[3] - ptm[3] < 60*wall_time){
+    community <- neutral_generation_speciation(community, speciation_rate)
+    # saves species richness at given interval during given burn in period
+    if (nGens %% interval_rich == 0 & nGens <= burn_in_generations){
+      richness_vect <- c(richness_vect, species_richness(community)) }
+    # saves octaves of species_abundance of community at given interval
+    if (nGens %% interval_oct == 0){
+      oct_vect <- c(oct_vect, list(octaves(species_abundance(community)))) }
+    # adds to generation count
+    nGens <- nGens + 1 }
+  # saves finishing time for input to rda file
+  elapsed_time <- proc.time()[3] - ptm[3] 
+
+  ### Saves final versions of objects created in script, and time elapsed,
+  save(richness_vect, oct_vect, community, elapsed_time,
+  # alongside all original parameters, as a file as named in initial argument
+  speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations, file=output_file_name)
 }
-
-
+# TEST
+# cluster_run(0.1, 100, .1, 1, 10, 200, "cluster_ouput.rda")
+# load(file = "cluster_ouput.rda")
 
 
 
@@ -547,6 +603,7 @@ draw_fern <- function()  {
 fern2 <- function(start_position, direction, length)  {
   
 }
+
 draw_fern2 <- function()  {
   # clear any existing graphs and plot your graph within the R window
 
@@ -561,9 +618,77 @@ draw_fern2 <- function()  {
 
 # Challenge question A
 Challenge_A <- function() {
-  # clear any existing graphs and plot your graph within the R window
+### Plots a time-series graph of mean species richness over 'nGens' generations simulated 'nSims' times with the neutral theory model, starting with a community of 'nPop' individuals all of different species (blue) and all the same species (red) and an estimate of generation at which equilibrium is reached
+#
+# Arguments: -
+#
+# Returns: - 
+#
+########
 
+  ### Clear all graphics
+  graphics.off()
+
+  ### Set parameters: number of simulations, generations & individuals, and confidence interval to be used in plotting
+  nSims <- 500; nGens <- 80; nPop <- 100; CI <- 97.2
+
+  ### Creates matrix of 100 starting populations of each max and min richness
+  sims <- matrix(c( rep(1:nPop, nSims), rep(rep(1,nPop), nSims)), nrow=nPop)
+
+  ### Creates vectors of means and SDs of species richness for both communities, and populates them by running each simulation 'nGen' times
+  mean_SRs_max <- nPop; sd_SRs_max <- sd(1:nPop)
+  mean_SRs_min <- 1;    sd_SRs_min <- 0.1 #should be 0 but avoids warning)
+  for (gen in 1:nGens){
+    # runs neutral_generation_speciation on each column, replace=TRUE
+    sims <- apply(sims, 2, neutral_generation_speciation, speciation_rate=.1)
+    # make vector of species richness of each column
+    SRs_vect <- sapply(1:ncol(sims), function(x) species_richness(sims[, x]))
+    # finds the means and SDs of species richness for the two communities
+    mean_SRs_max <- c(mean_SRs_max, mean(SRs_vect[1:nSims]))
+    mean_SRs_min <- c(mean_SRs_min, mean(SRs_vect[(nSims+1):(nSims*2)]))
+      sd_SRs_max <- c(sd_SRs_max,     sd(SRs_vect[1:nSims]))
+      sd_SRs_min <- c(sd_SRs_min,     sd(SRs_vect[(nSims + 1):(nSims * 2)])) }
+  
+  ### Uses input confidence interval and calculated SDs to find margins of error
+  alpha <- 1-CI/100
+  marg_err_max <- abs(qnorm(alpha/2)*(sd_SRs_max/sqrt(nPop)))
+  marg_err_min <- abs(qnorm(alpha/2)*(sd_SRs_min/sqrt(nPop)))
+
+  ### Finds first generation where margins of error between the two communities overlap; estimate for equilibrium being reached, used by abline in plot
+  for (gen in 1:nGens){
+    if((mean_SRs_max[gen] - marg_err_max[gen]) - 
+       (mean_SRs_min[gen] + marg_err_min[gen]) < 0){ equil_gen <- gen; break; }}
+  
+  ### Plots those vectors populated against the generations they were taken from
+  plot(0:nGens, mean_SRs_max,
+      # labels axes and graph as a whole
+      xlab="Generations Elapsed", ylab="Mean Species Richness",
+      main=paste("Mean Species Richness of",nSims,"Simulations of \n Maximally and Minimally Diverse Communities with a \n Speciation Rate of 0.1 over",nGens,"Generations"),
+      # adds line, removes datapoints, sets its colour and width
+      col="mediumblue", type="l", lwd=3,
+      # disable numerical axes labels, sets edge of axes to origin
+      xaxt="n", yaxt="n", xaxs="i", yaxs="i", ylim=c(0,nPop), xlim=c(-.5,nGens))
+      # plots min_species_richness against generations_vect, formats line
+  lines(0:nGens, mean_SRs_min, col="maroon", lwd=3)
+      # adds error bars for each line based on pre-calculated margins of error at the (seemingly arbitrary) 0.028 (or 1-CI/100) significance level
+  arrows(0:nGens, mean_SRs_max + marg_err_max,
+         0:nGens, mean_SRs_max - marg_err_max, angle=90, code=3, length=0.02)
+  arrows(0:nGens, mean_SRs_min + marg_err_min,
+         0:nGens, mean_SRs_min - marg_err_min, angle=90, code=3, length=0.02)
+      # adds line and explanatory text at estimated point of equilibrium
+  abline(v=equil_gen, lwd=2, col="darkgreen", lty="dashed")
+  text(equil_gen, nPop/1.3, "Point of Equilibrium", pos=2, offset=0.5, srt=90)
+      # adds legend for the lines in topright corner 
+  legend("topright", col=c("mediumblue","maroon"), lwd=3, cex=0.8, 
+         legend=c("Maximum Initial Richness","Minimum Initial Richness"))
+      # adds custom numerical axes labels, and minor axis ticks
+  axis(1, seq(0, nGens, by=10), las=1,          labels=TRUE)
+  axis(2, seq(0, nPop,  by=10), las=2,          labels=TRUE)
+  axis(1, seq(0, nGens, by=2),  lwd.ticks=.3,   labels=FALSE)
+  axis(2, seq(0, nPop,  by=2),  lwd.ticks=.3,   labels=FALSE)
 }
+
+
 
 
 
@@ -571,8 +696,74 @@ Challenge_A <- function() {
 
 # Challenge question B
 Challenge_B <- function() {
-  # clear any existing graphs and plot your graph within the R window
+### Plots a time-series graph of mean species richness over 'nGens' generations simulated 'nSims' times with the neutral theory model, starting with 'nSCs' communities of 'nPop' individuals with varying degrees of initial species richness
+#
+# Arguments: -
+#
+# Returns: - 
+#
+########
 
+  ### Clear all graphics
+  graphics.off()
+
+  ### Set parameters: number of simulations, generations, starting conditions and individuals/community
+  nSims <- 150; nGens <- 50; nSCs <- 11; nPop <- 100 #must be multiple of nSCs-1
+  # Calculates species richness gap between starting conditions (except first)
+  SR_interval <- nPop/(nSCs-1)
+
+  ### Preallocates matricies to use for simulations, and to store means
+  sims <- matrix(0, nrow=nPop, ncol=nSCs*nSims)
+  means <- matrix(0, nrow=nGens+1, ncol=nSCs)
+  means[1,] <- c(1, seq(SR_interval, nPop, length=nSCs-1))
+
+  ### Populates 1st & last nSims rows w/ communities of min&max species richness
+  sims[,c(1:nSims)] <- rep(rep(1, nPop), nSims)
+  sims[,((nSCs-1)*nSims+1):(nSCs*nSims)] <- rep(1:nPop, nSims)
+
+  ### Populates middle rows with communities of intermediate species richness
+  for (SC in 1:(nSCs-2)){
+    for (col in 1:nSims){
+      # multiple rounds of non-replacement sampling, until length(indivs)>= nSim
+      indivs <- NULL; while (length(indivs) < nPop){
+        indivs <- c(indivs, sample(1:(SC * SR_interval), SC * SR_interval)) }
+      # input into apropriate column
+      sims[,(SC * nSims + col)] <- indivs[1:nPop] } }
+
+  ### Creates dataframe of means of species richness for all communities, and populates them by running each simulation 'nGen' times
+  for (gen in 1:nGens){
+    # runs neutral_generation_speciation on each column, replace=TRUE
+    sims <- apply(sims, 2, neutral_generation_speciation, speciation_rate=.1)
+    # make vector of species richness of each column
+    SRs_vect <- sapply(1:ncol(sims), function(x) species_richness(sims[, x]))
+    # finds the means and SDs of species richness for the two communities
+    for (SC in 1:nSCs){
+      means[(1+gen), SC] <- mean(SRs_vect[(1+nSims*(SC-1)):(nSims*SC)]) } }
+
+
+  ### Plots those vectors populated against the generations they were taken from
+  # creates palette of colours for the different lines
+  palette <- rainbow(nSCs)
+  # plots the first line
+  plot(0:nGens, means[,1],
+      # labels axes and graph as a whole
+      xlab="Generations Elapsed", ylab="Mean Species Richness",
+      main=paste("Mean Species Richness of",nSims,"Simulations of \n Varyingly Diverse Communities with a \n Speciation Rate of 0.1 over",nGens,"Generations"),
+      # adds line, removes datapoints, sets its colour and width
+      col=palette[1], type="l", lwd=2,
+      # disable numerical axes labels, sets edge of axes to origin
+      xaxt="n", yaxt="n", xaxs="i", yaxs="i", ylim=c(0,nPop), xlim=c(-.5,nGens))
+      # plots other means columns against generation number, formats line
+  for (SC in 2:nSCs){
+    lines(0:nGens, means[,SC], col=palette[SC], lwd=2) }
+      # adds legend for the lines in topright corner 
+  legend("topright", col=palette[1:nSCs], lwd=3, cex=0.8, legend=paste(
+         "Starting Richness of", c(1, seq(SR_interval, nPop, length=nSCs-1))))
+      # adds custom numerical axes labels, and minor axis ticks
+  axis(1, seq(0, nGens, by=5),  las=1,          labels=TRUE)
+  axis(2, seq(0, nPop,  by=10), las=2,          labels=TRUE)
+  axis(1, seq(0, nGens, by=1),  lwd.ticks=.3,   labels=FALSE)
+  axis(2, seq(0, nPop,  by=2),  lwd.ticks=.3,   labels=FALSE)
 }
 
 
