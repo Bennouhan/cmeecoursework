@@ -1,5 +1,4 @@
-
-# Author: Ben Nouhan, bjn20@ucl.ac.uk
+# Author: Group 4
 #
 # Script: get_TreeHeight.R
 #
@@ -16,13 +15,10 @@
 #
 # Date: 27 Oct 2020
 
-
-
 ### This function calculates heights of trees given distance of each tree 
 # from its base and angle to its top, using  the trigonometric formula 
 #
 # height = distance * tan(radians)
-#
 #
 # ARGUMENTS
 #
@@ -40,23 +36,19 @@ TreeHeight <- function(degrees, distance){
     return (height)
 }
 
-
 ### This function gets the datagrame from the argued .csv file, creates a 4th
 # column, uses TreeHeight() to populate this column with treeheights using
 # columns 2 & 3, then writes the expanded dataframe into a custom-named .csv
 # file in ../results/
-#
 #
 # ARGUMENTS
 #
 # filename.csv: .csv file(s) with second header "Distance.m" and third header
 #               "Angle.degrees"
 #
-#
 # RETURN
 #
 # NULL
-#
 
 getCSV_addTreeHeight <- function(filename.csv){
     MyData <- read.csv(filename.csv, header = TRUE)
@@ -69,8 +61,10 @@ getCSV_addTreeHeight <- function(filename.csv){
     return (NULL)
 }
 
+# creates list of command arguments
 term_args <- commandArgs(trailingOnly = TRUE); csv_count <- 0
 
+### Performs a series of checks on the input
 for (i in term_args){
     if (endsWith(i, ".csv") & file.exists(i)){ # Checks i exists and is a .csv
         # Checks the table in i is compatible with getCSV_addTreeHeight()
@@ -95,14 +89,3 @@ if (length(term_args) == 0 || csv_count == 0) { # If no file converted or argued
     getCSV_addTreeHeight("../data/trees.csv")
     cat("Finished converting ../data/trees.csv\n")
 }
-
-
-
-
-
-#     Write a Unix shell script called run_get_TreeHeight.sh that tests 
-#     get_TreeHeight.R. Include trees.csv as your example file. Note that source will
-#      not work in this case as it does not allow scripts with arguments to be run; 
-#      you will have to use Rscript instead.
-
-#NOTE FROM BEN    showcase the checks you've made in the shell script?

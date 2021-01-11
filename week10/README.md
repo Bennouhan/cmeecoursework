@@ -3,7 +3,7 @@
 ---
 <br/>
 
-# **CMEE Coursework Week 9** 
+# **CMEE Coursework Week 10** 
 
 
 
@@ -14,7 +14,7 @@
 <br/>
 
 
-This week was focused on the CMEE Mini Project, which was due at the end of this week. Please see the dedicated "../cmeecoursework/miniproject/" directory for more details.
+This week was focused on the High-Performance Computing module, and requires access to the Imperial "cx1" HPC cluster.
   
 <br/>
 

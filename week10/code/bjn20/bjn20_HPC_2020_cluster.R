@@ -1,6 +1,6 @@
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 #
-# Script: jrosinde_HPC_2020_cluster.R
+# Script: bjn20_HPC_2020_cluster.R
 #
 # Date: 10 Dec 2020
 #
@@ -19,7 +19,6 @@ source("/rds/general/user/bjn20/home/hpc/bjn20_HPC_2020_main.R")
 
 ### Get job number, set seed
 iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
-#for (iter in c(1,20,40,60,80,100)){ #for testing
 set.seed(iter)
 
 ### Assigns size of community and seed based off of iter number
@@ -29,6 +28,3 @@ nPop <- pop_sizes[ceiling(iter/itersPerSize)]
 
 ### Runs function, params: speciation rate, popsize, wall time, richness and octave intervals, burn-in period (gens), output filename
 cluster_run(0.0052206,nPop,690,5,20,nPop*8,paste0("output_file_",iter,".rda"))
-
-### For testing
-#}; load(file = "output_file_20.rda"); length(oct_vect)

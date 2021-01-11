@@ -15,26 +15,21 @@
 
 rm(list = ls())
 
-library(dplyr)
-library(ggplot2)
 library(tidyverse)
-library(broom)
+
 
 ### Load and prepare the data
 mydf <- read.csv("../data/EcolArchives-E089-51-D1.csv")
-# removes rows resulting in Nas and NaNs
-dim(mydf)
-mydf <- mydf[-c(30914, 30929, 277, 321),]
-dim(mydf)
-# make these factors so we can use them as grouping variables
+# Removes rows resulting in Nas and NaNs
+mydf <- mydf[-c(277, 321),]
+# Make these factors so we can use them as grouping variables
 mydf$Type.of.feeding.interaction <- as.factor(mydf$Type.of.feeding.interaction)
 mydf$Predator.lifestage <- as.factor(mydf$Predator.lifestage)
-# converts all prey masses in mg to g
+# Converts all prey masses in mg to g
 for(row in 1:nrow(mydf)){
   if(mydf[row,14]=="mg"){
     mydf[row,14] <- "g"
-    mydf[row,13] <- mydf[row,13]/1000
-  }
+    mydf[row,13] <- mydf[row,13]/1000 }
 }
 
 ### Create the Linear Regression plots as pdf
@@ -42,7 +37,7 @@ p <-  qplot(Prey.mass, Predator.mass, data = mydf, log="xy",
             xlab = "Prey Mass (g)", ylab = "Predator Mass (g)",
             colour = Predator.lifestage, shape = I(3)) + theme_bw() 
 # Add regression lines and faceting by feeding interaction type
-p <-  p + geom_smooth(method = "lm", fullrange=TRUE) + 
+p <-  p + geom_smooth(method = "lm", fullrange=TRUE, formula='y ~ x') + 
       facet_grid(Type.of.feeding.interaction ~ .)
 # Formatting legend position, text, colours and line number
 p <-  p + theme(legend.position = "bottom",
@@ -53,14 +48,15 @@ p <-  p + theme(legend.position = "bottom",
 pdf("../results/PP_Regress_Results.pdf", 8.3, 11.7)
 print(p); graphics.off();
 
-
 ### Calculate statistics for the table and write csv
 pp_regress <- mydf %>%
   # Select and group by interaction type and lifestage
   select( Type.of.feeding.interaction, Predator.lifestage,
           Predator.mass, Prey.mass) %>%
   group_by(Type.of.feeding.interaction, Predator.lifestage) %>%
-  # Fit linear models for each in group
+  # Filter out too small datasets and those with identical predator masses
+  filter(n() > 2) %>%
+  # Calculate LMs and store calculations to a dataframe
   do(mod = lm(log(Predator.mass)~log(Prey.mass), data = .)) %>%
   # Take each statistic from summary and write into data frame
   mutate( Regression_Slope = summary(mod)$coeff[2],

@@ -1,12 +1,23 @@
-# CMEE 2020 HPC excercises R code main proforma
-# you don't HAVE to use this but it will be very helpful.  If you opt to write everything yourself from scratch please ensure you use EXACTLY the same function and parameter names and beware that you may loose marks if it doesn't work properly because of not using the proforma.
 
+# Script: bjn20_HPC_2020_main.R
+#
+# Desc: CMEE 2020 HPC excercises R code main proforma
+#
+# Arguments:
+# -
+#
+# Output:
+# -
+#
+# Date: 21 Dec 2020
+#
 name <- "Ben Nouhan"
 preferred_name <- "Ben"
 email <- "bjn20@ic.ac.uk"
 username <- "bjn20"
+personal_speciation_rate <- 0.0052206
 
-# please remember *not* to clear the workspace here, or anywhere in this file. If you do, it'll wipe out your username information that you entered just above, and when you use this file as a 'toolbox' as intended it'll also wipe away everything you're doing outside of the toolbox.  For example, it would wipe away any automarking code that may be running and that would be annoying!
+
 
 # Question 1
 species_richness <- function(community){
@@ -21,6 +32,10 @@ species_richness <- function(community){
   ### Removes duplicates from vector; counts objects in vector
   return(length(unique(community)))
 }
+
+
+
+
 
 
 
@@ -43,6 +58,10 @@ init_community_max <- function(size){
 
 
 
+
+
+
+
 # Question 3
 init_community_min <- function(size){
 ### Generates initial state for a simulation community, with min possible number of species of the community based on its size
@@ -57,6 +76,9 @@ init_community_min <- function(size){
   ### Generates sequence of 1s equal in length to value of input integer
   return(rep(1, size))
 }
+
+
+
 
 
 
@@ -81,6 +103,9 @@ choose_two <- function(max_value){
 
 
 
+
+
+
 # Question 5
 neutral_step <- function(community){
 ### Performs a single step of a simple neutral model simulation on a community vector (no speciation)
@@ -99,6 +124,9 @@ neutral_step <- function(community){
   community[pair[1]] <- community[pair[2]]
   return(community)
 }
+
+
+
 
 
 
@@ -129,6 +157,11 @@ neutral_generation <- function(community){
 
 
 
+
+
+
+
+
 # Question 7
 neutral_time_series <- function(community,duration)  {
 ### Simulates generations of the community based on neutral theory, and finds the species richness of each generation (no speciation)
@@ -151,6 +184,9 @@ neutral_time_series <- function(community,duration)  {
 
   return(rich_vect)
 }
+
+
+
 
 
 
@@ -195,6 +231,10 @@ question_8 <- function() {
 
 
 
+
+
+
+
 # Question 9
 neutral_step_speciation <- function(community,speciation_rate)  {
 ### Performs a single step of a simple neutral model simulation on a community vector, with speciation as a possibility
@@ -219,6 +259,12 @@ neutral_step_speciation <- function(community,speciation_rate)  {
   
   return(community)
 }
+
+
+
+
+
+
 
 
 # Question 10
@@ -249,6 +295,9 @@ neutral_generation_speciation <- function(community,speciation_rate)  {
 
 
 
+
+
+
 # Question 11
 neutral_time_series_speciation <- function(community,speciation_rate,duration) {
 ### Simulates generations of the community based on neutral theory, and finds the species richness of each generation, with speciation as a possibility
@@ -272,6 +321,9 @@ neutral_time_series_speciation <- function(community,speciation_rate,duration) {
 
   return(rich_vect)
 }
+
+
+
 
 
 
@@ -316,8 +368,14 @@ question_12 <- function()  {
   axis(2, seq(0, 100, by=2),  lwd.ticks=.3,   labels=FALSE)
 
   ### Statement
-  return("Speciation introduces a force to increase species richness, where before there was only a force to decrease it. The community of maximum species richness has nowhere to go but a species richness decrease, and vice versa. They will hence meet in the middle, where these two forces reach an equilibrium. With such a small sample, random variation introduces significant fluctuations even at equilibrium, but as population size and generation number increase, these lines will converge.")
+  return("Speciation introduces a force to increase species richness, where before there was only a force to decrease it, extinction. The community of maximum species richness has nowhere to go but a species richness decrease, and vice versa. They will hence meet in the middle, where these two forces reach an equilibrium. With such a small sample, random variation introduces significant fluctuations even at equilibrium, but as population size or number ov averaged simulations increases, these lines will converge as generations pass.")
 }
+
+
+
+
+
+
 
 
 # Question 13
@@ -337,6 +395,11 @@ species_abundance <- function(community)  {
 
 
 
+
+
+
+
+
 # Question 14
 octaves <- function(abundance_vector) {
 ### Bins the argued species abundancies into octave classes
@@ -351,6 +414,12 @@ octaves <- function(abundance_vector) {
   ### log2()+1 transforms data, rounds each down, finds frequencies of result
   return(tabulate(floor(log2(abundance_vector)+1)))
 }
+
+
+
+
+
+
 
 
 # Question 15
@@ -375,6 +444,12 @@ sum_vect <- function(x, y) {
 }
 
 
+
+
+
+
+
+
 # Question 16 
 question_16 <- function()  {
 ### Plots a bargraph of mean octave class frquencies, representning mean species abundance distribution, from 100 evenly-spaced samples of 2000 post-burn-off period generations of neutral model simulations for a community of 100 individuals. 
@@ -396,27 +471,37 @@ question_16 <- function()  {
     community_max <- neutral_generation_speciation(community_max, 0.1)}
   oct_total <- octaves(species_abundance(community_max)); oct_count <- 1
 
-  ### Run rimulation 2000 more times, take a sample every 20 generations, add to total, and ultimately didvide by number of octaves total for the mean
+  ### Run simulation 2000 more times, take a sample every 20 generations, add to total, and ultimately didvide by number of octaves total for the mean
   for (gen in 1:2000){
     community_max <- neutral_generation_speciation(community_max, 0.1)
     if (gen %% 20 == 0){ 
       oct_total <- sum_vect(oct_total,octaves(species_abundance(community_max)))
       oct_count <- oct_count + 1 }}
+
+  ### Finds the mean octave frequency, the highest y value rounded up, and the abundance ranges corresponding with each octave class, all for use in plotting
   mean_oct <- oct_total/oct_count
+  ymax <- ceiling(max(mean_oct))
+  x_vals <- 1:length(mean_oct)
+  x_vals[-1] <- paste0(2^(x_vals[-1]-1), "-", 2^x_vals[-1]-1); 
 
   ### Creates barplot of the mean species abundance distriubtion, as octaves, for the equilibrium period
-  barplot(mean_oct, names.arg=1:length(mean_oct),
+  barplot(mean_oct, names.arg=x_vals,
       # labels axes and graph as a whole
-      xlab="Octave Class", ylab="Mean Octave Class Frequency",
+      xlab="Species Abundance Ranges", ylab="Mean Abundance Range Frequency",
       main="Estimated Mean Species Abundance Distribution as Octaves \n over 2000 Generations",
       # disable numerical axes labels, sets edge of axes to origin, sets limit
-      yaxt ="n", yaxs="i", ylim=c(0, 12))
+      yaxt ="n", yaxs="i", ylim=c(0, ymax))
       # adds custom numerical x axis labels and minor ticks
-      axis(2, seq(0, 12,  by=1),   las=1,        labels=TRUE)
-      axis(2, seq(0, 12,  by=0.2), lwd.ticks=.3, labels=FALSE)
+      axis(2, seq(0, ymax,  by=1),   las=1,        labels=TRUE)
+      axis(2, seq(0, ymax,  by=0.2), lwd.ticks=.3, labels=FALSE)
 
   return("The initial condition of the system does not matter using these parameters; as explained in question 12, 200 generations (the burn-off period used here) is more than enough time for equilibrium to be reached from the two extremes of species richness. Hence, at the start of the subsequent 2000 generation simulation, the expected start-point regardless of initial conditions is expected to be the same, differing only due to random fluctuations owing to the small sample size.")
 }
+
+
+
+
+
 
 
 
@@ -465,8 +550,13 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich, interva
 
 
 
+
+
+
+
+
 # Question 20 
-process_cluster_results <- function(iter_num, popsizes)  {
+process_cluster_results <- function(iter_num=100, popsizes=c(500, 1000, 2500, 5000))  {
 ### Analyses rda files generated from run_cluster.sh, finding the mean octave of species abundancies for each size of community and saving them to a new rda file
 #
 # Arguments:
@@ -481,7 +571,7 @@ process_cluster_results <- function(iter_num, popsizes)  {
   combined_results <- list()
   for (i in 1:iter_num){
     # loads each data file based on iter number
-    fname <- paste0("../results/output_files/output_file_", i, ".rda")
+    fname <- paste0("output_files/output_file_", i, ".rda")
     load(file=fname)
     # creates list of objects from data file, adds to list of lists
     obj_list <- list(richness_vect, oct_vect, community, elapsed_time, speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations)
@@ -522,10 +612,14 @@ process_cluster_results <- function(iter_num, popsizes)  {
     ### Appends vecotor of means of each popsize to list of all of them
     mean_oct_ls[[length(mean_oct_ls) + 1]] <- mean_oct }
 
-  ### Saves (as .rda) and returns list of lists
+  ### Saves as .rda file (not actually used) and returns list of lists
   save(mean_oct_ls, file = "mean_oct_ls.rda")
   return(mean_oct_ls)
 }
+
+
+
+
 
 
 
@@ -544,36 +638,47 @@ plot_cluster_results <- function()  {
   iter_num <- 100
   popsizes <- c(500, 1000, 2500, 5000)
   
-  ### Extracts mean octraves per population size from results of rda files
+  ### Extracts mean octaves per population size from results of rda files
   mean_oct_ls <- process_cluster_results(iter_num, popsizes)
 
   ### Sets structure of multiplot, populates it one barplot at a time (tollerates any number of iters and popsizes)
+  dev.new(width = 16.4, height = 10)
   par(mfcol = c(ceiling(length(popsizes)/2), 2))
   for (i in 1:length(popsizes)){
-    # gets corresponding vector and popsize, builds palette and plot's y axis limit and interval based off of it
+    # gets corresponding shade of grey and vector, and the plot's y axis limit and interval based off of it
     mean_oct <- mean_oct_ls[[i]]
     ymax <- ceiling(max(mean_oct))
     yint <- ceiling(ymax/5)/2
-    palette <- rainbow(length(mean_oct))
-    nPop <- popsizes[i]
+    pal  <- colorRampPalette(c("lightgrey", "grey20"))(length(popsizes))
+    print(col)
+    # creates x axis label of species abundance ranges corresponding to octaves
+    x_vals <- 1:length(mean_oct)
+    x_vals[-1] <- paste0(2 ^ (x_vals[-1] - 1), "-", 2 ^ x_vals[-1] - 1)
     # calculates and inputs the row and col number for the plot in in multiplot 
     row <- ceiling(i/2); col <- ifelse(i%%2!=0, 1, 2)
     par(mfg = c(row, col))
 
     ### Plots barplot of means of octave class values
-    barplot(mean_oct, names.arg = 1:length(mean_oct),
+    barplot(mean_oct, names.arg=x_vals, cex.names=.8,
     # labels axes and graph as a whole
-      xlab = "Octave Class", ylab = "Mean Octave Class Frequency",
-      main = paste("Mean Species Abundance Distribution as Octaves \n for Communities of", nPop, "individuals"),
+      xlab="Species Abundance Ranges", ylab="Mean Abundance Range Frequency",
+      main=paste("Mean Species Abundance Distribution as Octaves \n for Communities of", popsizes[i], "individuals"),
     # disable numerical axes labels, sets edge of axes to origin, sets limit
-      yaxt = "n", yaxs = "i", ylim = c(0, ymax), col = palette)
+      yaxt="n", yaxs="i", ylim=c(0, ymax), col=pal[i])
     # adds custom numerical x axis labels and minor ticks
-    axis(2, seq(0, ymax, by=yint), las = 1,        labels = TRUE)
-    axis(2, seq(0, ymax, by=yint/5), lwd.ticks = .3, labels = FALSE) }
+    axis(2, seq(0, ymax, by=yint),   cex.axis=0.8, las=1, labels=TRUE)
+    axis(2, seq(0, ymax, by=yint/5), lwd.ticks=.3,        labels=FALSE) }
   
   ### Returns the data plotted within the function
   return(mean_oct_ls)
 }
+
+
+
+
+
+
+
 
 
 # Question 21
@@ -586,11 +691,17 @@ question_21 <- function()  {
 
 
 
+
+
+
 # Question 22
 question_22 <- function()  {
   answer <- list(log(20)/log(3),  "20 units of the constiuent, smaller object are needed to increase the width, height and depth of the larger by 3 times: hence, where the number of dimensions is given by x,  3^x = 20, and  x = log(20)/log(3)")
   return(answer)
 }
+
+
+
 
 
 
@@ -638,96 +749,276 @@ chaos_game <- function(A=c(0,0), B=c(3,4), C=c(4,1), X=c(0,0), points=NULL, dist
 }
 
 
+
+
+
+
+
+
+
 # Question 24
-turtle <- function(start_position, direction, length)  {
-    
-  return() # you should return your endpoint here.
+turtle <- function(start_position, direction, length, grad=FALSE, lwd=1) {
+### Draws a segment between the input coordinate and the output, which varies depending on parameters
+#
+# Arguments: 
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#   grad           - logical; if TRUE, a colour gradient will be implemented, colouring the line between brown and light green based on input length 
+#   lwd            - +ve numeric; sets width of line
+#
+# Returns:
+#   end_position   - coordinates vector; second coordinate for the line segment
+#
+########
+
+  ### Calculates end point from parameters
+  end_position <- start_position + length * sin(c(pi/2-direction, direction))
+  ### Uses colour ramp palette from brown to green based off length, if set on
+  ifelse(grad==TRUE, col <- colorRampPalette(c("brown", "darkgreen", "lightgreen"))(9)[ceiling(-log2(length))-2], col <- "black")
+  ### Draws a line between start and end positions, and returns the latter
+  lines(rbind(start_position, end_position), col=col, lwd=lwd)
+  return(end_position)
 }
+
+
+
 
 
 
 
 
 # Question 25
-elbow <- function(start_position, direction, length)  {
-  
+elbow <- function(start_position, direction, length) {
+### Draws a segment from the input coordinate based on parameters by calling the turtle function once, and then again to draw a second, shorter line from the end of the first at a pre-set angle 
+#
+# Arguments: 
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#
+# Returns:   -
+#
+########
+
+  ### Calls turtle to draw first line, captures end position for second call
+  end_position <- turtle(start_position, direction,      length)
+  ### Calls turtle to draw second line, catches return to avoid unwanted output
+  junk         <- turtle(end_position,   direction-pi/4, length*0.95)
 }
+
+
+
 
 
 
 
 
 # Question 26
-spiral <- function(start_position, direction, length)  {
-  
-  return("type your written answer here")
+spiral <- function(start_position, direction, length) {
+### Calls the turtle function with the input parameters, then calls itself recursively with altered parameters until length decreases below 0.001
+#
+# Arguments:
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#
+# Returns:   character string; Explains why a problem is encountered without setting the aformentioned length limit
+#
+########
+
+  ### Calls turtle to draw first line, captures end position for next call
+  end_position <- turtle(start_position, direction, length)
+
+  ### Calls itself recursively with altered parameters until length < 0.001
+  if (length > 0.001){
+    spiral(end_position, direction-pi/4, length*0.95)}
+
+  return("The function is calling itself recursively, stuck in an infinite loop (or spiral, if you will), so the computer rapidly reaches the default memory limit set by R and returns an error.")
 }
-
-
-
-
-
 # Question 27
 draw_spiral <- function()  {
-  # clear any existing graphs and plot your graph within the R window
-  
+### Calls and visualises the spiral function with the given parameters
+#
+# Arguments: -
+#
+# Returns:   -
+#
+########
+
+  ### Clears all graphics; opens a new, blank plot
+  graphics.off(); frame()
+
+  ### Calls and thus visualises the spiral function with given parameters
+  spiral(c(.3, .7), 0, .3)
 }
+
+
+
 
 
 
 
 
 # Question 28
-tree <- function(start_position, direction, length)  {
-  
+tree <- function(start_position=c(.5,0), direction=pi/2, length=.2, e=0.001, grad=FALSE, lwd=1, adj_len=c(0.65,0.65), adj_ang=pi/4)  {
+### Calls the turtle function with the input parameters, then calls itself recursively with two sets of altered parameters, one at a time, until length decreases below input value of e
+#
+# Arguments:
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#   e              - +ve numeric; smaller than input length; determines the endpoint of the recursive calls, relying on the function to incrementally decrease the size of "length"
+#   grad           - logical; if TRUE, a colour gradient will be implemented, colouring the line between brown and light green based on input length 
+#   lwd            - +ve numeric; sets width of line
+#   adj_len        - numeric vector; modulates length of subsequent line segments from new start position
+#   adj_ang        - radian; modulates angle of subsequent line segments from new start position
+#
+# Returns:   -
+#
+########
+
+  ### Calls turtle to draw first line, captures end position for next call
+  end_position <- turtle(start_position, direction, length, grad, lwd)
+
+  ### Calls itself recursively with two sets of altered parameters, one at a time, until length < e
+  if (length > e){
+    tree(end_position, direction+adj_ang, length*adj_len[1], e, grad, lwd, adj_len, adj_ang)
+    tree(end_position, direction-adj_ang, length*adj_len[2], e, grad, lwd, adj_len, adj_ang)}
 }
-
-
-
-
 
 draw_tree <- function()  {
-  # clear any existing graphs and plot your graph within the R window
+### Calls and visualises the tree function with its default parameters
+#
+# Arguments: -
+#
+# Returns:   -
+#
+########
 
+  ### Clears all graphics; opens a new, blank plot
+  graphics.off(); frame()
+
+  ### Calls and thus visualises the spiral function with default parameters 
+  tree()
 }
+
+
+
 
 
 
 
 
 # Question 29
-fern <- function(start_position, direction, length)  {
-  
+fern <- function(start_position=c(.5,0), direction=pi/2, length=.1, e=0.001, grad=FALSE, lwd=1, adj_len=c(0.38,0.87), adj_ang=pi/4)  {
+### Calls the turtle function with the input parameters, then calls itself recursively with two sets of altered parameters, one at a time, until length decreases below input value of e
+#
+# Arguments:
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#   e              - +ve numeric; smaller than input length; determines the endpoint of the recursive calls, relying on the function to incrementally decrease the size of "length"
+#   grad           - logical; if TRUE, a colour gradient will be implemented, colouring the line between brown and light green based on input length 
+#   lwd            - +ve numeric; sets width of line
+#   adj_len        - numeric vector; modulates length of subsequent line segments from new start position
+#   adj_ang        - radian; modulates angle of subsequent line segments from new start position
+#
+# Returns:   -
+#
+########
+
+  ### Calls turtle to draw first line, captures end position for next call
+  end_position <- turtle(start_position, direction, length, grad, lwd)
+
+  ### Calls itself recursively with two sets of altered parameters, one at a time, until length < e
+  if (length > e){
+    fern(end_position, direction+adj_ang, length*adj_len[1], e, grad, lwd, adj_len, adj_ang)
+    fern(end_position, direction,         length*adj_len[2], e, grad, lwd, adj_len, adj_ang)}
 }
-
-
-
-
 
 draw_fern <- function()  {
-  # clear any existing graphs and plot your graph within the R window
+### Calls and visualises the fern function with its default parameters
+#
+# Arguments: -
+#
+# Returns:   -
+#
+########
 
+  ### Clears all graphics; opens a new, blank plot
+  graphics.off(); frame()
+
+  ### Calls and thus visualises the fern function with default parameters 
+  fern()
 }
+
+
+
 
 
 
 
 
 # Question 30
-fern2 <- function(start_position, direction, length)  {
-  
+fern2 <- function(start_position=c(.5,0), direction=pi/2, length=.1, dir=1, e=0.001, grad=FALSE, lwd=1, adj_len=c(0.38,0.87), adj_ang=pi/4)  {
+### Calls the turtle function with the input parameters, then calls itself recursively with two sets of altered parameters, one at a time, until length decreases below input value of e
+#
+# Arguments:
+#   start_position - coordinates vector; first coordinate for the line segment
+#   direction      - radian; sets angle of the line segment from start position
+#   length         - +ve numeric; sets length of line from start position
+#   e              - +ve numeric; smaller than input length; determines the endpoint of the recursive calls, relying on the function to incrementally decrease the size of "length"
+#   grad           - logical; if TRUE, a colour gradient will be implemented, colouring the line between brown and light green based on input length 
+#   lwd            - +ve numeric; sets width of line
+#   adj_len        - numeric vector; modulates length of subsequent line segments from new start position
+#   adj_ang        - radian; modulates angle of subsequent line segments from new start position
+#
+# Returns:   -
+#
+########
+
+  ### Calls turtle to draw first line, captures end position for next call
+  end_position <- turtle(start_position, direction, length, grad, lwd)
+
+  ### Calls itself recursively with two sets of altered parameters, one at a time, until length < e
+  if (length > e){
+    fern2(end_position, direction+dir*adj_ang, length*adj_len[1],  dir, e, grad, lwd, adj_len, adj_ang)
+    fern2(end_position, direction,             length*adj_len[2], -dir, e, grad, lwd, adj_len, adj_ang)}
 }
 
 draw_fern2 <- function()  {
-  # clear any existing graphs and plot your graph within the R window
+### Calls and visualises the fern2 function with its default parameters
+#
+# Arguments: -
+#
+# Returns:   -
+#
+########
 
+  ### Clears all graphics; opens a new, blank plot
+  graphics.off(); frame()
+
+  ### Calls and thus visualises the fern2 function with default parameters 
+  fern2()
 }
 
 
 
 
 
-# Challenge questions - these are optional, substantially harder, and a maximum of 16% is available for doing them.  
+
+
+
+################################################################################
+############################### CHALLENGES #####################################
+################################################################################
+
+
+
+
+
+
 
 
 # Challenge question A
@@ -801,6 +1092,7 @@ Challenge_A <- function() {
   axis(1, seq(0, nGens, by=2),  lwd.ticks=.3,   labels=FALSE)
   axis(2, seq(0, nPop,  by=2),  lwd.ticks=.3,   labels=FALSE)
 }
+
 
 
 
@@ -884,6 +1176,9 @@ Challenge_B <- function() {
 
 
 
+
+
+
 # Challenge question C
 Challenge_C <- function() {
 ### Analyses rda files generated from run_cluster.sh, finding the generation at which equilibrium was reached for each size of community
@@ -903,7 +1198,7 @@ Challenge_C <- function() {
   combined_results <- list()
   for (i in 1:iter_num){
     # loads each data file based on iter number
-    fname <- paste0("../results/output_files/output_file_", i, ".rda")
+    fname <- paste0("output_files/output_file_", i, ".rda")
     load(file=fname)
     # creates list of objects from data file, adds to list of lists
     obj_list <- list(richness_vect, interval_rich, burn_in_generations)
@@ -970,18 +1265,85 @@ Challenge_C <- function() {
         break;} } }
 
   ### Return an explanatory statement
-  return(paste("From the curves we can see all communities have equilibrated by aproximately e^7.25, or", signif(exp(7.25), 3), "generations from the start. We can estimate more precisely for each community by finding where the data levels out, eg finding the first datapoint lower than a trailing average of the 50 previous datapoints as above. Hence, 2*popsize is a sufficient burn-in period here; 8*popsize is unnecessarily large, albeit not a big issue."))
+  return(paste("From the curves we can see all communities have equilibrated by aproximately e^7.25, or", signif(exp(7.25), 3), "generations from the start. We can estimate more precisely for each community by finding where the data levels out, eg finding the first datapoint lower than a trailing average of the 50 previous datapoints as above. From these results, we gather that 2*popsize is a sufficient burn-in period here; 8*popsize is unnecessarily large, albeit not a significant issue."))
 }
 
 
  
 
+
+
+
+
 # Challenge question D
 Challenge_D <- function() {
-  # clear any existing graphs and plot your graph within the R window
+### Plots a bargraph of octave class frquencies, representing species abundance distribution from the coalescence model for a community of 100 individuals. 
+#
+# Arguments: -
+#
+# Returns:  character string; statement answering "How many CPU hours were used on the coalescence simulation and how many on the cluster do an equivalent set of simulations (take?)? Why were the coalescence simulations so much faster?"
+#
+########
+
+  ### Clear all graphics
+  graphics.off()
+
   
-  return("type your written answer here")
+  ### Assigns community size, speciation rate, and sim number variables
+  J <- 100; v <- 0.1; nSims <- 1000
+
+  ### Calculates theta and creates a vector for aggregating octaves of each sim
+  theta <- v * (J - 1) / (1 - v)
+  oct_total <- c(0,0)
+
+  for (i in 1:nSims){
+    N <- J
+  ### Creates lineages (size of community) and abundances (to add abundances to) vectors
+  lineages <- rep(1, J)
+  abundances <- vector()
+
+  ### While multiple lineages exist, either coalesence or speciation occurs
+  while (N > 1){
+  lin_i <- sample(length(lineages), 2)
+  if (runif(1) < theta/(theta+N-1)){
+    abundances <- c(abundances, lineages[lin_i[1]])
+  }else{
+    lineages[lin_i[2]] <- lineages[lin_i[1]] + lineages[lin_i[2]] }
+
+  ### Each loop, the lineages object added to abundances/another lineages object is removed
+  lineages <- lineages[-lin_i[1]]
+  N <- N - 1 }
+
+  ### Final lineages object added to abundance, octaves taken
+  abundances <- c(abundances, lineages)
+  oct_total <- sum_vect(oct_total, octaves(abundances))}
+  
+  ### Finds the mean octave frequency, the highest y value rounded up, and the abundance ranges corresponding with each octave class, all for use in plotting
+  mean_oct <- oct_total/nSims
+  ymax <- ceiling(max(mean_oct))
+  x_vals <- 1:length(mean_oct)
+  x_vals[-1] <- paste0(2^(x_vals[-1]-1), "-", 2^x_vals[-1]-1)
+
+  ### Creates barplot of the mean species abundance distriubtion, as octaves, for the equilibrium period
+  barplot(mean_oct, names.arg=x_vals,
+      # labels axes and graph as a whole
+      xlab="Species Abundance Ranges", ylab="Mean Abundance Range Frequency",
+      main="Estimated Species Abundance Distribution as Octaves",
+      # disable numerical axes labels, sets edge of axes to origin, sets limit
+      yaxt ="n", yaxs="i", ylim=c(0, ymax))
+      # adds custom numerical x axis labels and minor ticks
+      axis(2, seq(0, ymax,  by=1),   las=1,        labels=TRUE)
+      axis(2, seq(0, ymax,  by=0.2), lwd.ticks=.3, labels=FALSE)
+
+  return("I used a cluster time of 11 hours, whereas this coalescence simulation is near-instantaneous for the same parameters; however, I'd argue they are not equivalent (and in fact, as fundamentally different methods, cannot be equivalent). The simulations run on the cluster and question 16 are averaged over a vast period of time, wheareas this simulation has but one output. As such, there is much higher fluctuation in the results of this coalescence simulation. 
+  
+  Running this coalesence simulation many times and taking an average, as I did, leads to a much more stable result, and makes it about 10x faster than question 16 executing the same number of simulations.
+  
+  Using this technique, we don't simulate or track a species that will go extinct, since we're effectively starting from the end and tracing back to the speciation events, hence there is no wasted processing time on that. There is also no wasted (assuming we're not interested in it) burn-in period, and we're generating less data to analyse and calling fewer functions.")
 }
+
+
+
 
 
 
@@ -997,9 +1359,9 @@ Challenge_E <- function(){
 #
 ########
 
-  #not to self!!!!!!!!! add 3 plots at start showing what different startpoints do using colours
-  
+  ### Clear all graphics; creates gradiated palette from black to blue
   graphics.off()
+  pal <- colorRampPalette(c("black", "blue", "red", "orange"))(20)
 
   ### Create and manipulate vectors of coordinates for use
   equi_pts <- c(c(0,0), c(10,0), c(5,5*sqrt(3))) #equilateral triangle
@@ -1009,36 +1371,43 @@ Challenge_E <- function(){
 
   ### Creates list of vectors using chaos_game() function, for later plotting
   matricies <- list(
+
+    ### 3 versions of Sierpinski Gasket with incramental colouring of points & different starting points. Lower reps numeber needed to stop overwriting
+    chaos_game(points=matrix(c(equi_pts), byrow=T, ncol=2), dist=1/2, plot=F, X=c(0,0), reps=5000), #startpoint = bottom left vertex
+    chaos_game(points=matrix(c(equi_pts), byrow=T, ncol=2), dist=1/2, plot=F, X=c(mid_pt), reps=5000), #startpoint = middle of equilateral triangle
+    chaos_game(points=matrix(c(equi_pts), byrow=T, ncol=2), dist=1/2, plot=F, X=c(10,5*sqrt(3)), rep=5000), #startpoint = x coord of right vertex and y coord of top
+
     ### Sierpinski Gasket - dist 1/2 only as explained in text
-    chaos_game(points=equil, dist=1/2, plot=F),
+    chaos_game(points=matrix(c(equi_pts), byrow=T, ncol=2), dist=1/2, plot=F),
 
     ### Like Sierpinski Gasket, but with points half way between each pair of verticies; identical but only when on 1/3 rather than 1/2
-    chaos_game(points=matrix(c(mid_equi_pts, equi_pts), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(mid_equi_pts, equi_pts), byrow=T, ncol=2),
                dist=1/3, plot=F),
     #   As above but with distance of 3/7
-    chaos_game(points=matrix(c(mid_equi_pts, equi_pts), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(mid_equi_pts, equi_pts), byrow=T, ncol=2),
                dist=3/7, plot=F),
 
     ### Like Sierpinski Gasket but with extra point at center of triangle
-    chaos_game(points=matrix(c(equi_pts, mid_pt), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(equi_pts, mid_pt), byrow=T, ncol=2),
                dist=1/2, plot=F),
     #   As above but with distance of 3/7
-    chaos_game(points=matrix(c(equi_pts, mid_pt), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(equi_pts, mid_pt), byrow=T, ncol=2),
                dist=3/7, plot=F),
 
     ### Equilateral with points halfway between midpoint and each vertex
-    chaos_game(points=matrix(c(half_mid_pts, equi_pts), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(half_mid_pts, equi_pts), byrow=T, ncol=2),
                dist=4/11, plot=F),
 
     ### No equilateral triangle points; only points halfway between midpoint and each vertex AND points half way between each pair of verticies
-    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts), byrow=TRUE, ncol=2),
+    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts), byrow=T, ncol=2),
       X=mid_pt,dist=1/3, plot=F),
     #   As above but with extra point at center
-    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts, mid_pt), byrow=TRUE, ncol=2), X=mid_pt, dist=1/3, plot=F),
+    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts, mid_pt), byrow=T, ncol=2), X=mid_pt, dist=1/3, plot=F),
     #   As above but with distance of 4/11
-    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts, mid_pt), byrow=TRUE, ncol=2), X=mid_pt, dist=4/11, plot=F))
+    chaos_game(points=matrix(c(half_mid_pts, mid_equi_pts, mid_pt), byrow=T, ncol=2), X=mid_pt, dist=4/11, plot=F))
 
   ### Sets structure of multiplot, populates it one plot at a time (tollerates any number of plots)
+  dev.new(width = 10, height = 12)
   par(mfcol = c(ceiling(length(matricies) / 3), 3))
   for (i in 1:length(matricies)) {
     # calculates and inputs the row and col number for the plot in in multiplot 
@@ -1046,30 +1415,103 @@ Challenge_E <- function(){
     if(i %% 3 == 0){ col <- 3
    }else{            col <- i %% 3 }
     par(mfg = c(row, col))
-    ### Plots matrix, with small black dots and no axes or labels
-    plot(matricies[[i]], cex=.001, pch=20, axes=FALSE, ann=FALSE) }
+    ### First 3, with different starting points, are plotted using gradient of colours varying for each 1/20th of the datapoints in order
+    if (i<4){
+      subset_size <- nrow(matricies[[i]]) / 20
+      # plots first subset black
+      plot(matricies[[i]][1:subset_size,], cex = .001, pch = 20, axes = FALSE, ann = FALSE)
+      for (subset in 2:20){ # layers  on other subsets, coloured with palette
+        subset_range <- ((subset-1)*subset_size+1):(subset*subset_size)
+        points(matricies[[i]][subset_range,], cex=.001, pch=20, col=pal[subset])
+    ### Else plots whole matrix, with small black dots and no axes or labels
+  }}else{ plot(matricies[[i]], cex=.001, pch=20, axes=FALSE, ann=FALSE, col=pal[(i-2)*2]) }}
 
-  return("changing X seems to make no difference; leads to a few points outside the sape but they quickly find their way to it.
+  return("Changing the startpoint (X) seems to make no difference; it leads to a few points outside the shape but they quickly find their way to it. When a seed is set, the distribution of dots is, after the first few, identical regardless of X. (See shapes 1-3, enlarge to make clearer)
 
-  Decreasing from 0.5, triangular fractals' small constituent units shrink and move towards the closest vertex; increasing, they start to overlap and converge on eachother.
-  ")
+  Decreasing distance from 0.5, triangular fractals' small constituent units shrink and move towards the closest vertex; increasing, they start to overlap and converge on eachother. (See shapes 1-4 and 7)
+  
+  Adding extra points, and different combinations of those points, lead to various other fractals, most of which require a distance of rational, repeating decimals close to but less than 0.5. (See shapes 5-12, and the annotated code for more details)")
 }
 
-Challenge_E() #### see note in function
 
 
+
+
+
+
+
+draw_shape <- function(fun, adj_len, adj_ang=pi/4, grad=TRUE, e=0.001,   length=.1, lwd=1){
+### Calls and visualises the whicheevr of the "tree", "fern" or "fern2" functions are input with altered parameters
+#
+# Arguments:
+#   fun     - function; "tree", "fern" or "fern2" function to be used
+#   adj_len - numeric vector; modulates length of subsequent line segments from new start position
+#   adj_ang - radian; modulates angle of subsequent line segments from new start position
+#   grad    - logical; if TRUE, a colour gradient will be implemented, colouring the line between brown and light green based on input length 
+#   e       - +ve numeric; smaller than input length; determines the endpoint of the recursive calls, relying on the function to incrementally decrease the size of "length"
+#   length  - +ve numeric; sets length of line from start position
+#   lwd     - +ve numeric; sets width of line
+#
+# Returns:   -
+#
+########
+
+  ### Opens a new, blank plot
+  frame()
+
+  ### Calls and thus visualises the fern function with a combination of default parameters and arguments of the draw_shape function
+  fun(c(.5, 0), pi/2, length, e=e, grad=grad, lwd=lwd, adj_len=adj_len, adj_ang=adj_ang)
+}
 
 # Challenge question F
 Challenge_F <- function() {
-  # clear any existing graphs and plot your graph within the R window
-  
-  return("type your written answer here")
+### Generates and plots a series of fractal shapes resembling organisms based off different parameters of the draw_shape function, and returns a statement.
+#
+# Arguments: -
+#
+# Returns:  character string; statement explaining the effects of decreasing the input e
+#
+########
+
+  ### Clear graphics
+  graphics.off()
+
+  ### Open new, wide 2x4 plot, and plots all 8 shapes
+  dev.new(width = 9, height = 6)
+  par(mfcol=c(2,4))
+  # Connifer
+  par(mfg=c(1,1))
+  draw_shape(tree, c(0.61,0.61),   pi/4,   length=.14, grad=TRUE,  lwd=5)
+  title(main="Connifer",            line=-6, cex.main=2)
+  # Bush
+  par(mfg=c(1,2))
+  draw_shape(tree, c(0.64,0.64),   pi/2.5, length=.14, grad=TRUE,  lwd=3)
+  title(main="Bush",                line=-6, cex.main=2)
+  # Shrimptail
+  par(mfg=c(1,3))
+  draw_shape(tree, c(0.78,0.48),   pi/6,   length=.13, grad=FALSE, lwd=.4)
+  title(main="Shrimp Tail",         line=-6, cex.main=2)
+  # Trilobyte
+  par(mfg=c(1,4))
+  draw_shape(tree, c(0.94,0.31),   pi/8,   length=.1,  grad=FALSE, lwd=.2)
+  title(main="Trilobite",           line=-6, cex.main=2, adj=.1)
+  # Vines
+  par(mfg=c(2,1))
+  draw_shape(tree, c(0.29,0.83),   pi/2.5, length=.23, grad=TRUE,  lwd=2)
+  title(main="Vines",               line=-6, cex.main=2, adj=.7)
+  # Wheat
+  par(mfg=c(2,2))
+  draw_shape(fern, c(0.35,0.85),   pi/8,   length=.07, grad=FALSE, lwd=.4)
+  title(main="Wheat",               line=-6, cex.main=2)
+  # Italian Cyprus Tree
+  par(mfg=c(2,3))
+  draw_shape(fern2, c(0.38, 0.88), pi / 8, length=.06, grad=TRUE,  lwd=3)
+  title(main="Italian Cyprus Tree", line=-6, cex.main=2)
+  # Christmas Tree
+  par(mfg=c(2,4))
+  draw_shape(fern2, c(0.43,0.85),  pi/2,   length=.08, grad=TRUE,  lwd=3)
+  title(main="Merry Christmas",     line=-6, cex.main=2)
+
+
+  return("Time taken and level of detail added seems to increase exponentially as e is lowered. This is because as e decreases, additional levels of detail (sub-pinnules of the fern if you will) are added, and the surface area upon which they're added is exponentially larger than at any of the previous levels.")
 }
-
-
-
-
-
-# Challenge question G should be written in a separate file that has no dependencies on any functions here.
-
-
