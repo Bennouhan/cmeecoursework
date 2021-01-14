@@ -571,7 +571,7 @@ process_cluster_results <- function(iter_num=100, popsizes=c(500, 1000, 2500, 50
   combined_results <- list()
   for (i in 1:iter_num){
     # loads each data file based on iter number
-    fname <- paste0("output_files/output_file_", i, ".rda")
+    fname <- paste0("../../data/output_files/output_file_", i, ".rda")
     load(file=fname)
     # creates list of objects from data file, adds to list of lists
     obj_list <- list(richness_vect, oct_vect, community, elapsed_time, speciation_rate, size, wall_time, interval_rich, interval_oct, burn_in_generations)
@@ -1198,7 +1198,7 @@ Challenge_C <- function() {
   combined_results <- list()
   for (i in 1:iter_num){
     # loads each data file based on iter number
-    fname <- paste0("output_files/output_file_", i, ".rda")
+    fname <- paste0("../../data/output_files/output_file_", i, ".rda")
     load(file=fname)
     # creates list of objects from data file, adds to list of lists
     obj_list <- list(richness_vect, interval_rich, burn_in_generations)
