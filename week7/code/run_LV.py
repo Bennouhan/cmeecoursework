@@ -26,7 +26,6 @@ def profile_py(fname, arg):
     Returns:
         -
     """
-
     ### Import file as module
     sans_ext = fname.split(".")[0] #remove .py
     i = importlib.import_module(sans_ext)
@@ -37,7 +36,10 @@ def profile_py(fname, arg):
     pr.enable() #start profiling
     old_stdout = sys.stdout             #v
     sys.stdout = open(os.devnull, "w")  #prevents output
-    i.main(arg) #calls main function
+    if arg is not None and len(arg) == 4:
+        i.main(*arg) #calls main function with arg objects as arguments
+    else: 
+        i.main(arg)  #calls main function, uses arg as sys.argv
     sys.stdout = old_stdout             #^
     pr.disable() #stops profiling
     
@@ -50,12 +52,12 @@ def profile_py(fname, arg):
     
     ### Print profiling results
     print(fname, "profile:", s.getvalue())
-    #Not to self:https://docs.python.org/3/library/profile.html for more details
+    #Note 2 self:https://docs.python.org/3/library/profile.html for more details
     return None
 
 def main(argv):
     """
-    Calls function on all 3 LVn.py files
+    Calls function on all 4 LVn.py files
     """
     
     ### Profile LV1.py
@@ -65,7 +67,10 @@ def main(argv):
     profile_py("LV2.py", (None, 1., .1, 1.5, 0.75))
     
     ### Profile LV3.py
-    profile_py("LV3.py", (None, 1., .1, 1.5, 0.75))
+    profile_py("LV3.py", (1., .1, 1.5, 0.75))
+    
+    ### Profile LV4.py
+    profile_py("LV4.py", (1., .1, 1.5, 0.75))
 
     
     return None

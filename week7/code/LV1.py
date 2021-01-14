@@ -58,7 +58,7 @@ def main(argv):
     p.xlabel('Time')
     p.ylabel('Population density')
     p.title('Consumer-Resource population dynamics')
-    f1.savefig('../results/LV1a.pdf')
+    f1.savefig('../results/LV_model1.pdf')
     
     ### Plotting Comsumer density by resource density
     f2 = p.figure()  # open empty fihure object
@@ -68,7 +68,8 @@ def main(argv):
     p.ylabel('Consumer density')
     p.title('Consumer-Resource population dynamics')
     #p.show()# To display the figures
-    f2.savefig('../results/LV1b.pdf'); p.close('all')
+    f2.savefig('../results/LV_model1-1.pdf')
+    p.close('all')
     # Save and clear figure - prevents accumalation
 
     

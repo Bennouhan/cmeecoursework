@@ -75,6 +75,8 @@ LV2.py &emsp;-&emsp; Script to integrate resource and consumer data using a prey
 
 LV3.py &emsp;-&emsp; Script to itteritively calculate resource and consumer data using a discrete-time prey density dependent Lotka-Volterra model, and plot the result
 
+LV4.py &emsp;-&emsp; Script to itteritively calculate resource and consumer data using a discrete-time prey density dependent Lotka-Volterra model with gaussian fluctuation, and plot the result
+
 TestR.R &emsp;-&emsp; Script used by TestR.py to illustrate use of R in Python
 
 TestR.py &emsp;-&emsp; Script demonstrating use of subprocesses, including of R, in Python

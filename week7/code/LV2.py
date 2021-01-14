@@ -69,7 +69,7 @@ def main(argv):
         p.text(5/9*max(t), 6/7*max(pops[:,0:1]), "r="+sys.argv[1]+", a="+sys.argv[2]+", z="+sys.argv[3]+", e="+sys.argv[4])
     else:
         p.text(5/9*max(t), 6/7*max(pops[:,0:1]), "r=1.0, a=0.1, z=1.5, e=0.75")
-    f1.savefig('../results/LV2a.pdf')
+    f1.savefig('../results/LV_model2.pdf')
     print("Final predator and prey populations are", round(pops[len(t)-1,1],2), "and", round(pops[len(t)-1,0],2), "respectively.")
     
     ### plotting Comsumer density by resource density
@@ -80,7 +80,8 @@ def main(argv):
     p.ylabel('Consumer density')
     p.title('Consumer-Resource population dynamics')
     #p.show()# To display the figure
-    f2.savefig('../results/LV2b.pdf'); p.close('all')
+    f2.savefig('../results/LV_model2-1.pdf')
+    p.close('all')
     
     return None
         
