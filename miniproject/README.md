@@ -56,9 +56,9 @@ run_MiniProject.sh &emsp;-&emsp; shell script to execute entire project workflow
 
 1_prep_data.py &emsp;-&emsp; imports data frame from LogisticGrowthData.csv, cleans it up, adds unique experiment ID to each experiment, outputs to preped_data.csv
 
-2_fit_models.R &emsp;-&emsp; imports preped_data.csv as data frame, fits the data from each experiment to various models
+2_fit_models.R &emsp;-&emsp; imports preped_data.csv as data frame, fits the data from each experiment to various models, , plots them and adds them to a dataframe for subsequent analysis
 
-3_plot+analyse.R &emsp;-&emsp; plots and compares the models from fit_models.R, performs further analysis
+3_analyse.R &emsp;-&emsp; compares the models from fit_models.R, performs further analysis
 
 4_compile_report.sh &emsp;-&emsp; Compiles report.tex into Ben_Nouhan_Report.pdf, the project's main form of presentation
 

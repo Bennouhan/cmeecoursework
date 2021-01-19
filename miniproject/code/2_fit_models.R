@@ -4,20 +4,21 @@
 #
 # Date: 12 Nov 2020
 #
-# Arguments: 
+# Arguments: Any additional argument will prompt plotting to occur
 # 
-# Output: 
+# Output: ID_dictionary_expanded.csv - expanded ID_dictionary.csv, now with R^2, BIC and starting values of each model
+#         /plots/[ID]mod[mod.num]    - if argument given, thousands of PDFs plotting the fit of each model for each experiment
 #
 # Desc: Imports preped_data.csv as data frame, fits the data from each experiment to various models, plots them and adds them to a dataframe for subsequent analysis
 
-### Clear workspace, clear results folder and dict, disable warns, load packages
+### Clear workspace, clear results folder and dict, load packages
 rm(list = ls())
-unlink("../results/*"); unlink("../data/ID_dictionary_expanded.csv")
-#options(warn=-1)
+unlink("../results/plots/*"); unlink("../data/ID_dictionary_expanded.csv")
 
-library(tidyverse)
 library(minpack.lm)
 library(parallel)
+suppressPackageStartupMessages(library(tidyverse))
+
 
 ### Finds start values for non-linear models, aproximations based off maths
 find_startVals <- function(df) { 
@@ -105,14 +106,10 @@ analyseMod <- function(fit, df, SV, mod_num, row_num) {
     # Otherwsie writes BIC and R2 into dict dataframe
         dict[row_num, 1+mod_num] <- signif(R2, 3)
         dict[row_num, 9+mod_num] <- signif(BIC, 4)
-        # Saves gompertz converged parameters for later use
-        if (mod_num == 6){
+        # Saves gompertz, baranyi & buchanan converged parameters for later use
+        if (mod_num > 4 & mod_num < 9){
             for (i in 1:4){
-            dict[row_num, 23+i] <- summary(fit)$coefficients[i]}
-            #print(class(summary(fit)$coefficients[1:4]))}
-            # print(fit$parameters)
-            # print(class(fit))
-        }
+            dict[row_num, 3+4*mod_num+i] <- summary(fit)$coefficients[i]} }
         dict[row_num,] <<- dict[row_num,]
     
 
@@ -130,7 +127,8 @@ analyseMod <- function(fit, df, SV, mod_num, row_num) {
     p <- p + geom_text(aes(x = max(Reg_ts)/9, y = max(Reg_Ns)/1.2,
              label = paste("ID",ID[1], "\nMODEL ",mod_num, ":\n\n",
              "R2: ",R2, "\nBIC: ",BIC)), size = 7, colour = "Darkblue")
-    pdf(paste("../results/",df$ID[1],"mod",mod_num,".pdf")); print(p); graphics.off() } }
+    pdf(paste0("../results/plots/", df$ID[1], "mod", mod_num, ".pdf")); print(p)
+    graphics.off() } }
     return(dict)
 }
 
@@ -160,9 +158,10 @@ vect_fits <- function(df, dict) {
 
 ### Load ID dictionary, initialise extra rows for later input
 dict <- read_csv('../data/ID_dictionary.csv', col_types = cols())
-columnsToAdd <- c(paste("Model", 1:8, "R^2"), paste("Model", 1:8, "BIC"), "gomN0", "gomNmax", "gomRmax", "gomTlag")
+params <- c("N0", "Nmax", "Rmax", "Tlag")
+columnsToAdd <- c(paste("Model", 1:8, "R^2"),  paste("Model", 1:8, "BIC"),  paste0(rep(params,4), rep(5:8, each=4)))
 dict[, columnsToAdd] = 0
-dict <- dict[, colnames(dict)[c(1,8:23,2:7,24:27)]] #rearrange
+dict <- dict[, colnames(dict)[c(1,8:23,2:7,24:39)]] #rearrange
 
 ### Load, group and split the prepared dataset into vector of groups
 data <- read_csv('../data/preped_data.csv', col_types = cols()) %>%
@@ -172,10 +171,11 @@ select(ID, N=Pop_Size, logN=log2.Pop_Size, t=Time_hrs) %>% group_by(ID) %>%
 filter(n() >= 6) %>% group_split(); n <- length(data)#splits by group into array
 
 ### Fits each group to each model and analyses them in vectorised fashion
+print("Fitting models; this should take 25-50s depending on your computer, or 3x that if plotting is switched on...")
 dict_array <- mclapply(1:n, function(x) vect_fits(data[[x]], dict), mc.cores=6)#NB: will use cores available on your computer up to this number
 
 ### Converts array output of mclapply into dataframe, writes it into CSV
 dict=NULL; for (i in 1:n) { dict <- bind_rows(dict, dict_array[[i]]) }
 write_csv(dict, '../data/ID_dictionary_expanded.csv')
 
-print(map(dict, ~ sum(is.na(.)))[c(6:9,24:27)]) # num. NAs /col
+#print(map(dict, ~ sum(is.na(.)))[c(6:9)]) # num. NAs /col

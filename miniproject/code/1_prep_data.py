@@ -8,7 +8,8 @@ __author__ = 'Ben Nouhan (b.nouhan.20@imperial.ac.uk)'
 #
 # Argument: -
 #
-# Output: '../data/preped_data.csv' - Dataframe prepared for analysis
+# Output: ../data/preped_data.csv   - Dataframe prepared for analysis
+#         ../data/ID_dictionary.csv - Dataframe with each experiment's full info
 
 """Script to import growth data from .csv file, assign each entry from each 
 experiment a unique integer experiment ID, tidy/reorganise the data and saves it to a new .csv file in 
@@ -16,6 +17,10 @@ experiment a unique integer experiment ID, tidy/reorganise the data and saves it
 
 import pandas
 from numpy import unique, log2
+from pathlib import Path
+
+Path('../data/preped_data.csv').unlink(missing_ok=True)
+Path('../data/ID_dictionary.csv').unlink(missing_ok=True)
 
 
 ### Imports growth data .csv as panda dataframe
@@ -48,7 +53,7 @@ for i in range(len(data)):
         data.loc[data["ID"] == ID, 'Time'] -= calib
 # Deletes negative population values; some are likely irreconcilable errors
 data.drop(data[data.PopBio < 0].index, inplace=True)
-# Creates column with log2 of pop sizes; log2+1 transformation to cope with 0s
+# Creates column with log2 of pop sizes; log2(x+1) transformation to cope with 0s
 data['log2.Pop_Size'] = log2(data['PopBio']+1)
 
 

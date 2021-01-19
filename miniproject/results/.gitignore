@@ -1,5 +1,7 @@
-# All files in this dir
-*
+# All csv files
 
-# Except this one
-!.gitignore
+*.csv
+
+# All pdf files in subdirectories
+
+*/*.pdf

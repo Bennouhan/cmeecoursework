@@ -1,82 +1,260 @@
-\documentclass[12pt]{article}
-%NB: ctrl+alt+B to preview pdf and have it make the changes in real time (may require save)
+\documentclass[11pt]{article}
+
 \usepackage{graphicx}
-\usepackage[skip=2pt,font=scriptsize]{caption}
+\usepackage[skip=0pt,font=scriptsize]{caption} 
+\usepackage[justification=centering]{caption}
+\usepackage[a4paper, total={6.5in, 9in}]{geometry}
+\usepackage{csvsimple}
+\usepackage{setspace}
+\usepackage{lineno}
+\usepackage[sorting=nyt,style=apa]{biblatex}
+\bibliography{5_library}
 
-\title{Are consecutive annual mean temperatures in a given location
-significantly correlated?}
 
-\author{Ben Nouhan, bjn20@ic.ac.uk}
 
-\date{\today}
-
+\title{High-Throughput Non-Linnear Model Comparison for Bacterial Growth Curves: a Bayesian Approach}
+\author{\\ \\ Ben Nouhan, bjn20@ic.ac.uk \\ Imperial College London \\}
+\date{\today \\ Word Count: x}
 
 \begin{document}
+
 \maketitle
+\thispagestyle{empty}
 
-\vspace{2mm} 
+\vspace{30mm}
+\onehalfspacing
+\renewcommand{\abstractname}{\vspace{-\baselineskip}} %hide abstract title
 
-\setcounter{section}{3} % use \% to write %. This sets section counter; probs dont need here!
-\section{Results}
+\begin{abstract}
+    \linenumbers
+    \noindent
+    \textbf{Here's an abstract - it'll be about 200 words and a summary of all sections of the report s s
+    }
+\end{abstract}
+\vspace{10mm}
 
 
-We used mean annual temperatures from 100 years, 1901-2000, in Key West,
-Florida. The mean of the mean temperatures across all years was  25.31, with a
-range of 23.75-36.35 and SD of 0.50 (Fig. 1a). There is a clear positive
-correlation between year and mean annual temperature.
+\newpage
+\tableofcontents
+\thispagestyle{empty}
 
-When mean temperature of one year is plotted against 
-the mean temperature of the next, any correlation that may exist is less clear 
-(Fig. 1b). The aim of this study was to determine if there was a such a
-correlation, and if so was it statistically significant. Therefore, the null 
-hypothesis is that the correlation coefficient is not significantly more than 0, 
-and the alternate hypothesis is that it is.
+\newpage
+\linenumbers
+\setcounter{page}{1}
+\section{Introduction}%%%%%%%%% Introduction
 
-We wanted to test this hypothesis at the 5\%
-significance level, but unfortunately the lab's statistical tables book set on 
-fire in a horrific accident, and the WiFi was down. Hence, we needed to estimate 
-the p-value from first principles.
 
-Having calculated the Pearson's auto-
-correlation coefficient (ACC) of the data in Fig. 1b, 0.326, this required us to 
-randomise the data by 'shuffling' the measured temperatures associated with each 
-year, find the autocorrelation coefficient of that randomised data, repeat the 
-process 10,000 times, and compare the 10,000 ACCs with the ACC of the real data. 
+Understanding population growth is paramount in fields of study as far-flung as epidemiology, climate science and even geopolitics.\parencite{Ozgul2010,Peleg1997} For decades, a series of increasingly complex mathematical models have been used to explain trends in empirical population growth time series, and enable its prediction.\parencite{Kingsland1982,Grijspeerdt1999,Tjørve2017} Fewer parameters reduces the chance of models overfitting the data and hence, using bacterial growth as an example, variables not included such as incubation temperature, bacterial strain and growth medium must be kept constant.
 
-In order to ensure reproducibility, the seed was set to 294 prior to the 
-random sampling. This lead to the distribution of 10,000 ACC values shown in 
-Fig. 2.
+Models used for modelling bacterial growth largely rely on the same theory of bacterial growth phases in a closed system, shown schematically in Figure 1. In short, there are four accepted phases: the lag phase, exponential growth phase, stationary phase and death phase, with some considering the three tranistion periods between them as additional phases in their own right.\parencite{Buchanan1918}
 
-\begin{figure}[tp!]
-\centering
-\includegraphics[width = 6in, height = 7in]{../../week3/data/ACC_Data.pdf}
-\caption{Scatterplots plotting mean annual Temperature against the year it 
-was measured (a, above), and the mean temperature of one year against 
-the mean temperature of the next (b, below). All temperatures were measured in
-degrees celsius, at a site in Key West, Florida.}
-\label{fig:Figure 1a&b}
+\vspace{5mm}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.45\textwidth]{../results/figures/growth.pdf}
+    \caption{Schematic example of an archetypal bacterial growth curve, demonstrating the four phases of growth. The first three phases were generated from the dataset used throughout this study (specifically, Pseudomonas spp. grown on raw chicken breast at 2°C) with a regression line fit using the Gompertz model, meanwhile the "death phase" was appended artificially.}
 \end{figure}
+\vspace{5mm}
+
+The lag phase is the initial period of zero or minimal growth whereby the bacteria, having been transferred to a new medium, require time to acclimatise. For example, the new environment may impact gene expression and hence the bacteria's replication machinery are not immediately opperational.\parencite{Buchanan1918} During the exponential growth phase, characterised by an exponential curve owing to the rate of increase per bacterium remaining constant, the bacteria can continuously multiply absent limiting environmental factors.\parencite{Micha2011} The stationary phase, a population plateau completing the sigmoidal shape of the growth curve, arises due to the population reaching the carrying capacity of the medium; rate of division approximately equals the death rate.\parencite{Buchanan1918} In some instances there is a subsequent death phase, whereby the death rate surpasses the rate of division due to factors such as the accumalation of a toxic substance or the depletion of the medium.\parencite{Micha2011} 
+
+With advances in technology since the 1990s, the quantity of data generated from biological experiments, the speed at which computers can analyse it and the userfriendliness of the process has skyrocketed. This has allowed life scientists to mathematically model natural phenomena in a way previously limited to the physical sciences.\parencite{Bolker2013,Johnson2004} These can be linear models, wherein the response variable 'y' has a linear relationship with the parameters if not the explanatory variable 'x' as in Equation 1, or non-linear models, wherein the response variable has a non-linear relationship with a parameter and the explanatory variable as in Equation 2.\parencite{Bolker2013} Regardless of whether these models truly represent the natural laws in question, they can be useful for prediction and for the developmet of more sophisticated models.\parencite{Transtrum2016}
+
+\begin{equation}
+    y = a + bx + cx\textsuperscript{2}
+\end{equation}
+
+\begin{equation}
+    y = a + bx\textsuperscript{c}
+\end{equation}
+\vspace{2mm}
+
+Parameters of some non-linear models for population growth can be related to the aforementioned phases. These include: t\textsubscript{lag}, the duration of the lag phase; N\textsubscript{0}, the minimum population that can feasibly lead to growth; N\textsubscript{max}, the maximum population that can feasibly be supported; and r\textsubscript{max}, the maximum possible rate of growth.\parencite{Micha2011} It has been said that without parameters based firmly in the scientific theory, such as these, an equation used to fit data cannot truly be considered a model.\parencite{Buchanan1997}
+
+  
+
+
+
+The logistic model, also known as the Verhulst model after its creator, is one of the oldest population growth models and is still used in many fields, from medicine to economics, although was initially posited as a model for human population growth.\parencite{Peleg1997} In the logistic model, represented in one form by Equation 3, the growth rate per unit decreases as the sample population approaches N\textsubscript{max}. Many newer, more sophisticated population growth models were derived from the logistic model but, unlike some of them, there is no t\textsubscript{lag} parameter in the logistic model, which can limit its utility when fit to timeseries with a lag phase.
+
+\begin{equation}
+    N_{t} = \frac{ N_{0} . N_{max} . e^{t . r_{max}}      }
+                 { N_{max} + N_{0} . (e^{t . r_{max}} - 1)}
+\end{equation}
+\vspace{3mm}
+
+
+
+The modified Gompertz model incorporates biologically meaningful parameters into an empirical sigmoidal relationship. \parencite{Tjørve2017, Buchanan1997} First conceived for predicting mortality rates in human populations, countless studies in a variety of disciplines have utilised it.\parencite{Tjørve2017, Buchanan1997,Mokhtari2019,Peleg1997} A form of the modified Gompertz model shown in Equation 4 includes the t\textsubscript{lag} parameter absent in the logistic model, which tends to give it the edge when modelling bacterial growth.\parencite{Tjørve2017,Buchanan1997}
+
+\begin{equation}
+    N_{t} = N_{max} . e^{-e^{\frac{ e . r_{max}   }
+                                  { N_{max}-N_{0} } . (t_{lag} - t) + 1}}
+\end{equation}
+\vspace{3mm}
+
+
+
+The Baranyi model, first published in 1993, is a logistic rate differential equation designed specifically for modelling bacterial growth curve dynamics.\parencite{Baranyi1993,Buchanan1997} Underpinning the model is the theory of a "bottleneck" chemical reaction limiting the maximum growth rate, r\textsubscript{max}.\parencite{Buchanan1997} Alongside the Gompertz model, the Baranyi model has overtaken the logistic model in popularity for modelling population growth, owing in part to the t\textsubscript{lag} parameter. Equation 5 represents the baranyi model rearranged to include the parameters discussed herein.
+
+\begin{equation}
+    N_{t} = N_{max} - ln{(1 + (e^{-N_{max} - N_{0}} - 1) . e^{-r_{max} . t_{lag}})}
+\end{equation}
+\vspace{3mm}
+
+
+
+The Buchanan model can be thought of as a three-phase linear model, as demonstrated by Equation 6.\parencite{Buchanan1997} It was proposed in 1997 to determine how accurately bacterial growth timeseries could be modelled by a simpler model to those of Gompertz and Baranyi. It requires a parameter t\textsubscript{max}, the time at which N\textsubscript{max} is first reached, which can be estimated with minimal difficulty from t\textsubscript{max}. The first phase exhibits zero growth until approximately t\textsubscript{lag}, after which a period of linear r\textsubscript{max} growth takes place before population ultimately plateaus at the t\textsubscript{max} estimate.\parencite{Buchanan1997}
+
+\begin{equation}
+    N_{t} = \left\{
+    \begin{array}{l}
+        N_{0}                   \hspace{43mm}    for \           t \le t_{lag}\\
+        N_{max} + r_{max} * (t - t_{lag}) \qquad for \ t_{lag} < t  <  t_{max}\\
+        N_{max}                 \hspace{38.5mm}  for \           t \ge t_{max}\\
+    \end{array}\right\}
+\end{equation}
+\vspace{5mm}
+
+
+
+Modelling is seen by some as the successor of classical hypothesis testing, and by others as another tool in the arsenal.\parencite{Johnson2004} Since multiple models can be employed for the same task, the ability to determine which model is most useful in a given situation is a science in of itself. The Bayesian information criterion (BIC) is one metric for model selection, which is defined by:
+
+
+\begin{equation}
+    BIC = k.log(n) – 2.log(L)
+\end{equation}
+\vspace{2mm}
+
+\noindent
+It assigns each model a score based off of the sample size used denoted by n, the number of parameters, k, and the maximum liklihood estimation of the model, L.\parencite{Akaike1974} The lower the score, the better the model; a difference in score of less than two is insignificant, and one of more than 10 is highly significant.\parencite{Vrieze2012,Posada2004}. An alternative is Akaike information criterion (AIC) which, despite being derived from frequentist probability rather than Bayesian, is largely the same except for conferring a smaller penalty to additional parameters.\parencite{Posada2004}
+
+
+The objectives of this paper are three-fold: to design a general, robust methodology for the high-throughput fitting of multiple population growth models, linear and non-linear, to a large quantity of datasets; to further design a method for selecting the overall best model, as a function of both accuracy and consistency; and to visualise the results in a way that will highlight correlations between covariables of the datasets and performance of the models, thereby revealing if certain models may be more appropriate for experiments executed under certain conditions.
+
+
+
+\vspace{5mm}
+\section{Methods}%%%%%%%%% Methods
+
+\subsection{Computing Tools}
+The dataset used during the development of the workflow, alongside explanatory metadata and the workflow itself, are available on github (github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthData.csv, github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthMetaData.csv and github.com/Bennouhan/cmeecoursework/tree/master/miniproject respectively). The entire workflow can be run with a single bash script; see README.md for details.
+
+\subsubsection{Python}
+Data preprocessing was performed using Python 3.9.0. Its 'pandas' package enables effient and user-friendly database manipulation, while its 'numpy' package allows the generation of unique hash identifiers and log transformation of data. NB, running my code absent changes will also require the 'pathlib' package.
+
+\subsubsection{R}
+R 4.0.3 was utilised for the model fitting and subsequent analysis and visualisation of the results. While arguably less generally capable than Python, it was built specifically for statistical analysis, and hence the tools I required are currently more established, comprehensive and supported than their Python counterparts. Additionally, the core distribution of R includes the 'parallel' package allowing the utilisation of all available computer cores for the more computer-intensive tasks which, alongside the vectorisation of model fitting and plotting, cuts the processing time astronomically. The 'tidyverse' package was the only non-core R package, needed for a wide variety of tasks from efficiently importing dataframes to increased functionality of dataframe manipulation and visualisation. 
+
+\subsection{Data}
+\subsubsection{Raw Dataset}
+ The dataset comprises 305 bacterial population growth timeseries from a multitude of published studies in a long-format, 4388 row dataframe, each row representing a datapoint. These timeseries use a variety of different variables, each kept constant for a given timeseries: 17 incubation temperatures irregularly spaced between 0 and 37°C; 18 growth media; 45 bacterial species; and four population estimation techniques, namely colony-forming units (CFU) counting, weight of a sample's dryweight, sample optical density at OD-595, and CFUs of differently appearing colonies in a mixed-species sample (referred to as 'N' in the dataset).\parencite{Al-qadiri2008} For later visualisation, growth media used in fewer than ten timeseries were filtered out, leaving nine media. 
+
+
+\subsubsection{Preprocessing}
+The workflow organises and cleanses the dataset before indexing each timeseries with a unique ID to facilitate subsequent referencing. This includes callibrating timeseries containing a negative initial time measurement to zero as these are likely systematic errors, and deleting negative population measurement datapoints as these are likely individual, irreconcilable errors. The population measurements are subsequently log\textsubscript{2}(x+1) transformed; taking the log of the population data makes processing and visualising the its wide range more intuitive between studies by normalising them, and is to no detriment since only relative changes in population, as opposed to absolute changes, are of interest. Base 2 is used as bacteria multiply duplicatively, while the log(x+1) transformation prevents allows the inclusion of population measurements below 1, such as 0: log(0+1)=0. 
+
+
+
+
+
+
+\subsection{Model Fitting} 
+\subsubsection{Linear Models}
+\subsubsection{Non-Linear Models}
+"Since all the models utilise the same parameters, their values can be interpreted to have144the same biological interpretations (Levins 1996). "\parencite{Odenbaugh2006}
+
+explain how I found initial estimates!!!! see \parencite{Micha2011}
+
+%mention R^2 and how it's only used to as filter, as doesnt work well for non-lin 
+
+
+\subsection{Analysis}
+\subsubsection{Model Comparison}
+AIC vs BIC from mum's doc - no point using both as they all have same num of parameters (except shitty logistic), but go with BIC as less risk choosing an overfittng model
+
+\subsubsection{Data Visualisation}
+
+
+
+
+Here I will
+\begin{itemize}
+    \item describe and explain the dataset
+    \item possibly move the model and BIC stuff here from intro
+    \item explain the process I took when fitting the models
+    \item justify important decisions in code which may otherwise seem arbitrary, eg the starting values
+\end{itemize}
+
+
+
+\section{Results}%%%%%%%%% Results
+
+
+\begin{itemize}
+    \item start off using figure 2 and a table I can't work out how to use in latex to compare the models
+    \item possibly also include a boxplot for BIC values of each model to visualise 
+    \item then use figures 3 and 4 to visualise the possibility of one model preforming better depending on temperatiure or medium or pop measurment method
+\end{itemize}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[clip, trim=5.7cm 0cm 5cm 0cm, height=0.97\textheight]{../results/figures/8plots.pdf} 
+    \caption{caption explaining the figure, and explaining the y axis!!!! (log of different units), which models we're looking at and what it tells us. May want to swap to upside-down triangle format, maybe with similar to fig4}
+\end{figure}
+
+
+%\csvautotabular{../results/statistics.csv}
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{../results/figures/multiplots.pdf} %may need to reduce height to make room for caption
+    \caption{caption explaining the figure, including how it is all the regression lines from fitted models standardised to allow superimposition, and that barplots above act as legend, and which models are which}
+\end{figure*}
+
+
+
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{../results/figures/covariables.pdf} %may need to reduce height to make room for caption
+    \caption{caption explaining the figure, and that colours for each model is concistent throughout.  }
+\end{figure*}
+
+
+
+
 
 \newpage
 
-\begin{figure}[hbp!]
-\centering
-\includegraphics[width = 4in, height = 5in]{../../week3/data/ACC_Hist.pdf}
-\caption{A histogram showing the distribution of autocorrelation 
-coefficients from 10,000 randomly reordered versions of our original dataset. 
-The vertical dotted line denotes where 0.326, the true autocorrelation
-coefficient of the data, would lie on the distribution.} 
-\label{fig:Figure 2}
-\end{figure}
 
-\vspace{10mm} 
+\section{Discussion}%%%%%%%%% Discussion
 
-Of the 10,000 ACC values based on shuffled data, only 18 were larger than 
-the ACC of the real data, 0.326. This gives us an estimated p-value of less than 
-0.01.
+NO SUBSECTIONS!!!!!!!!!!!!
 
-We can therefore reject the null hyothesis, and accept that the autocorrelation 
-of temperature between successive years is significant. 
+mention could do further analyses on the bad fit models, to see if any correlations there. also mention splines, and what stephen talked about
 
+linear models can only be used for local prediction!!!!
+
+
+\begin{itemize}
+    \item use results to determine best model(s)
+    \item explore whether covariables make a difference
+    \item mention death phase, think about models which account for that, possibly suggest splines
+    \item discuss possibiltiy of accounting for the 3 covariables in the formulae - multivariate regression - more on that later!
+    \item discuss how this all fits with my initial aims and hypotheses
+\end{itemize}
+
+
+
+!!!!!!!!!!!!!!!!!!!
+to do: update readme.md for miniproj dir
+
+\newpage
+\printbibliography
 
 \end{document}
+
