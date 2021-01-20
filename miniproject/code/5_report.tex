@@ -1,14 +1,18 @@
 \documentclass[11pt]{article}
 
-\usepackage{graphicx}
-\usepackage[skip=0pt,font=scriptsize]{caption} 
 \usepackage[justification=centering]{caption}
 \usepackage[a4paper, total={6.5in, 9in}]{geometry}
-\usepackage{csvsimple}
-\usepackage{setspace}
+\usepackage{xurl}
 \usepackage{lineno}
+\usepackage[skip=0pt,font=scriptsize]{caption} 
+\usepackage[labelfont=bf, justification=justified]{caption}
+\usepackage{graphicx}
+\usepackage{pgfplotstable,booktabs}
+\pgfplotsset{compat=1.16}
+\usepackage{setspace}
 \usepackage[sorting=nyt,style=apa]{biblatex}
 \bibliography{5_library}
+
 
 
 
@@ -46,19 +50,19 @@
 
 Understanding population growth is paramount in fields of study as far-flung as epidemiology, climate science and even geopolitics.\parencite{Ozgul2010,Peleg1997} For decades, a series of increasingly complex mathematical models have been used to explain trends in empirical population growth time series, and enable its prediction.\parencite{Kingsland1982,Grijspeerdt1999,Tjørve2017} Fewer parameters reduces the chance of models overfitting the data and hence, using bacterial growth as an example, variables not included such as incubation temperature, bacterial strain and growth medium must be kept constant.
 
-Models used for modelling bacterial growth largely rely on the same theory of bacterial growth phases in a closed system, shown schematically in Figure 1. In short, there are four accepted phases: the lag phase, exponential growth phase, stationary phase and death phase, with some considering the three tranistion periods between them as additional phases in their own right.\parencite{Buchanan1918}
+Models used for modelling bacterial growth largely rely on the same theory of bacterial growth phases in a closed system, shown schematically in \textbf{Figure 1}. In short, there are four accepted phases: the lag phase, exponential growth phase, stationary phase and death phase, with some considering the three tranistion periods between them as additional phases in their own right.\parencite{Buchanan1918}
 
 \vspace{5mm}
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.45\textwidth]{../results/figures/growth.pdf}
-    \caption{Schematic example of an archetypal bacterial growth curve, demonstrating the four phases of growth. The first three phases were generated from the dataset used throughout this study (specifically, Pseudomonas spp. grown on raw chicken breast at 2°C) with a regression line fit using the Gompertz model, meanwhile the "death phase" was appended artificially.}
+    \caption{\textbf{Schematic example of an archetypal bacterial growth curve, demonstrating the four phases of growth.} The first three phases were generated from the dataset used throughout this study (specifically, Pseudomonas spp. grown on raw chicken breast at 2°C) with a regression line fit using the Gompertz model. The "death phase" was appended artificially.}
 \end{figure}
 \vspace{5mm}
 
 The lag phase is the initial period of zero or minimal growth whereby the bacteria, having been transferred to a new medium, require time to acclimatise. For example, the new environment may impact gene expression and hence the bacteria's replication machinery are not immediately opperational.\parencite{Buchanan1918} During the exponential growth phase, characterised by an exponential curve owing to the rate of increase per bacterium remaining constant, the bacteria can continuously multiply absent limiting environmental factors.\parencite{Micha2011} The stationary phase, a population plateau completing the sigmoidal shape of the growth curve, arises due to the population reaching the carrying capacity of the medium; rate of division approximately equals the death rate.\parencite{Buchanan1918} In some instances there is a subsequent death phase, whereby the death rate surpasses the rate of division due to factors such as the accumalation of a toxic substance or the depletion of the medium.\parencite{Micha2011} 
 
-With advances in technology since the 1990s, the quantity of data generated from biological experiments, the speed at which computers can analyse it and the userfriendliness of the process has skyrocketed. This has allowed life scientists to mathematically model natural phenomena in a way previously limited to the physical sciences.\parencite{Bolker2013,Johnson2004} These can be linear models, wherein the response variable 'y' has a linear relationship with the parameters if not the explanatory variable 'x' as in Equation 1, or non-linear models, wherein the response variable has a non-linear relationship with a parameter and the explanatory variable as in Equation 2.\parencite{Bolker2013} Regardless of whether these models truly represent the natural laws in question, they can be useful for prediction and for the developmet of more sophisticated models.\parencite{Transtrum2016}
+With advances in technology since the 1990s, the quantity of data generated from biological experiments, the speed at which computers can analyse it and the userfriendliness of the process has skyrocketed. This has allowed life scientists to mathematically model natural phenomena in a way previously limited to the physical sciences.\parencite{Bolker2013,Johnson2004} These can be linear models (LMs), wherein the response variable 'y' has a linear relationship with the parameters if not the explanatory variable 'x' as in Equation 1, or non-linear models (NLMs), wherein the response variable has a non-linear relationship with a parameter and the explanatory variable as in Equation 2.\parencite{Bolker2013} Regardless of whether these models truly represent the natural laws in question, they can be useful for prediction and for the developmet of more sophisticated models.\parencite{Transtrum2016}
 
 \begin{equation}
     y = a + bx + cx\textsuperscript{2}
@@ -69,7 +73,7 @@ With advances in technology since the 1990s, the quantity of data generated from
 \end{equation}
 \vspace{2mm}
 
-Parameters of some non-linear models for population growth can be related to the aforementioned phases. These include: t\textsubscript{lag}, the duration of the lag phase; N\textsubscript{0}, the minimum population that can feasibly lead to growth; N\textsubscript{max}, the maximum population that can feasibly be supported; and r\textsubscript{max}, the maximum possible rate of growth.\parencite{Micha2011} It has been said that without parameters based firmly in the scientific theory, such as these, an equation used to fit data cannot truly be considered a model.\parencite{Buchanan1997}
+Parameters of some NLMs for population growth can be related to the aforementioned phases. These include: t\textsubscript{lag}, the duration of the lag phase; N\textsubscript{0}, the minimum population that can feasibly lead to growth; N\textsubscript{max}, the maximum population that can feasibly be supported; and r\textsubscript{max}, the maximum possible rate of growth.\parencite{Micha2011} It has been said that without parameters based firmly in the scientific theory, such as these, an equation used to fit data cannot truly be considered a model.\parencite{Buchanan1997}
 
   
 
@@ -118,110 +122,127 @@ The Buchanan model can be thought of as a three-phase linear model, as demonstra
 
 
 
-Modelling is seen by some as the successor of classical hypothesis testing, and by others as another tool in the arsenal.\parencite{Johnson2004} Since multiple models can be employed for the same task, the ability to determine which model is most useful in a given situation is a science in of itself. The Bayesian information criterion (BIC) is one metric for model selection, which is defined by:
-
+Modelling is seen by some as the successor of classical hypothesis testing, and by others as another tool in the arsenal.\parencite{Johnson2004} Since multiple models can be employed for the same task, the ability to determine which model is most useful in a given situation is a science in of itself. The Bayesian information criterion (BIC) is one metric for model selection, which is defined in Equation 7. It assigns each model a score based off of the sample size used denoted by n, the number of parameters, k, and the maximum liklihood estimation of the model, L.\parencite{Akaike1974} The lower the score, the better the model; a difference in score of less than two is insignificant, and one of more than 10 is highly significant.\parencite{Vrieze2012,Posada2004}. An alternative is Akaike information criterion (AIC) which, despite being derived from frequentist probability rather than Bayesian, is largely the same except for conferring a smaller penalty to additional parameters.\parencite{Posada2004} While BIC scoring can inform on the relative performance of multiple models on a given dataset, there is no established method for doing this across multiple datasets.
 
 \begin{equation}
-    BIC = k.log(n) – 2.log(L)
+    BIC = k.log(n) - 2.log(L)
 \end{equation}
 \vspace{2mm}
 
 \noindent
-It assigns each model a score based off of the sample size used denoted by n, the number of parameters, k, and the maximum liklihood estimation of the model, L.\parencite{Akaike1974} The lower the score, the better the model; a difference in score of less than two is insignificant, and one of more than 10 is highly significant.\parencite{Vrieze2012,Posada2004}. An alternative is Akaike information criterion (AIC) which, despite being derived from frequentist probability rather than Bayesian, is largely the same except for conferring a smaller penalty to additional parameters.\parencite{Posada2004}
-
-
-The objectives of this paper are three-fold: to design a general, robust methodology for the high-throughput fitting of multiple population growth models, linear and non-linear, to a large quantity of datasets; to further design a method for selecting the overall best model, as a function of both accuracy and consistency; and to visualise the results in a way that will highlight correlations between covariables of the datasets and performance of the models, thereby revealing if certain models may be more appropriate for experiments executed under certain conditions.
+Thus my objectives with this study are three-fold: to design a general, robust methodology for the high-throughput fitting of multiple population growth models, linear and non-linear, to a large quantity of datasets; to further design a method for selecting the overall best model, determined as a function of both accuracy and consistency; and to visualise the results in a way that will highlight correlations between covariables of the datasets and performance of the models, thereby revealing if certain models may be more appropriate for experiments executed under certain conditions.
 
 
 
 \vspace{5mm}
-\section{Methods}%%%%%%%%% Methods
+\section{Methods}%%%%%%%%%Methods
 
 \subsection{Computing Tools}
-The dataset used during the development of the workflow, alongside explanatory metadata and the workflow itself, are available on github (github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthData.csv, github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthMetaData.csv and github.com/Bennouhan/cmeecoursework/tree/master/miniproject respectively). The entire workflow can be run with a single bash script; see README.md for details.
+The dataset used during the development of the workflow, alongside explanatory metadata and the workflow itself, are available on github (\url{github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthData.csv}, \url{github.com/mhasoba/TheMulQuaBio/blob/master/content/data/}LogisticGrowthMetaData.csv and \url{github.com/Bennouhan/cmeecoursework/tree/master/miniproject} respectively). See \textit{README.md} for details and dependencies.
 
 \subsubsection{Python}
-Data preprocessing was performed using Python 3.9.0. Its 'pandas' package enables effient and user-friendly database manipulation, while its 'numpy' package allows the generation of unique hash identifiers and log transformation of data. NB, running my code absent changes will also require the 'pathlib' package.
+Data preprocessing was performed using Python 3.9.0, owing to its superior data processing capabilities. Its \textit{pandas} package enables effient and user-friendly database manipulation, while its \textit{numpy} package allows the generation of unique hash identifiers and log transformation of data.
 
 \subsubsection{R}
-R 4.0.3 was utilised for the model fitting and subsequent analysis and visualisation of the results. While arguably less generally capable than Python, it was built specifically for statistical analysis, and hence the tools I required are currently more established, comprehensive and supported than their Python counterparts. Additionally, the core distribution of R includes the 'parallel' package allowing the utilisation of all available computer cores for the more computer-intensive tasks which, alongside the vectorisation of model fitting and plotting, cuts the processing time astronomically. The 'tidyverse' package was the only non-core R package, needed for a wide variety of tasks from efficiently importing dataframes to increased functionality of dataframe manipulation and visualisation. 
+R 4.0.3 was utilised for the model fitting and subsequent analysis and visualisation of the results. While arguably less generally capable than Python, it was built specifically for statistical analysis, and hence the tools I required are currently more established, comprehensive and supported in R than their Python counterparts. Additionally, the core distribution of R includes the \textit{parallel} package allowing the utilisation of all available computer cores for the more computer-intensive tasks which, alongside the vectorisation of model fitting and plotting, cuts the processing time to mere seconds. The \textit{tidyverse} package is needed for a wide variety of tasks from efficiently importing dataframes to increasing functionality of dataframe manipulation and data visualisation. 
+
+
 
 \subsection{Data}
 \subsubsection{Raw Dataset}
  The dataset comprises 305 bacterial population growth timeseries from a multitude of published studies in a long-format, 4388 row dataframe, each row representing a datapoint. These timeseries use a variety of different variables, each kept constant for a given timeseries: 17 incubation temperatures irregularly spaced between 0 and 37°C; 18 growth media; 45 bacterial species; and four population estimation techniques, namely colony-forming units (CFU) counting, weight of a sample's dryweight, sample optical density at OD-595, and CFUs of differently appearing colonies in a mixed-species sample (referred to as 'N' in the dataset).\parencite{Al-qadiri2008} For later visualisation, growth media used in fewer than ten timeseries were filtered out, leaving nine media. 
 
-
 \subsubsection{Preprocessing}
-The workflow organises and cleanses the dataset before indexing each timeseries with a unique ID to facilitate subsequent referencing. This includes callibrating timeseries containing a negative initial time measurement to zero as these are likely systematic errors, and deleting negative population measurement datapoints as these are likely individual, irreconcilable errors. The population measurements are subsequently log\textsubscript{2}(x+1) transformed; taking the log of the population data makes processing and visualising the its wide range more intuitive between studies by normalising them, and is to no detriment since only relative changes in population, as opposed to absolute changes, are of interest. Base 2 is used as bacteria multiply duplicatively, while the log(x+1) transformation prevents allows the inclusion of population measurements below 1, such as 0: log(0+1)=0. 
+The workflow organises and cleanses the dataset before indexing each timeseries with a unique ID to facilitate subsequent referencing. This includes callibrating timeseries containing a negative initial time measurement to zero as these are likely systematic errors, and deleting negative population measurement datapoints as these are likely individual, irreconcilable errors. The population measurements are subsequently log\textsubscript{2}(x+1) transformed; taking the log of the population data makes processing and visualising the its wide range more intuitive between studies by normalising them, and is to no detriment since only relative changes in population, as opposed to absolute changes, are of interest. Base 2 is used as bacteria multiply duplicatively, while the log(x+1) transformation prevents allows the inclusion of population measurements below 1, such as 0: log(0+1)=0. Fifteen timeseries with fewer than six datapoints were omitted to avoid the LMs with up to five parameters overfitting those datasets.
 
 
 
+\subsection{Model Fitting}
 
-
-
-\subsection{Model Fitting} 
 \subsubsection{Linear Models}
+I performed linear regression by fitting each of the time series with four LMs of first, second, third and fourth order polynomials, using R's \textit{lm()} function. These correspond to linear, quadratic, cubic and quartic expressions respectfully, and are so named in this papaer. Equation 1 is the generic form of a second order, quadratic model. It has three parameters: a, b and c. The Linear, cubic and quartic expressions have 2, 4 and 5 parameters respectively, following the same format. As these parameters are found by linear least squares fitting and not based in scientific theory, these LMs are phenomenological rather than the mechanistic NLMs. 
+
+
 \subsubsection{Non-Linear Models}
-"Since all the models utilise the same parameters, their values can be interpreted to have144the same biological interpretations (Levins 1996). "\parencite{Odenbaugh2006}
-
-explain how I found initial estimates!!!! see \parencite{Micha2011}
-
-%mention R^2 and how it's only used to as filter, as doesnt work well for non-lin 
+I fitted the NLMs to the time series using the \textit{nlsLM()} function from the \textit{minpack.lm} R package. With the exception of the logistic model, which has no t\textsubscript{lag}, all four of the NLMs used herein - logistic, Gompertz, Baranyi and Buchanan - have the same parameters underpinned by the same scientific theory and hence can be interpretted in the same way.\parencite{Odenbaugh2006}
+As mechanistic NLMS, model fitting requires parameter starting values. If close enough to the true value, the function will perform fitting itteratively until they converge on the function's parameter estimates. To get close to the true parameter values for each timeseries I used their datapoints to estimate them. Within each timeseries, my estimate for: N\textsubscript{max} was the highest population present; N\textsubscript{0} was the lowest population present; r\textsubscript{max} was the highest rate of the change between two adjacent datapoints; and t\textsubscript{lag} was that same rate of change extrapolated from those two datapoints to the intercept with my estimate for N\textsubscript{0}.\parencite{Micha2011}
+R\textsuperscript{2}, a common measure of correlation, is invalid for NLMs as the sum of squares of residuals divided by the total sum of squares can exceed 1. However, it can be used as a rough proxy of correlation or to compare multiple fits, hence I used the R\textsuperscript{2} of the resulting regression line of each timeseries to assess the fit. If the fit had failed or had an R\textsuperscript{2} below 0.5, I reattempted the fit up to 500 times using randomly sampled starting values from a normal distribution around the original estimate with a standard deviation of four times that original estimate.
 
 
-\subsection{Analysis}
-\subsubsection{Model Comparison}
-AIC vs BIC from mum's doc - no point using both as they all have same num of parameters (except shitty logistic), but go with BIC as less risk choosing an overfittng model
-
-\subsubsection{Data Visualisation}
-
-
-
-
-Here I will
-\begin{itemize}
-    \item describe and explain the dataset
-    \item possibly move the model and BIC stuff here from intro
-    \item explain the process I took when fitting the models
-    \item justify important decisions in code which may otherwise seem arbitrary, eg the starting values
-\end{itemize}
+\subsection{Model Comparison}
+I calculated the BIC score and R\textsuperscript{2} of each successful fit, and used them to compare the models based on their collective fits. Because the NLMs except the logistic have the same number of parameters, and BIC and AIC differ only in their penalty for additional parameters, they would have largely the same outcome, hence I used only the more stringent BIC.
+The metrics I used for model comparison are mean and median R\textsuperscript{2} values, mean and median BIC values, and three others I designed derived from BIC values: \textit{Win Count}, \textit{Score} and \textit{Total}. The \textit{Win Count} finds which model generated the fit with the lowest BIC value for each timeseries, and tallies them. Because this fails to consider how close the other BIC values were to this lowest value, the \textit{Score}, based off of the aforementioned relative BIC value interpretation, assigns: five points to the winner and models within a BIC value of two; three points to those within six; and one point to those within ten, and sums them for each model. And because this also fails to consider that some models may have done significantly worse than the winner, i.e. any BIC value from ten to multiple hundreds higher, the \textit{Total}, for each timeseries, finds the total of the difference between each model and all models it outperformed, and sums them for each model.
 
 
 
 \section{Results}%%%%%%%%% Results
 
 
-\begin{itemize}
-    \item start off using figure 2 and a table I can't work out how to use in latex to compare the models
-    \item possibly also include a boxplot for BIC values of each model to visualise 
-    \item then use figures 3 and 4 to visualise the possibility of one model preforming better depending on temperatiure or medium or pop measurment method
-\end{itemize}
+\subsection{Model Fitting}
+
+Following the filtering of small datasets, 290 timeseries remained. For each of these, fits were successfully generated with all eight models, with the exception of the Buchanan model failing to fit three of them. However, the four NLMs are restrained by their parameters from fitting non-standard growth curves; a successful fit does not imply a close fit, as demonstrated by \textbf{Figure 2}. LMs are similarly restrained by their fixed number of parameters and innate curvature.
 
 
-\begin{figure}
+\begin{figure}[htb]
     \centering
-    \includegraphics[clip, trim=5.7cm 0cm 5cm 0cm, height=0.97\textheight]{../results/figures/8plots.pdf} 
-    \caption{caption explaining the figure, and explaining the y axis!!!! (log of different units), which models we're looking at and what it tells us. May want to swap to upside-down triangle format, maybe with similar to fig4}
+    \includegraphics[width=\textwidth]{../results/figures/8plots.pdf} 
+    \caption{\textbf{Exemplary timeseries plotted with the regression line that each model fit to them.}  These show to what extent each model can tollerate perculiar datsets: those with few datapoints (top left), those with a death phase and/or no lag phase (top right) and those which had not plateaued when measurement ceased. Each plot shows log\textsubscript{2} of the population measurements against time in hours.}
 \end{figure}
 
 
-%\csvautotabular{../results/statistics.csv}
+%\newpage
+\subsection{Model Comparison}
+
+The results of analyses comparing relative model performace, outlined in Section 2.4, are shown in \textbf{Table 1}. The quartic model achieved the best score in all categories, following a clear correlation of higher-order LMs performing better across the board. The logistic model performed similarly to the quadratic, while the other NLMs placed between the cubic and quartic LMs. 
+
+Similar analyses comparing only the four NLMs, to prevent potentially higher-performing but biologically meaningless LMs from masking the results of the more meaningful NLMs, are shown in \textbf{Table 2}. Here the Gompertz model is the clear winner, top in six out of seven metrics, narrowly losing to Baranyi on mean BIC value. Baranyi performed similarly, drawing with Gompertz on win count. The Buchanan model performed worse on all counts than Baranyi, as did the logistic model, trailing significantly, compared to the Buchanan model. 
+
+\begin{table}[htb]
+    \centering
+    \caption{\textbf{Results of analysis comparing the fits for all 290 timerseries produced by each model}}
+    \pgfplotstabletypeset[
+    col sep = comma, font=\footnotesize,
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    display columns/0/.style={string type,column name={Model},column type={r}},
+    display columns/1/.style={string type,column name={Mean R\textsuperscript{2}}},
+    display columns/2/.style={string type,column name={Median R\textsuperscript{2}}}
+    ]{../results/ALLstatistics.csv}
+\end{table}
+
+
+\begin{table}[htb]
+    \centering
+    \caption{\textbf{Results of analysis comparing the fits for all 290 timerseries produced by each NLM}}
+    \pgfplotstabletypeset[
+    col sep = comma, font=\footnotesize,
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    display columns/0/.style={string type,column name={Model},column type={r}},
+    display columns/1/.style={string type,column name={Mean R\textsuperscript{2}}},
+    display columns/2/.style={string type,column name={Median R\textsuperscript{2}}}
+    ]{../results/NLMstatistics.csv}
+\end{table}
+
+
+\subsection{Model-Covariable Correlation}
+
+The first of two figures reported here for the visualisation of patterns relating to the covariables of each experiment is \textbf{Figure 3}. The method behind it looks to reveal if certain experimental conditions systematically affect the morphology of bacterial growth curves generated by one of the three highest-performing NLMs and, by extension, bacterial growth behaviours. The only visible pattern is the Buchanan model suggesting growth rate increases with temperature.
+
+In contrast, \textbf{Figure 4} is the visualisation of an attempt to correlate individual model performance with different covariable categories. The idea is to inform if on NLM may be more appropriate than another when modelling experimental data collected under certain conditions. It is worth considering sample size before drawing conclusions from these plots, but Baranyi model seems the superior choice when measuring population size with the "N" method explained in Section 2.2.1, while one may fare better with Gompertz when modelling bacterial growth on TSB.
 
 
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{../results/figures/multiplots.pdf} %may need to reduce height to make room for caption
-    \caption{caption explaining the figure, including how it is all the regression lines from fitted models standardised to allow superimposition, and that barplots above act as legend, and which models are which}
+    \caption{\textbf{Standardised, superimposed growth curves for the Gompertz, Baranyi and Buchanan models, coloured by covariable category.}  Each fit of the three models was standardised in several steps. Firstly, lag phases and plateaus were removed, estimaed as t\textsubscript{lag} and 95\% of N\textsubscript{max} respectively. The resulting curves were transformed to start at the origin, all population values were divided by the highest remaining population value, and all time values by the highest remaining time value. Three copies of these normalised regression lines of Gompertz, Baranyi and Buchanan (rows 2-4 respectively) are colourised by categories of the three covariables (row 1) corresponding to the timeseries represented.}
 \end{figure*}
-
-
-
 
 
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{../results/figures/covariables.pdf} %may need to reduce height to make room for caption
-    \caption{caption explaining the figure, and that colours for each model is concistent throughout.  }
+    \caption{\textbf{Plots expressing the relationships between the mean relative BIC scores of the four NLMs and the covariable categories.}  Mean relative BIC score here is the \textit{Total} score, as defined in Section 2.4, awarded to each model for each timeseries, averaged across each covariable category. Barplots are used for the categoric covariables, while a scatterplot with linear regression lines and standard error ribbons is used to plot the continuous incubation temperature data. The colours of the legend apply to all three plots.}
 \end{figure*}
 
 
@@ -235,10 +256,30 @@ Here I will
 
 NO SUBSECTIONS!!!!!!!!!!!!
 
+
+
+Start by reminding the reader about what the original goals of the study were.
+
+State key findings succinctly.
+
+Then discuss their implications in the wider context (with additional referencing beyond what you had in the intro).
+
+Include a paragraph or two of caveats/shortcomings with clear indication of what future work can do to address them.
+
+End with a conclusion that delivers the final take-away messages.
+
+any conclusions from fig 3 and 4 are meaningless unless we can show those patterns exist with a specifically designed experiment.
+
+
+quartic may well be winnig on lots of small samples, even those remaining, by overfitting and surplas datapoints being conveniently placed.
+
+could look into bad.fits from multiplot, see what they can tell us; may be a correlation there.
+
 mention could do further analyses on the bad fit models, to see if any correlations there. also mention splines, and what stephen talked about
 
-linear models can only be used for local prediction!!!!
+LMs can only be used for local prediction!!!!
 
+test
 
 \begin{itemize}
     \item use results to determine best model(s)
@@ -252,9 +293,8 @@ linear models can only be used for local prediction!!!!
 
 !!!!!!!!!!!!!!!!!!!
 to do: update readme.md for miniproj dir
-
 \newpage
-\printbibliography
+
+\printbibliography[heading=bibintoc]
 
 \end{document}
-

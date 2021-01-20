@@ -58,7 +58,7 @@ get_barplot <- function(var.col){
 
     ### Creates and returns the box plot
     p <- ggplot(data=NULL, aes(x=as.factor(cats), y=as.vector(table))) +    
-         geom_bar(stat="identity", fill=pal[1:length(cats)]) +
+         geom_bar(stat="identity", fill=pal[1:length(cats)]) + theme_bw() +
          theme(axis.text.x=element_text(angle=d, hjust=0.5, vjust=v, size=6)) +
          theme(plot.title = element_text(size=16, hjust=0.5, face="bold")) + q 
     ### Wraps long Medium names
@@ -120,7 +120,7 @@ multiplot <- function(mod.num, fun, var.col) {
 
     ### Creates plot of all fits' regression lines, coloured by variable
     count <- 0
-    p <- ggplot()
+    p <- ggplot() + theme_bw()
     p <- p + theme(aspect.ratio = 1) + labs(x="Time (hrs)", y="log(Population)")
     for (i in 1:length(data)) {
       ## Creates regression points for each fit
@@ -147,7 +147,7 @@ multiplot <- function(mod.num, fun, var.col) {
     return(p)
 }
 
-plot_8mods <- function(ID, gom.only=FALSE, labs=FALSE){
+plot_8mods <- function(ID, gom.only=FALSE, labs=FALSE, legend=FALSE){
     ### Finds row ID belongs to, fits linear models
     IDrow <- which(grepl(ID, dict$ID)); df <- data[[IDrow]]
     mods <- lapply(1:4, function(x) lm(logN ~ poly(t, x), data = df))
@@ -166,27 +166,36 @@ plot_8mods <- function(ID, gom.only=FALSE, labs=FALSE){
                                           size <- 0.5
     if (gom.only==TRUE){ mods <- mods[6]; size <- 1 }
 
-    ### Creates background for figures, formatss lines
+    ### Creates background for figures, formats lines
     pal <- c("grey20","yellow","green","red","purple","cyan","orange","pink")
-    p <- ggplot(df, aes(x=t, y=logN)) + geom_point(size=3.5*size, colour="black")
-    p <- p + theme(aspect.ratio = 1)
-    #p <- p +theme(axis.text.x=element_text(size=8))
+    p <- ggplot() + geom_point(data=df, aes(x=t, y=logN), size=3.5*size, colour="black", inherit.aes=FALSE)
+    p <- p + theme(aspect.ratio = 1) + theme_bw()
     if (labs==FALSE){ p <- p + labs(x=NULL, y=NULL) }
     linetype <- "dashed"
     for (i in 1:length(mods)){
       if (i > 4 | length(mods) == 1) { linetype <- "solid" }
 
       ### Creates dataframe of values for each regression line & plots them
+      # selects model, lists model names
       mod <- mods[[i]]
+      mod_names <- c("Linear", "Quadratic", "Cubic", "Quartic", "Logistic", "Gompertz", "Baranyi", "Buchanan")
+      # creates df of regression line data, whilst saving the model number
       ts <- seq(0, max(df$t), length.out = 100)
       Ns <- predict(mod, data.frame(t = ts))
+      mod_num <- rep(i,100)
       if (gom.only==TRUE){ # Extends regression line w/ fictional death phase
         ts <- c(ts, seq(max(ts),  1.33 * max(ts), length.out = 25))
-        Ns <- c(Ns, seq(max(Ns), 6 / 7 * max(Ns), length.out = 25)) }
-      Reg_df <- data.frame(ts, Ns) # Adds regression line
-      p <- p + geom_line(data=Reg_df, aes(x=ts, y=Ns), colour=pal[i], size=size, linetype = linetype) }
+        Ns <- c(Ns, seq(max(Ns), 6 / 7 * max(Ns), length.out = 25))
+        mod_num <- c(mod_num, rep(i, 25)) }
+      # adds regression line, and maps model name to aes
+      Reg_df <- data.frame(ts, Ns, mod_num)
+      p <- p + geom_line(data = Reg_df, aes(x=ts, y=Ns, color=mod_names[mod_num[1]]), linetype=linetype, size=size) }
+    ### Maps colours to the lines and model names for legend, or disables legend
+    p <- p + scale_color_manual(name='Model', values=c("Linear"=pal[1], "Quadratic"=pal[2], "Cubic"=pal[3], "Quartic"=pal[4], "Logistic"=pal[5], "Gompertz"=pal[6], "Baranyi"=pal[7], "Buchanan"=pal[8]))
+    if (legend == FALSE) { p <- p + theme(legend.position = "none") }
     return(p)
 }
+
 
 ### Loads data frames of BIC and start values for later reference
 dict      <- read.csv('../data/ID_dictionary_expanded.csv')
@@ -231,7 +240,7 @@ print(good_fits %>%
     filter(n() > 10) %>%
     summarise_at(vars(Logistic, Gompertz, Baranyi, Buchanan), mean) %>%
     pivot_longer(!Pop_Size_units, names_to = "Model") %>%
-    ggplot(aes(fill = Model, y = value, x = Pop_Size_units)) +
+    ggplot(aes(fill = Model, y = value, x = Pop_Size_units)) + theme_bw() +
     geom_bar(stat = "identity", position = "dodge") +
     labs(y = "Mean Relative BIC Score", x = "Unit of Population Size") +
     theme(legend.position = "none"),
@@ -246,7 +255,7 @@ print(good_fits %>%
     geom_smooth(method = "lm", size = 0.5, se = T, formula = 'y ~ x') + 
     geom_point(size = 1.5) +
     theme_bw() +
-    labs(y = "Mean Relative BIC Score", x = "Culturing Temperature (°C)") +
+    labs(y = "Mean Relative BIC Score", x = "Incubation Temperature (°C)") +
     expand_limits(y = 0),
     vp = viewport(layout.pos.row = 1, layout.pos.col = 4:8))
 # Barchart for Media
@@ -256,7 +265,7 @@ print(good_fits %>%
     filter(n() > 10) %>%
     summarise_at(vars(Logistic, Gompertz, Baranyi, Buchanan), mean) %>%
     pivot_longer(!Medium, names_to = "Model") %>%
-    ggplot(aes(fill = Model, y = value, x = Medium)) +
+    ggplot(aes(fill = Model, y = value, x = Medium)) + theme_bw() +
     geom_bar(stat = "identity", position = "dodge") +
     aes(stringr::str_wrap(Medium, 10)) + theme(legend.position = "none") +
     labs(y = "Mean Relative BIC Score", x = "Growth Medium"),
@@ -267,12 +276,10 @@ graphics.off()
 ### Plots regression line of all 8 models on 5 example experiments' data
 pdf("../results/figures/8plots.pdf")
 grid.newpage()
-pushViewport(viewport(layout = grid.layout(3,1, heights=c(.1,.1,.108))))
-print(plot_8mods(83031), vp=viewport(layout.pos.row=1, layout.pos.col=1)) # 83031 - eg of poly4 being silly
-print(plot_8mods(10739), vp=viewport(layout.pos.row=2, layout.pos.col=1)) #this OR one above for death phase (only poly 3 and 4 follow)
-print(plot_8mods(01078, labs=TRUE) + labs(x="Time (hrs)", y=NULL)
-, vp=viewport(layout.pos.row=3, layout.pos.col=1))# buchanan fails to capture curve shape; & bar to lesser extent, AND log doesnt curve at bottom
-# in figure text, mention popN, and give colours of lines
+pushViewport(viewport(layout = grid.layout(80,80, heights=c(.1,.1,.108))))
+print(plot_8mods(83031), vp=viewport(layout.pos.row=1:38, layout.pos.col=1:40)) # 83031 - eg of poly4 being silly
+print(plot_8mods(10739), vp=viewport(layout.pos.row=1:38, layout.pos.col=41:80)) #this OR one above for death phase (only poly 3 and 4 follow)
+print(plot_8mods(01078, labs=TRUE, legend=TRUE) + labs(x="Time (hrs)", y="log(Population)"), vp=viewport(layout.pos.row=39:78, layout.pos.col=20:76))# buchanan fails to capture curve shape; & bar to lesser extent, AND log doesnt curve at bottom
 graphics.off()
 
 

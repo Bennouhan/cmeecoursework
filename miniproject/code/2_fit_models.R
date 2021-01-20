@@ -150,7 +150,7 @@ vect_fits <- function(df, dict) {
   
   # Find number of corresponding row in dictionary
   IDrow <- which(grepl(df$ID[1], dict$ID))
-  # Analyse each of the 8 models in the fit list, and plot them if switched on
+  # Analyse each of the 8 models in the fit list (and plot them if switched on)
   dict <- try(lapply(1:8, function(x) analyseMod(mods[[x]], df, SV, x, IDrow)), silent = F)
   return(dict[[8]][IDrow,]) #creates array of rows from mclapply
 }
@@ -172,10 +172,11 @@ filter(n() >= 6) %>% group_split(); n <- length(data)#splits by group into array
 
 ### Fits each group to each model and analyses them in vectorised fashion
 print("Fitting models; this should take 25-50s depending on your computer, or 3x that if plotting is switched on...")
-dict_array <- mclapply(1:n, function(x) vect_fits(data[[x]], dict), mc.cores=6)#NB: will use cores available on your computer up to this number
+dict_array <- mclapply(1:n, function(x) vect_fits(data[[x]], dict), mc.cores=6)#NB: will use cores available on your computer up to this number, here 6
 
 ### Converts array output of mclapply into dataframe, writes it into CSV
 dict=NULL; for (i in 1:n) { dict <- bind_rows(dict, dict_array[[i]]) }
 write_csv(dict, '../data/ID_dictionary_expanded.csv')
 
+### Optional; indicates how many groups failed to be fit by each model
 #print(map(dict, ~ sum(is.na(.)))[c(6:9)]) # num. NAs /col

@@ -12,7 +12,7 @@
 
 ### Clear workspace, clear previous outputs, load package
 rm(list = ls())
-unlink("../results/statistics.csv"); unlink("../data/goodfits.csv")
+unlink("../results/*.csv"); unlink("../data/goodfits.csv")
 
 suppressPackageStartupMessages(library(tidyverse))
 
@@ -55,7 +55,7 @@ for (row in 1:nrow(dict)){
 ### Creates dataframe to enter statistics into
 print("Done! Now analysing modelling results...")
 statistics <- as.data.frame(matrix(0, ncol = 12, nrow = 8))
-colnames(statistics) <- c("Mean R^2", "Median R^2", "Mean BIC", "Median BIC", "Win Count", "Score", "Total", "Tally /7", "NLM Win Count", "NLM Score", "NLM Total", "NLM Tally /10")
+colnames(statistics) <- c("Mean R2", "Median R2", "Mean BIC", "Median BIC", "Win Count", "Score", "Total", "Tally", "Win Count", "Score", "Total", "Tally")
 rownames(statistics) <- c("Linear", "Quadratic", "Cubic", "Quartic", "Logistic", "Gompertz", "Baranyi", "Buchanan")
 
 ### Adds blank rows to good_fits for score entries
@@ -103,7 +103,7 @@ for (row in 1:8){
     if (statistics[row,col] == min(statistics[,col])){ tally <- tally + 1 } }
   ### As above, but only for NLMs and other NLMs
   if (between(row, 5, 8) == TRUE) {
-    for (col in c(1,2,5:7,9:11)){
+    for (col in c(1,2,9:11)){
       if (statistics[row,col] == max(statistics[5:8,col])){
         tallyNLM <- tallyNLM + 1 } }
     for (col in 3:4){
@@ -113,8 +113,10 @@ for (row in 1:8){
   statistics[row, 8] <- tally
   statistics[row,12] <- tallyNLM
 }
-### Rounds table to 4 sigfig, writes to csv in /results
+### Rounds table to 4 sigfig, writes to csvs in /results
 for (col in 1:ncol(statistics)) {statistics[,col] <- signif(statistics[,col],4)}
-statistics[1:4,9:12] <- "-"
-write.csv(statistics, '../results/statistics.csv')
+statistics[1:4,9:12] <- NA
+write.csv(statistics[1:8,1:8], '../results/ALLstatistics.csv', quote=FALSE, na="")
+write.csv(statistics[5:8,c(1:4,9:12)], '../results/NLMstatistics.csv', quote=FALSE, na="")
+
 write.csv(good_fits, '../data/goodfits.csv')
