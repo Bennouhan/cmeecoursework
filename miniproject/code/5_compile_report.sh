@@ -21,7 +21,7 @@ if [[ -f ../results/Ben_Nouhan_Report.pdf ]]
 ### Removes any previous version of texcount file before recreating it
 if [[ -f ${1%.tex}.sum ]]
  then rm ${1%.tex}.sum; fi
-texcount -1 -sum $1 > ${1%.tex}.sum
+texcount -1 $1 | cut -f 1 -d "+" > ${1%.tex}.sum
 
 
 ### Conversion to pdf, renames and moves as appropriate
@@ -33,7 +33,7 @@ mv ${1%.tex}.pdf ../results/Ben_Nouhan_Report.pdf
 
 
 ### Project Cleanup
-declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
+declare -a ext_ls=("*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
 # if files with these extensions are present, delete them
 for ext in ${ext_ls[@]}; do
     if [[ -f $ext ]]; then rm $ext; fi
