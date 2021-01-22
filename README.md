@@ -37,7 +37,7 @@ This is the master directory for all of my assessed coursework from the CMEE cou
 
 Work from the course is catagorised by contiguous week of the course, from week 1 (starting 05/10/2020) to week 11.
 
-Weeks not listed below had no assessed work, hence the respective directories have nothing of interest for the user.
+Weeks not listed below had no assessed work for this module, hence the respective directories have nothing of interest for the user.
 
 
 Please see the README file for a given week in its correspondingly-named directory for (much) more detail.
@@ -149,9 +149,7 @@ Advanced Python topics covered this week include: <br/><br/>
 ## **cmeecoursework/miniproject/**
 <br/>
 
-The project comprises a workflow which extracts bacterial growth data from the .csv file in the data directory, prepares it for analysis, uses it to fit various models (both linear and non-linear), then plots and further analyses those models. 
-
-It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - please read this for further understanding of the background behind this project.
+The project comprises a workflow, ecoded by /code/run_MiniProject.sh, which extracts bacterial growth data from the .csv file in the data directory, prepares it for analysis, uses it to fit various models (both linear and non-linear), then plots and further analyses those models. It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - please read this for further understanding of the background behind this project.
 
 
 
@@ -183,7 +181,6 @@ It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - plea
 [![](https://img.shields.io/badge/ipdb-0.13.4-teal)](https://pypi.org/project/ipdb/) &emsp;
 
 
-(default module list: https://docs.python.org/3/library/)
 
 #### R
 
@@ -196,14 +193,12 @@ It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - plea
 [![](https://img.shields.io/badge/sqldf-0.4_11-yellow)](https://cran.r-project.org/web/packages/sqldf/index.html) &emsp;
 
 
-#### LaTeX
 
-[![](https://img.shields.io/badge/graphicx-1.2b-blue)](https://ctan.org/pkg/graphicx) &emsp;
+<br/><br/><br/><br/>
 
-<br/>
+All packages not mentioned herein are part of the default installations of Python-3.9.0, R-4.0.3 or LaTeX-2e.
 
-
-<br/><br/><br/>
+<br/><br/>
 
 # Contributions
 <br/>
