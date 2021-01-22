@@ -33,7 +33,7 @@ mv ${1%.tex}.pdf ../results/Ben_Nouhan_Report.pdf
 
 
 ### Project Cleanup
-declare -a ext_ls=("*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
+declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
 # if files with these extensions are present, delete them
 for ext in ${ext_ls[@]}; do
     if [[ -f $ext ]]; then rm $ext; fi
