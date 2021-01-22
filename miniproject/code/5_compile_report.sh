@@ -10,26 +10,31 @@
 #
 # Output: Ben_Nouhan_Report.pdf ;  Final draft of report in PDF format
 #
-# Desc: Compiles 5_report.tex into Ben_Nouhan_Report.pdf, the project's formal
-#       form of presentation
+# Desc: Compiles 5_report.tex into Ben_Nouhan_Report.pdf, the project's formal form of presentation
+
 
 ### Removes any previous version of compiled report
-if [[ -f $../results/Ben_Nouhan_Report.pdf ]]
- then rm $../results/Ben_Nouhan_Report.pdf; fi
+if [[ -f ../results/Ben_Nouhan_Report.pdf ]]
+ then rm ../results/Ben_Nouhan_Report.pdf; fi
 
-### Compiles as PDF, renames as appropriate
+
+### Removes any previous version of texcount file before recreating it
+if [[ -f ${1%.tex}.sum ]]
+ then rm ${1%.tex}.sum; fi
+texcount -1 -sum $1 > ${1%.tex}.sum
+
+
+### Conversion to pdf, renames and moves as appropriate
 pdflatex $1
-pdflatex $1
-bibtex $1 # will need to get $base; may also need biber not bibtex, see proposal
+biber ${1%.tex}
 pdflatex $1
 pdflatex $1
 mv ${1%.tex}.pdf ../results/Ben_Nouhan_Report.pdf
 
-### Project Cleanup
-declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc"
-                   "*.blg" "*.bbl" "*.fls" "*.fdb_latexmk" "*.gz"
-                   "../data/*.png" "../data/*.pdf" "../code/*.pdf")
 
+### Project Cleanup
+declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
+# if files with these extensions are present, delete them
 for ext in ${ext_ls[@]}; do
     if [[ -f $ext ]]; then rm $ext; fi
 done

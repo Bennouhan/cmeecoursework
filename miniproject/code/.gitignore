@@ -1,3 +1,4 @@
 # All files latex creates, but not the .tex
 5_report.*
 !5_report.tex
+.*

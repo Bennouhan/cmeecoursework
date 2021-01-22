@@ -1,6 +1,6 @@
 # Author: Ben Nouhan, bjn20@ucl.ac.uk
 #
-# Script: 3_analyse.R
+# Script: 3_analyse_fits.R
 #
 # Date: 12 Nov 2020
 #
@@ -12,7 +12,7 @@
 
 ### Clear workspace, clear previous outputs, load package
 rm(list = ls())
-unlink("../results/*.csv"); unlink("../data/goodfits.csv")
+unlink("../results/tables/*.csv"); unlink("../data/goodfits.csv")
 
 suppressPackageStartupMessages(library(tidyverse))
 
@@ -116,7 +116,7 @@ for (row in 1:8){
 ### Rounds table to 4 sigfig, writes to csvs in /results
 for (col in 1:ncol(statistics)) {statistics[,col] <- signif(statistics[,col],4)}
 statistics[1:4,9:12] <- NA
-write.csv(statistics[1:8,1:8], '../results/ALLstatistics.csv', quote=FALSE, na="")
-write.csv(statistics[5:8,c(1:4,9:12)], '../results/NLMstatistics.csv', quote=FALSE, na="")
+write.csv(statistics[1:8,1:8], '../results/tables/ALLstatistics.csv', quote=FALSE, na="")
+write.csv(statistics[5:8,c(1:4,9:12)], '../results/tables/NLMstatistics.csv', quote=FALSE, na="")
 
 write.csv(good_fits, '../data/goodfits.csv')

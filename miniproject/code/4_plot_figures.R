@@ -277,9 +277,9 @@ graphics.off()
 pdf("../results/figures/8plots.pdf")
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(80,80, heights=c(.1,.1,.108))))
-print(plot_8mods(83031), vp=viewport(layout.pos.row=1:38, layout.pos.col=1:40)) # 83031 - eg of poly4 being silly
-print(plot_8mods(10739), vp=viewport(layout.pos.row=1:38, layout.pos.col=41:80)) #this OR one above for death phase (only poly 3 and 4 follow)
-print(plot_8mods(01078, labs=TRUE, legend=TRUE) + labs(x="Time (hrs)", y="log(Population)"), vp=viewport(layout.pos.row=39:78, layout.pos.col=20:76))# buchanan fails to capture curve shape; & bar to lesser extent, AND log doesnt curve at bottom
+print(plot_8mods(83031), vp=viewport(layout.pos.row=1:38, layout.pos.col=1:40)) 
+print(plot_8mods(10739), vp=viewport(layout.pos.row=1:38, layout.pos.col=41:80)) 
+print(plot_8mods(01078, labs=TRUE, legend=TRUE) + labs(x="Time (hrs)", y="log(Population)"), vp=viewport(layout.pos.row=39:78, layout.pos.col=20:76))
 graphics.off()
 
 
