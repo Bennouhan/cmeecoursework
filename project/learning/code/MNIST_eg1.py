@@ -26,6 +26,7 @@ network.add(layers.Dense(10, activation='softmax'))
 
 
 ### The compilation step
+#where you specify the optimizer and loss function(s) that the model should use, as well as the metrics you want to monitor during training
 
 network.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
 
@@ -56,3 +57,4 @@ network.fit(train_images, train_labels, epochs=5, batch_size=128)
 
 test_loss, test_acc = network.evaluate(test_images, test_labels)
 print('test_acc:', test_acc)
+
