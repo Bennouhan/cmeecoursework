@@ -3,230 +3,203 @@
 
 ### Regression
 
-# build a network to classify Reuters newswires into 46 mutually
-# exclusive topics
-# Because you have many classes, this problem is an instance of multi- class classification;
-#   and because each data point should be classified into only one cate- gory, the problem is more specifically an instance of single-label, multiclass classification.
-# If each data point could belong to multiple categories (in this case, topics), you’d be facing a multilabel, multiclass classification problem
+# The two previous examples were considered classification problems, where the goal was to predict a single discrete label of an input data point
+# Another common type of machine-learning problem is regression, which consists of predicting a continuous value instead of a discrete label
+# For instance, predicting the temperature tomorrow, given meteorological data; or predicting the time that a software project will take to complete, given its specifications.
+#     NOTE Don’t confuse regression and the algorithm logistic regression.
+#     Confusingly, logistic regression isn’t a regression algorithm but a classification algorithm.
 
-# You’ll work with the Reuters dataset, a set of short newswires and their topics, published by Reuters in 1986
-#   It’s a simple, widely used toy dataset for text classification.
-#   There are 46 different topics; some topics are more represented than others, but each topic has at least 10 examples in the training set
-# You have 8,982 training examples and 2,246 test examples
 
-from keras.datasets import reuters
 
-(train_data, train_labels), (test_data, test_labels) = reuters.load_data( num_words=10000)
-# num_words=10000 means you’ll only keep the top 10,000 most frequently occurring words in the training data. Rare words will be discarded. This allows you to work with vector data of manageable size
 
-# train_data and test_data are lists of newswires, each a list of word indices(encoding a sequence of words)
-# The label associated with an example is an integer between 0 and 45—a topic index
 
-# see page 78 to find how to decode back to words
+### The Boston Housing Price dataset
 
-### Preparing the data
+# You’ll attempt to predict the median price of homes in a given Boston suburb in the mid-1970s, given data points about the suburb at the time, such as the crime rate, the local property tax rate, and so on
+# The dataset you’ll use has an interesting difference from the two previous examples
+# It has relatively few data points: only 506, split between 404 training samples and 102 test samples
+# And each feature in the input data (for example, the crime rate) has a different scale
+# For instance, some values are proportions, which take values between 0 and 1; others take values between 1 and 12, others between 0 and 100, and so on.
 
-# You can’t feed lists of integers into a neural network. You have to turn your lists into tensors:
+
+from keras.datasets import boston_housing
+
+(train_data, train_targets), (test_data, test_targets) = boston_housing.load_data()
+
+# you have 404 training samples and 102 test samples, each with 13 numerical features, such as per capita crime rate, average number of rooms per dwell- ing, accessibility to highways, and so on
+# The targets are the median values of owner-occupied homes, in thousands of dollars
+# The prices are typically between $10,000 and $50,000
+# If that sounds cheap, remember that this was the mid-1970s, and these prices aren’t adjusted for inflation.
+
+
+
+### Preparing (normalising) the data
+
+# It would be problematic to feed into a neural network values that all take wildly different ranges
+# The network might be able to automatically adapt to such heterogeneous data, but it would definitely make learning more difficult
+# A widespread best practice to deal with such data is to do feature-wise normalization
+    # for each feature in the input data (a column in the input data matrix), you subtract the mean of the feature
+    # and  then divide by the standard deviation, so that the feature is centered around 0 and has a unit standard deviation
+# This is easily done in Numpy.
 
 import numpy as np
 
-### Function to convery lists of integers into tensors
-def vectorize_sequences(sequences, dimension=10000):
-    results = np.zeros((len(sequences), dimension))
-    for i, sequence in enumerate(sequences):
-        results[i, sequence] = 1.
-    return results
+mean = train_data.mean(axis=0)
+train_data -= mean
+std = train_data.std(axis=0)
+train_data /= std
 
+test_data -= mean
+test_data /= std
+# Note that the quantities used for normalizing the test data are computed using the training data!!!
+# You should never use in your workflow any quantity computed on the test data, even for something as simple as data normalization.
 
-x_train = vectorize_sequences(train_data)
-x_test = vectorize_sequences(test_data)
-
-
-## vectorise  with one-hot coding: (see alternative at bottom)
-
-# One-hot encoding is a widely used format for categorical data, also called categorical encoding
-# For a more detailed explanation of one-hot encoding, see section 6.1
-# In this case, one-hot encoding of the labels consists of embedding each label as an all-zero vector with a 1 in the place of the label index:
-
-# def to_one_hot(labels, dimension=46):
-#     results = np.zeros((len(labels), dimension))
-#     for i, label in enumerate(labels):
-#         results[i, label] = 1.
-#     return results
-
-# one_hot_train_labels = to_one_hot(train_labels)
-# one_hot_test_labels = to_one_hot(test_labels)
-
-# However, keras has a built-in way of doing this:
-
-from keras.utils.np_utils import to_categorical
-
-one_hot_train_labels = to_categorical(train_labels)
-one_hot_test_labels = to_categorical(test_labels)
 
 
 ### Building the network
 
-# Similar to IMDB version, but number of output classes is now 46, not 2
-# hence, dimensionality of the output space is much larger.
-# In a stack of Dense layers like that you’ve been using, each layer can only access information present in the output of the previous layer
-# If one layer drops some information relevant to the classification problem, this information can never be recovered by later layers 
-# This is because each layer can potentially become an information bottleneck
-# 
-# In the previous example, you used 16-dimensional intermediate layers, but a 16-dimensional space may be too limited to learn to separate 46 different classes: such small layers may act as information bottlenecks, permanently dropping relevant information
-# For this reason you’ll use larger layers. Let’s go with 64 units.
+# Because so few samples are available, you’ll use a very small network with two hidden layers, each with 64 units
+# In general, the less training data you have, the worse overfitting will be, and using a small network is one way to mitigate overfitting.
 
 from keras import models
 from keras import layers
 
-model = models.Sequential()
-model.add(layers.Dense(64, activation='relu', input_shape=(10000,)))
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(46, activation='softmax'))
-
-# You end the network with a Dense layer of size 46
-#   This means for each input sample, the network will output a 46-dimensional vector
-#   Each entry in this vec- tor (each dimension) will encode a different output class.
-
-# The last layer uses a softmax activation
-#   It means the network will output a probability distribution over the 46 different output classes
-#   ie for every input sample, the network will produce a 46- dimensional output vector, where output[i] is the probability that the sample belongs to class i.
-#   The 46 scores will sum to 1
-
-### Complation step
-# model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
-# The best loss function to use in this case is categorical_crossentropy
-# It measures the distance between two probability distributions: here, between the probability distribution output by the network and the true distribution of the labels
-# By minimizing the distance between these two distributions, you train the network to output something as close as possible to the true labels
-
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['acc'])
+# Because you’ll need to instantiate the same model multiple times, you use a function to construct it.
+def build_model():
+    model = models.Sequential()
+    model.add(layers.Dense(64, activation='relu', input_shape=(train_data.shape[1],)))
+    model.add(layers.Dense(64, activation='relu'))
+    model.add(layers.Dense(1))#linear layer
+    model.compile(optimizer='rmsprop', loss='mse', metrics=['mae'])#**
+    return model
 
 
-### Validating your approach - Let’s set apart 1,000 samples in the training data to use as a validation set.
+# The network ends with a single unit and no activation (it will be a linear layer)
+# This is a typical setup for scalar regression (a regression where you’re trying to predict a single continuous value)
 
-x_val = x_train[:1000]
-partial_x_train = x_train[1000:]
+# Applying an activation function would constrain the range the output can take; 
+#   for instance, if you applied a sigmoid activation function to the last layer, the network could only learn to predict values between 0 and 1.
+#   Here, because the last layer is purely linear, the network is free to learn to predict values in any range.
 
-y_val = one_hot_train_labels[:1000]
-partial_y_train = one_hot_train_labels[1000:]
+#** Note that you compile the network with the mse loss function—mean squared error, the square of the difference between the predictions and the targets
+# This is a widely used loss function for regression problems
+# You’re also monitoring a new metric during training: mean absolute error (MAE)
+# It’s the absolute value of the difference between the predictions and the targets
+# For instance, an MAE of 0.5 on this problem would mean your predictions are off by $500 on average.
 
 
-### Training the model
-# train the model for 20 epochs in mini-batches of 512 samples
-# also monitor loss and accuracy on the 10,000 samples that you set apart
-#   You do so by passing the validation data as the validation_data argument.
 
-history = model.fit(partial_x_train, partial_y_train, epochs=20, batch_size=512, validation_data=(x_val, y_val))
 
-### Visualising results
-#call to model.fit() returns a History object. This object has a member history, which is a dictionary containing data about everything that happened during training:
+### Validating your approach using K-fold validation (small dataset)
 
-history_dict = history.history
-history_dict.keys()
-# dictionary contains four entries: one per metric that was being monitored during training and during validation. can plot with matplotlib:
+# To evaluate your network while you keep adjusting its parameters (such as the number of epochs used for training), you could split the data into a training set and a validation set, as you did in the previous examples
+# But because you have so few data points, the validation set would end up being very small (for instance, about 100 examples)
+# As a consequence, the validation scores might change a lot depending on which data points you chose to use for validation and which you chose for training:
+#   the validation scores might have a high variance with regard to the validation split.
+# This would prevent you from reliably evaluating your model
+# The best practice in such situations is to use K-fold cross-validation
+# It consists of:
+#   splitting the available data into K partitions (typically K = 4 or 5)
+#   instantiating K identical models
+#   and training each one on K – 1 partitions while evaluating on the remaining partition
+# The validation score for the model used is then the average of the K validation scores obtained
+# In terms of code, this is straightforward.
 
-#Plotting the training and validation loss
+import numpy as np
+k=4
+num_val_samples = len(train_data) // k
+num_epochs = 100
+all_scores = []
+
+for i in range(k):
+    print('processing fold #', i)
+    # Prepares the validation data: data from partition #k
+    val_data = train_data[i * num_val_samples: (i + 1) * num_val_samples] 
+    val_targets = train_targets[i * num_val_samples: (i + 1) * num_val_samples]
+    # Prepares the training data: data from all other partitions
+    partial_train_data = np.concatenate( [train_data[:i * num_val_samples], train_data[(i + 1) * num_val_samples:]], axis=0)
+    partial_train_targets = np.concatenate( [train_targets[:i * num_val_samples], train_targets[(i + 1) * num_val_samples:]], axis=0)
+    # Builds the Keras model (already compiled)
+    model = build_model()
+    # Trains the model (in silent mode, verbose = 0)
+    model.fit(partial_train_data, partial_train_targets, epochs=num_epochs, batch_size=1, verbose=0)
+    # Evaluates the model on the validation data
+    val_mse, val_mae = model.evaluate(val_data, val_targets, verbose=0)
+    all_scores.append(val_mae)
+
+np.mean(all_scores) # off by $2500ish on average - quite alot, range is 10-50k
+
+### Again but with 500 epochs and saving validation logs at each fold
+
+
+num_epochs = 500
+Prepares the validation data:
+all_mae_histories = []
+for i in range(k):
+    print('processing fold #', i)
+    # Prepares the validation data: data from partition #k
+    val_data = train_data[i * num_val_samples: (i + 1) * num_val_samples]
+    val_targets = train_targets[i * num_val_samples: (i + 1) * num_val_samples]
+    # Prepares the training data: data from all other partitions
+    partial_train_data = np.concatenate( [train_data[:i * num_val_samples], train_data[(i + 1) * num_val_samples:]], axis=0)
+    partial_train_targets = np.concatenate( [train_targets[:i * num_val_samples], train_targets[(i + 1) * num_val_samples:]], axis=0)
+    # Builds the Keras model (already compiled)
+    model = build_model()
+    # Trains the model (in silent mode, verbose=0)
+    history = model.fit(partial_train_data, partial_train_targets, validation_data=(val_data, val_targets), epochs=num_epochs, batch_size=1, verbose=0)
+    mae_history = history.history['val_mae']
+    all_mae_histories.append(mae_history)
+
+
+
+# You can then compute the average of the per-epoch MAE scores for all folds:
+average_mae_history = [ np.mean([x[i] for x in all_mae_histories]) for i in range(num_epochs)]
+
+
+### Plotting validation scores
+
 import matplotlib.pyplot as plt
 
-history_dict = history.history
-loss_values = history_dict['loss']
-val_loss_values = history_dict['val_loss']
-
-epochs = range(1, len(loss_values) + 1) #= num epochs - altered from original
-
-plt.plot(epochs, loss_values, 'bo', label='Training loss')
-plt.plot(epochs, val_loss_values, 'b', label='Validation loss')
-plt.title('Training and validation loss')
+plt.plot(range(1, len(average_mae_history) + 1), average_mae_history)
 plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-
+plt.ylabel('Validation MAE')
 plt.show()
+# It may be a little difficult to see the plot, due to scaling issues and relatively high variance
+# 
+# Let’s do the following:
+#   Omit the first 10 data points, which are on a different scale than the rest of the curve.
+#   Replace each point with an exponential moving average of the previous points, to obtain a smooth curve.
 
 
-#Plotting the training and validation accuracy
-plt.clf()
-acc_values = history_dict['acc']
-val_acc_values = history_dict['val_acc']
 
-plt.plot(epochs, acc_values, 'bo', label='Training acc') #altered from original
-plt.plot(epochs, val_acc_values, 'b', label='Validation acc')
-plt.title('Training and validation accuracy')
+def smooth_curve(points, factor=0.9):
+    smoothed_points = []
+    for point in points:
+        if smoothed_points:
+            previous = smoothed_points[-1]
+            smoothed_points.append(previous * factor + point * (1 - factor))
+        else: smoothed_points.append(point)
+    return smoothed_points
+
+
+smooth_mae_history = smooth_curve(average_mae_history[10:])
+plt.plot(range(1, len(smooth_mae_history) + 1), smooth_mae_history)
 plt.xlabel('Epochs')
-plt.ylabel('Loss')
-plt.legend()
-
+plt.ylabel('Validation MAE')
 plt.show()
+# According to this plot, validation MAE stops improving significantly after 80 epochs (the lowest steady(ish) point). Past that point, you start overfitting
+#    Will change with different reruns
 
-### what these show:
+### Training the final model:
 
-# The network begins to overfit after nine epochs.
-# Let’s train a new network from scratch for nine epochs and then evaluate it on the test set.
+# Once you’re finished tuning other parameters of the model (in addition to the
+# number of epochs, you could also adjust the size of the hidden layers):
+#    train a final production model on all of the training data, with the best parameters
+#    then look at its performance on the test data.
 
+model = build_model()
+model.fit(train_data, train_targets, epochs=80, batch_size=16, verbose=0)
+test_mse_score, test_mae_score = model.evaluate(test_data, test_targets)
 
-
-
-### Let’s train a new network from scratch for four epochs and then evaluate it on the test data
-
-
-model = models.Sequential()
-model.add(layers.Dense(64, activation='relu', input_shape=(10000,)))
-model.add(layers.Dense(64, activation='relu'))
-model.add(layers.Dense(46, activation='softmax'))
-
-model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(partial_x_train, partial_y_train, epochs=9, batch_size=512, validation_data=(x_val, y_val))
-results = model.evaluate(x_test, one_hot_test_labels)
-print(results)
-
-# This approach reaches an accuracy of ~80%.
-# With a balanced binary classification problem, the accuracy reached by a purely random classifier would be 50%
-# But in this case it’s closer to 19%, so the results seem pretty good, at least when compared to a random baseline:
-
-### Generating predictions for new data
-
-predictions = model.predict(x_test)
-
-# Each entry in predictions is a vector of length 46:
-    # predictions[0].shape #=(46,)
-
-# The coefficients in this vector sum to 1:
-    # np.sum(predictions[0])
-
-# The largest entry is the predicted class—the class with the highest probability:
-    # np.argmax(predictions[0])
-
-################################################################
-### Further Info
-
-### A different way to handle the labels and the loss
-# We mentioned earlier that another way to encode the labels would be to cast them as an integer tensor, like this:
-    # y_train = np.array(train_labels)
-    # y_test = np.array(test_labels)
-
-# The only thing this approach would change is the choice of the loss function. 
-# The loss function used in listing 3.21, categorical_crossentropy, expects the labels to follow a categorical encoding.
-# With integer labels, you should use sparse_categorical_ crossentropy:
-
-    # model.compile(optimizer='rmsprop', loss='sparse_categorical_crossentropy', metrics=['acc'])
-
-# This new loss function is still mathematically the same as categorical_crossentropy; it just has a different interface.
-
-
-
-### The importance of having sufficiently large intermediate layers
-
-# We mentioned earlier that because the final outputs are 46-dimensional, you should avoid intermediate layers with many fewer than 46 hidden units
-# Now let’s see what happens when you introduce an information bottleneck by having intermediate layers that are significantly less than 46-dimensional: for example, 4-dimensional.
-
-    # model = models.Sequential()
-    # model.add(layers.Dense(64, activation='relu', input_shape=(10000,)))
-    # model.add(layers.Dense(4, activation='relu'))
-    # model.add(layers.Dense(46, activation='softmax'))
-
-    # model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])
-    # model.fit(partial_x_train, partial_y_train, epochs=20, batch_size=128, validation_data=(x_val, y_val))
-
-# The network now peaks at ~71% validation accuracy, an 8% absolute drop.
-# This drop is mostly due to the fact that you’re trying to compress a lot of information (enough information to recover the separation hyperplanes of 46 classes) into an intermediate space that is too low-dimensional.
-# The network is able to cram most of the necessary information into these eight-dimensional representations, but not all of it.
+test_mae_score
+#You’re still off by output x $1000
