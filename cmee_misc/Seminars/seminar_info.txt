@@ -1,0 +1,24 @@
+Both MSc and MREs students must try to attend all the Thursday seminars unless told otherwise,
+even if one is rescheduled to a day other than Thursday. You will write a half-page on at least 12
+of these seminars and create a “seminar journal” for submission as part of the coursework mark (see
+section on the Coursework Element). The goal is to get you to broaden your exposure to and thinking
+about topics/sub-fields in Ecology/Evolution/Biology. The diaries are not assessed for beauty of prose
+or scientific rigour, but on the basis of how good the logical structure of the entry/account for each
+seminar is. Please do not exceed 1/2 page per seminar’s entry/account.
+The Seminar diary is due at the end of the Spring term (email a pdf to course director; see section
+2.2).
+
+
+Summary:
+
+12 entries
+The diaries are not assessed for beauty of prose or scientific rigour, but on the basis of how good the logical structure of the entry/account for each seminar is
+Please do not exceed 1/2 page per entry
+
+
+Structure:
+Title
+Summary of the research
+
+
+sample: https://github.com/dbridg15/CMEECoursework/blob/master/weekly_seminars/writeups/06_cognition_emotion_primates.tex

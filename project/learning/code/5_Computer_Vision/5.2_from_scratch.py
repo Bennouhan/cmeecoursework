@@ -1,11 +1,9 @@
 ### NB needed for conv network!!!
 # (https://github.com/tensorflow/tensorflow/issues/24496)
 import tensorflow as tf
-from tensorflow.compat.v1 import InteractiveSession
-from tensorflow.compat.v1 import ConfigProto
-config = ConfigProto()
-config.gpu_options.allow_growth = True
-session = InteractiveSession(config=config)
+gpus = tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
+#TF_XLA_FLAGS=--tf_xla_enable_xla_devices may speed up, look up how to implement
 
 
 #we’ll focus on classifying images as dogs or cats
@@ -28,29 +26,32 @@ import os, shutil
 ### Set directories which do and will containt the photos
 original_dataset_dir = '/home/bennouhan/Downloads/train'#/train
 base_dir = '/home/bennouhan/cmeecoursework/project/learning/data/Chap5'
+
+train_dir = os.path.join(base_dir, 'train')
+validation_dir = os.path.join(base_dir, 'validation')
+test_dir = os.path.join(base_dir, 'test')
+train_cats_dir = os.path.join(train_dir, 'cats')
+train_dogs_dir = os.path.join(train_dir, 'dogs')
+validation_cats_dir = os.path.join(validation_dir, 'cats')
+validation_dogs_dir = os.path.join(validation_dir, 'dogs')
+test_cats_dir = os.path.join(test_dir, 'cats')
+test_dogs_dir = os.path.join(test_dir, 'dogs')
+
+
 try: #creates if not there
     os.mkdir(base_dir)
     ### Create directories for the training, validation, and test splits
-    train_dir = os.path.join(base_dir, 'train')
     os.mkdir(train_dir)
-    validation_dir = os.path.join(base_dir, 'validation')
     os.mkdir(validation_dir)
-    test_dir = os.path.join(base_dir, 'test')
     os.mkdir(test_dir)
     ### Creates subdirs in each for cats and dogs
-    train_cats_dir = os.path.join(train_dir, 'cats')
     os.mkdir(train_cats_dir)
-    train_dogs_dir = os.path.join(train_dir, 'dogs')
     os.mkdir(train_dogs_dir)
     #
-    validation_cats_dir = os.path.join(validation_dir, 'cats')
     os.mkdir(validation_cats_dir)
-    validation_dogs_dir = os.path.join(validation_dir, 'dogs')
     os.mkdir(validation_dogs_dir)
     #
-    test_cats_dir = os.path.join(test_dir, 'cats')
     os.mkdir(test_cats_dir)
-    test_dogs_dir = os.path.join(test_dir, 'dogs')
     os.mkdir(test_dogs_dir)
 except: #passes if they are
     pass
@@ -163,9 +164,9 @@ validation_generator = test_datagen.flow_from_directory(validation_dir, target_s
 #pg 136 for details on what a generator is
 
 ### Fitting the model using a batch generator
-
-history = model.fit_generator( train_generator, steps_per_epoch=100, epochs=30, validation_data=validation_generator, validation_steps=50)
-# using the fit_generator method, the equivalent of fit for data generators like this one.
+# NB should be 30 epochs for example, lowered to make debugging quicker
+history = model.fit( train_generator, steps_per_epoch=100, epochs=30, validation_data=validation_generator, validation_steps=50)
+# using the fit_generator method, the equivalent of fit for data generators like this one. EXCEPT it's outdated and model.fit now supports, so that instead
 # GENERATOR
 # It expects as its first argument a Python generator that will yield batches of inputs and targets indefinitely, like this one does
 # STEPS PER EPOCH

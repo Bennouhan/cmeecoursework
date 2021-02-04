@@ -9,3 +9,7 @@ for a in /sys/bus/pci/devices/*; do echo 0 | sudo tee -a $a/numa_node; done
 #    (answer by ceejayoz. used nano.)
 #    crontab -e
 #    then @reboot bash [absolute path to sh script you want to run at reboot, /home/bennouhan/and so on]
+
+###NOTE will give a failed to allocate from device: CUDA_ERROR_OUT_OF_MEMORY: out of memory error if this is malfunctioning; and this fix can malfunctioon
+#  EG if file path to this file is changed
+#  
