@@ -1,0 +1,41 @@
+\section{Neural Networks for Population Genetics: Demographic Inference and Data Generation}
+
+\textbf{Speaker:} Flora Jay (\textit{French National Centre for Scientific Research})\\
+\textbf{Date:} \hspace{.53cm} 11\textsuperscript{th} Feburary 2021
+\vspace{.5cm}
+
+
+So:
+fill in title, speaker, date
+summary of the work (in bold?)
+background info from wiki about any of it?
+
+and then:
+
+state answer the questions they asked if they did
+or give a summary of each section, and give each section apropriate titles
+
+then any future work if applicable
+
+
+
+
+low dimensionality of summary statistics leads to information loss; too high leads to curse of dimensionality, and is computationally expensive
+line between ABC and machine learning is not clear
+
+can use DNN on summary statistics from dataset to generate parameters (semi-autonomous simmary statistics), which are themselves a very good input for applicable
+
+DL on raw genetic data - often with convnets bypassess hand-made features
+                       - not using summary statistics, using it straight on the genetic data
+                       - see 37:00 for diagrams, showing convnets on DNA sequences
+                       - uses motif scans gathered by CNN for indiv genomes
+                       - or for population genetics, can use CNN to detect recombination hotspots for the population 
+
+her goals: inferring demographic history - global (whole genome) rather than localised regions of genome, for the population
+           also I think comparing efficacy of using NNs on summary stats vs raw data
+           used simulated data from msprime
+           43:00 for diagram of their work, making predictions using various methods
+           45:30 for their NN architecture, using snps and distances between them...
+           how to be invariant (i think == avoid overfitting)? 3 solutions, one of which is data augmentation 48:00
+
+alex's question at about 1:16:30

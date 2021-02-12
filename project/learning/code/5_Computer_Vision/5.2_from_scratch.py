@@ -268,7 +268,7 @@ model.compile(loss='binary_crossentropy', optimizer=optimizers.RMSprop(lr=1e-4),
 ### Training the convnet using data-augmentation generators and dropout
 batch_size = 32
 train_size = 2000
-test_size = 1000
+test_size = 1000 #suppose should be val_size not test
 train_datagen = ImageDataGenerator( rescale=1./255, rotation_range=40, width_shift_range=0.2, height_shift_range=0.2, shear_range=0.2, zoom_range=0.2, horizontal_flip=True,)
 test_datagen = ImageDataGenerator(rescale=1./255) #Note that the validation data shouldn’t be augmented!
 train_generator = train_datagen.flow_from_directory(train_dir, target_size=(150, 150), batch_size=32, class_mode='binary')
