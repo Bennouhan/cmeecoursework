@@ -154,7 +154,8 @@ model.layers[0].trainable = False
 
 model.compile(optimizer='rmsprop', loss='binary_crossentropy', metrics=['acc'])
 history = model.fit(x_train, y_train, epochs=10, batch_size=32, validation_data=(x_val, y_val))
-model.save_weights('pre_trained_glove_model.h5')
+model.save_weights('/home/bennouhan/cmeecoursework/project/learning/code/6_Text&Sequences/pre_trained_glove_model.h5')
+####NB this path is not tested but should work
 
 
 ### Plotting the results
