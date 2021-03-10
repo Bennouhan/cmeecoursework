@@ -1,0 +1,50 @@
+\section{Modelling COVID-19 in the US}
+
+\textbf{Speaker:} John M Drake (\textit{University of Georgia})\\
+\textbf{Date:} \hspace{.53cm} 4\textsuperscript{th} March 2021
+\vspace{.5cm}
+
+
+So:
+fill in title, speaker, date
+summary of the work (in bold?)
+background info from wiki about any of it?
+
+and then:
+
+state answer the questions they asked if they did
+or give a summary of each section, and give each section apropriate titles
+
+then any future work if applicable
+
+
+
+
+Abstract: We present a stochastic model for the transmission of the SARS-CoV-2 virus from March 2020 through the present in all states of the United States, for inference, forecasting, and scenario analysis. The model is a modified SEIR type stochastic model, with compartments for susceptible, latent, asymptomatic, undetected and detected symptomatic, diagnosed, hospitalized, recovered, and deceased. Compartments are split into multiple subcompartments using the linear chain trick to allow for more realistic distributions of movement through compartments. Model features include realistic interval distributions for presymptomatic and symptomatic periods; independent rates of transmission for asymptomatic, presymptomatic, and symptomatic individuals; time varying rates of case detection, isolation, and case notification; and realistic intervention scenarios. To model the effect of human behaviors on transmission, we include a relative human mobility covariate based on state-level cellular phone data, as well as a state-specific latent trend process, modeled using a fitted spline, that allows transmission to vary over time due to environmental factors and other behaviors that can reduce transmission but are difficult to measure (e.g. wearing a facemask). Fixed model parameters are defined using clinical outcome reports, and the model is fit to case and death reports for each state. We currently consider three scenarios for each state based on a change in relative human mobility; namely, return to pre-outbreak baseline mobility (i.e. normal mobility), maintenance of last measured mobility (i.e. status-quo mobility); and further reduction to 30% of baseline (i.e. shelter-in-place mobility). As of February 24, our model was forecasting a six week temporal trend of continued strong exponential growth in several states under a return-to-normal mobility scenario, and suggests that status-quo and shelter-in-place mobilities are needed to prolong the downward trend in cases and deaths in most locations.
+
+
+Model features:
+Stochastic transmission, realistic distributions, different transmission rates for asymptomatic, presymtomatic and symptomatic individuals; time varying rates of case diagnosis and probability of case detection; accounts for effect on transmission of human mobility; a latent process that captures the effect of environemental factors and other behaviours that can reduce transmission but are difficult to quantify; and finally realistic intervention scenarios like testing ramped up over time etc. 
+
+Interventions: (fill in from notes)
+
+Model structure: only detected infections can enter the...
+compartmental model, so can use next gen method to derive...
+
+
+...
+
+Key Findings and takeaways:
+suggests increasing social distancing could significatnyl reduce impact of covid
+many places have returned to normal mobility, so there are improvements to be made
+May be possible soon for states to return to normal without risk of resurgence, although other tramisssion limiting methods may need to be used in tandem
+
+Models with high degree of compexity in model struc and parameterisation are needed to model and predict COVID19.
+However we must ensure models are fit in a though-out manor, with biologically-sound parameters
+
+Outstnading issues: 
+Produced some bad fits, as algorithm convered to local maxima instead of global maxima.
+Solutions: increase number of MIF iterations, and/or use contect-aware parameter initialisation
+
+Future work
+...

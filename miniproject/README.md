@@ -36,7 +36,7 @@ This is the full Mini-Project of the CMEE course at Silwood Campus, Imperial Col
 
 All work was done through VSCode on a system running Ubuntu 20.04, and is explained in further detail in The Multilingual Quantitative Biologist book (link below). <br/><br/>
 
-The project comprises a workflow, ecoded by /code/run_MiniProject.sh, which extracts bacterial growth data from the .csv file in the data directory, prepares it for analysis, uses it to fit various models (both linear and non-linear), then plots and further analyses those models. It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - please read this for further understanding of the background behind this project.
+The project comprises a workflow, encoded by /code/run_MiniProject.sh, which extracts bacterial growth data from the .csv file in the data directory, prepares it for analysis, uses it to fit various models (both linear and non-linear), then plots and further analyses those models. It then compiles the written report into a pdf file Ben_Nouhan_Report.pdf - please read this for further understanding of the background behind this project. Setting the /code/ directory as you R working directory is recommended.
   
 <br/>
 

@@ -1,0 +1,38 @@
+1000G_2504_high_coverage - https://www.internationalgenome.org/data-portal/data-collection/30x-grch38, last year release of 1000genomes project sequenced in high coverage (https://www.biorxiv.org/content/10.1101/2021.02.06.430068v1) from Alex
+1000genomes_phase3 
+
+HGDP - human genome diversity project, distinct from HGP, dataset of HGDP genomes (https://science.sciencemag.org/content/367/6484/eaay5012) from Alex
+
+HGDP_1000g - this is what I will use, but needs updating first. It's a merging of HGDP and the 1000G high coverage above. phased or unphased?
+
+
+admixture - https://dalexander.github.io/admixture/download.html #software for ancestry estimation
+
+CNN_AM - presumably a convnet for AM? possibly Alex's?
+
+FABRIZIA - probably another past student's work, ignore?
+
+genmap - related to https://github.com/eyherabh/genetic_map_comparisons, from a paper by the looks of it
+
+hg38.dict - these arent directories, just files, ignore
+hg38.fa - ignore
+hg38.fa.fai - ignore
+hg38.fa.gz - ignore
+
+Maddalena - maddelana's work, ignore
+
+RFMix2 - software, same as what I've downloaded
+
+SFS - data output, not sure what, ignore
+
+
+
+Other resources:
+
+Alex Tidd's work, the similar masters proj I have:
+github.com/alextidd/admixture_pipeline/
+says files from the 1KGP were downloaded pre-phased using SHAPEIT2 from the Imperial SSH. 
+She uses 
+• RFMix 2.03 (github.com/slowkoni/rfmix) (as above)
+• TRACTS github.com/sgravel/tracts - a set of classes and definitions used to model migration histories based on ancestry tracts in admixed individuals.
+• ADMIXTURE dalexander.github.io/admixture/index.html (as above)

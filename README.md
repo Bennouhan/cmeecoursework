@@ -50,7 +50,7 @@ Please see the README file for a given week in its correspondingly-named directo
 
 <br/><br/><br/>
 
-# File List
+# Directories List
 <br/>
 
 ## **cmeecoursework/week1/**

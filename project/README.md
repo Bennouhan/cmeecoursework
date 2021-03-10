@@ -3,7 +3,7 @@
 ---
 <br/>
 
-# **CMEE Coursework Week 7: Python 2** 
+# **CMEE Main Project** 
 
 
 
@@ -30,6 +30,9 @@
 
 # Description
 <br/>
+
+
+Ignore all below so far, needs to be updated. All files in writeup dir need to be updated, they run but the comments etc need to be changed. run_Project currently only rune compile_report with dev>null. It's all basically a shell at the moment.
 
 
 This is all the assessed coursework from Week 7 (16th Nov - 22nd Nov 2020) of the CMEE course at Silwood Campus, Imperial College London. <br/><br/>

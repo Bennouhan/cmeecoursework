@@ -2,3 +2,5 @@
 *.pdf
 *.jpg
 *.h5
+
+!learning/notes/
