@@ -1,8 +1,7 @@
+# Necessary to start
 import tensorflow as tf
-
-### Test tensorflow is working as expected
-
-print(tf.test.gpu_device_name()) #if comes up as expected it works
+gpus = tf.config.experimental.list_physical_devices('GPU')
+tf.config.experimental.set_memory_growth(gpus[0], True)
 
 
 
