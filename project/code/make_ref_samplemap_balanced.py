@@ -95,7 +95,6 @@ for tup in sample_tup_ls:
 ### Close files
 non_admix.close()
 new_map.close()
-f.close()
 
 
 

@@ -23,6 +23,7 @@ echo "ID assignment successful"
 rm -r -f -d ../data/admixture/PLINK/*shapeit4_${PBS_ARRAY_INDEX}.*
 mkdir -p ../data/admixture/PLINK
 
+#changing parameters give alternative result?
 plink --noweb --vcf ../data/admixture/IDs/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_${PBS_ARRAY_INDEX}.vcf.gz \
 --keep-allele-order --vcf-idspace-to _ --const-fid --allow-extra-chr 0 --split-x b38 no-fail --make-bed \
 --out ../data/admixture/PLINK/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_${PBS_ARRAY_INDEX}.genotypes ;
@@ -47,6 +48,7 @@ echo "Duplicate removal successful"
 rm -r -f -d ../data/admixture/pruned/*shapeit4_${PBS_ARRAY_INDEX}.*
 mkdir -p ../data/admixture/pruned
 
+#will chnaging parameters give thebalternative results?
 plink --noweb --bfile ../data/admixture/no_duplicates/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_${PBS_ARRAY_INDEX}.genotypes \
 --maf 0.05 --indep 50 5 2 \
 --out ../data/admixture/pruned/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_${PBS_ARRAY_INDEX}.genotypes ;

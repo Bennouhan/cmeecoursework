@@ -23,7 +23,7 @@ pop_ls = []
 
 ### Populate set with sample numbers with >99% EUR/AFR purity, or >95% NAT
 admix_line_num = 0
-with open("../data/admixture/admixture/merge.3.Q") as admix:
+with open("../data/admixture_unphased/admixture/merge_pruned.3.Q") as admix:
     for line in admix:
         admix_line_num += 1
         probs = line.split()

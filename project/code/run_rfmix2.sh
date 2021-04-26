@@ -1,4 +1,4 @@
-#PBS -lselect=1:ncpus=32:mem=124gb
+#PBS -lselect=1:ncpus=32:mem=16gb
 #PBS -lwalltime=71:59:0
 #PBS -J 1-9
 
@@ -37,7 +37,8 @@ rfmix \
 -m ../data/sample_maps/sample_map_no_admix_90balanced.txt \
 -g ../data/gen_maps/rfmix2_altered/chr${PBS_ARRAY_INDEX}.b38.alt.gmap \
 -o ../data/RFMix2/output90/RFMix2_output_chr${PBS_ARRAY_INDEX} \
---chromosome=${PBS_ARRAY_INDEX}
+--chromosome=${PBS_ARRAY_INDEX} \
+--n-threads=16
 
 ## Warning: excessive genetic drift loss during simulated population generation. Reference panel is too unbalanced. Program may not exit simulation loop. - but seems to get past this issue, ie "nternally simulated 434 samples from 102 randomly selected reference parents.
 #=>> PBS: job killed: ncpus 39.46 exceeded limit 32 (sum)"
