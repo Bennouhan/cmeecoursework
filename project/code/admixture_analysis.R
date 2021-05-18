@@ -1,0 +1,265 @@
+##### Script to make stacked barchart of Admixture output
+
+
+### Clear workspace and past outputs, set working directory
+rm(list = ls())
+unlink("../results/admix*barplot*")
+setwd('~/cmeecoursework/project/data/')
+
+### Import packages
+#library(pophelper) #need to install #not available in this R version
+library(ggplot2) #need to install - tidyverse
+library(RColorBrewer)
+library(forcats)
+library(tidyr)
+library(dplyr,warn.conflicts=F)
+library(grid)
+library(gridExtra,warn.conflicts=F)
+library(cowplot) #needed installing
+
+
+### Import and label Admixture output table
+admix_output <- read.table('admixture/output/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_allchr_pruned.3.Q')
+colnames(admix_output) <- c("Native", "African", "European")
+
+### Import and label sample info table
+sample_info <- read.table('sample_maps/ind_3pop_popgroup.txt')
+colnames(sample_info) <- c("ID", "Subpop", "Pop")
+
+### Combine tables, swapping pop and subpop columns
+data <- cbind(sample_info[,c(1,3,2)], admix_output)
+
+### Sets ancestry colour palette for diagrams
+anc_palette <- brewer.pal(3,"Set1")
+
+
+
+
+##### Creating a stacked barchart showing anc distribution of each subpop
+#need to find average for each subpop of each anc, then pivot longer
+
+### Wrangle data to find each subpop's average ancestry, and convert long format
+stacked <- data %>%
+  group_by(Pop, Subpop) %>%
+  # Find averages of each ancstry for each subpop
+  summarize(.groups="keep", Native   = mean(Native, na.rm=TRUE), 
+                            African  = mean(African, na.rm=TRUE), 
+                            European = mean(European, na.rm=TRUE)) %>%
+  # Arange by each Pop and then by African Ancestry, then pivots for plotting
+  arrange(desc(Pop), African) %>% 
+  pivot_longer(!c(Subpop,Pop), names_to="Ancestry", values_to="Proportion")
+
+### Plot chart
+p <- ggplot(data=stacked, aes(fill=Ancestry, y=Proportion,
+                                             x=fct_inorder(Subpop))) +#OrderKept
+     geom_bar(position="fill", stat="identity", width=1) + theme_bw() + #stacks
+     theme(axis.text.x  = element_text(angle=90, hjust=1, vjust=.5),
+           axis.title   = element_text(face="bold"),
+           legend.title = element_text(face="bold")) + 
+     labs(x="Subpopulation", y="Proportion of Ancestry") +
+     scale_y_continuous(expand = c(0,0), limits = c(-0.003,1.003)) + #no gaps
+     scale_fill_manual(values = anc_palette) 
+
+### Saves as pdf file
+pdf("../results/admixture_subpop_barplot.pdf", 6, 5)
+print(p); graphics.off()
+
+
+
+
+
+##### Creating multiple stacked barcharts for each ADM subpop, showing ancestry proportion of each individual in said population
+
+### Function to create a stacked barplot from a subpop number (from stacked)
+stackplot <- function(nSubpop){
+  subpop <- stacked[3*nSubpop,2] # get subpop name
+  n <- dim(subset(data, Subpop == as.character(subpop)))[1] # get sample size
+  samples <- subset(data, Subpop == as.character(subpop)) %>% #subset
+    ### Arange by African Ancestry, then pivots for plotting
+    arrange(African, European) %>% 
+    pivot_longer(!c(Subpop,Pop,ID), names_to="Ancestry", values_to="Prop") %>%
+    ### Plot chart
+    ggplot(aes(fill=Ancestry, y=Prop, x=fct_inorder(ID))) +
+      geom_bar(position="fill", stat="identity", width=1) +
+      theme_bw() + ggtitle(subpop) +
+      theme(axis.text.x       = element_blank(),
+            axis.text.y       = element_text(size=6, margin=margin(t=1, b=1)),
+            axis.title.x      = element_blank(),
+            axis.title.y      = element_blank(),
+            axis.ticks        = element_line(colour = "black", size = .2),
+            axis.ticks.length = unit(1.5, "pt"), #length of tick marks
+            axis.ticks.x      = element_blank(),
+            legend.position   = "none",
+            plot.title        = element_text(hjust=0.5, vjust=-1.8,
+                                             face="plain", size=8),
+            plot.margin       = unit(c(0, 0, .8, 0), "pt")) +
+      labs(x="Subpopulation Individuals", y="Proportion of Ancestry") +
+      geom_text(label=paste0("n=",n), x=n*.5,y=.04, size=2, fontface="plain") +
+      scale_y_continuous(expand = c(0,0), limits = c(0,1)) +
+      scale_fill_manual(values = anc_palette) 
+  return(samples) #probs want to return instead for multiplot
+}
+
+### Create Legend
+legend <- get_legend(
+  stackplot(28) + 
+    guides(color = guide_legend(nrow = 1)) +
+    #scale_x_discrete(limits=c("2", "0.5", "1")) +
+    theme(legend.position = "top",
+          legend.key.size = unit(0.3, "cm"),
+          legend.title=element_text(size=7, face="bold.italic"), 
+          plot.margin = margin(0, 0, 10, 0),
+          legend.text=element_text(size=6, face="italic")))
+
+### Creates stacked bar multiplot
+plot <- cowplot::plot_grid(
+  stackplot(28),
+  stackplot(29) + theme(axis.text.y=element_blank(),
+                        axis.ticks=element_blank()),
+  stackplot(30) + theme(axis.text.y=element_blank(),
+                        axis.ticks=element_blank()), 
+  stackplot(31),
+  stackplot(32) + theme(axis.text.y=element_blank(),
+                        axis.ticks=element_blank()), 
+  stackplot(33) + theme(axis.text.y=element_blank(),
+                        axis.ticks=element_blank()), 
+  ncol=3,
+  labels = "AUTO",
+  label_size = 10,
+  axis=c("b"),
+  align = "hv",
+  label_x = .068, 
+  label_y = .99)
+
+### Common y and x labels
+y.grob <- textGrob("Proportion of Ancestry", 
+                   gp=gpar(fontface="bold", col="black", fontsize=8), rot=90)
+x.grob <- textGrob("Subpopulation Individuals", 
+                   gp=gpar(fontface="bold", col="black", fontsize=8))
+
+### Combine plots, legend and axis labels, prints ou to pdf
+pdf("../results/admixture_sample_barplots.pdf", 6, 4)
+grid.arrange(arrangeGrob(plot, left=y.grob, bottom=x.grob),
+                         legend, heights=c(2, .1))
+graphics.off()
+
+
+
+
+##### Creating comparative boxplots
+
+### Subsets and reorders data so subpops are plotted by African/Native ancestry
+adm <- rbind(subset(data, Subpop=="ACB"), subset(data, Subpop=="ASW"),
+             subset(data, Subpop=="PUR"), subset(data, Subpop=="CLM"),
+             subset(data, Subpop=="MXL"), subset(data, Subpop=="PEL"))
+
+### Names the 3 pops for use in function below
+pops <- c("African", "European", "Native")
+
+### Function to plot jittered comparative boxplot by subpop for argued pop number (corresponding to pops vecotr above)
+anc_boxplot <- function(pop_num){
+  q <- ggplot(adm, aes_string(x="fct_inorder(Subpop)", y=pops[pop_num])) +
+        labs(y=paste("Proportion",pops[pop_num])) +
+        geom_boxplot(outlier.shape=NA) + #avoid plotting outliers twice
+        geom_jitter(position=position_jitter(width=.2, height=0),
+                    colour=anc_palette[pop_num], size=.5) +
+        stat_boxplot(geom ='errorbar') +
+        theme_bw() + theme(axis.title.x = element_blank(),
+                           axis.title.y = element_text(face="bold"))
+  return(q)
+}
+
+### Lays out multiplot
+plot <- cowplot::plot_grid(
+  anc_boxplot(1) + theme(axis.text.x=element_blank(),
+                        axis.ticks.x=element_blank()),
+  anc_boxplot(2) + theme(axis.text.x=element_blank(),
+                        axis.ticks.x=element_blank()), 
+  anc_boxplot(3),
+  ncol=1,
+  labels = "AUTO",
+  label_size = 13,
+  axis=c("b"),
+  align = "hv",
+  label_x = .09, 
+  label_y = 0.985)
+  ### Common x label
+  x.grob <- textGrob("Admixed Subpopulation", 
+                     gp=gpar(fontface="bold", col="black", fontsize=11))
+
+### Combine plot and axis label, prints out to pdf
+pdf("../results/admixture_boxplots.pdf", 6, 15)
+grid.arrange(arrangeGrob(plot, bottom=x.grob))
+graphics.off()
+
+
+
+### Wilcoxin test - between ancestry for each subpop - basically between every boxplot and the others vertically and horizontally
+wilcox.test()
+#for loop for ancestry and nested loop for subpop?
+
+nat_pel <- subset(data, Subpop=="PEL")[,4]
+nat_pur <- subset(data, Subpop=="PUR")[,4]
+
+wilcox.test(nat_pel, nat_pur) #understand output before scaling up
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Obsolete, ignore
+
+
+# ### Plots the big multiplot figure as a 4x3 grid
+# pdf("../results/admixture_sample_analysis.pdf")
+# grid.newpage()
+# pushViewport(viewport(layout = grid.layout(2,3, heights=rep(1,6))))
+# for (num in 1:6){
+#   print(stackplot(num+27),
+#         vp=viewport(layout.pos.row=ceiling(num/3),
+#                     layout.pos.col=ifelse(num%%3!=0, num%%3, 3)))}
+# graphics.off()
+
+
+### Alternative plotting method, allows sharing of axis labels
+# plot <- cowplot::plot_grid(
+#   stackplot(28) + theme(axis.title.x=element_blank()),
+#   stackplot(29) + theme(axis.text.y=element_blank(),
+#                         axis.title.x=element_blank(),
+#                         axis.title.y=element_blank(),
+#                         axis.ticks=element_blank()),
+#   stackplot(30) + theme(axis.text.y=element_blank(),
+#                         axis.title.x=element_blank(),
+#                         axis.title.y=element_blank(),
+#                         axis.ticks=element_blank()), 
+#   stackplot(31) + theme(axis.title.x=element_blank()),
+#   stackplot(32) + theme(axis.text.y=element_blank(),
+#                         axis.title.y=element_blank(),
+#                         axis.ticks=element_blank()), 
+#   stackplot(33) + theme(axis.text.y=element_blank(),
+#                         axis.title.x=element_blank(),
+#                         axis.title.y=element_blank(),
+#                         axis.ticks=element_blank()), 
+#   nrow = 2,
+#   labels = "AUTO",
+#   label_size = 10,
+#   #align = "hv",
+#   label_x = .155, 
+#   label_y = .98) #needs to be changed based on plot size
+
+# pdf("../results/admixture_sample_analysis_alt.pdf", 6, 4)
+# plot
+# graphics.off()

@@ -30,6 +30,8 @@ cd ~/../projects/human-popgen-datasets/live
 
 ### Utilities
 
+# To zip tar.gz file
+tar -czvf name-of-archive.tar.gz /path/to/directory-or-file
 # To unzip .gz file:
 gunzip #fname
 # To unzip tar.gz file:
@@ -63,8 +65,8 @@ if test -f "$FILE"; then
     echo "$FILE exists."
 fi
 
-
-
+# Check queue status (or any other commands) remotely
+ssh --XY bjn20@login.cx1.hpc.ic.ac.uk qstat #or whatever
 
 ### Loading programmes needed:
 

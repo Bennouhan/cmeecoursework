@@ -2,6 +2,20 @@
 #PBS -lwalltime=1:0:0
 #PBS -J 1-22
 
+########## NB - OBSCELETE!!! Went with different method, leads to more 99% natives. below commented section goes in admixture.sh, replacing everythin up to admixture except dir change and module load
+
+# ### Merging
+# #Get a list of all PLINK files
+# rm -r -f -d ../data/admixture/PLINK_merged/
+# mkdir -p ../data/admixture/PLINK_merged 
+
+# find ../data/admixture/ -name "*.bim" | grep -e "no_duplicates" > ../data/admixture/PLINK_merged/merge.list.temp ;#may be an error here, not sure where the bim files are, use right dir
+# sed 's/.bim//g' ../data/admixture/PLINK_merged/merge.list.temp > ../data/admixture/PLINK_merged/merge.list ;
+# rm ../data/admixture/PLINK_merged/merge.list.temp ;
+
+# #Merge all projects into a single PLINK fileset
+# plink --merge-list ../data/admixture/PLINK_merged/merge.list --out ../data/admixture/PLINK_merged/merge
+
 
 ### Load modules for any applications
 module load anaconda3/personal
