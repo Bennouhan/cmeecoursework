@@ -3,11 +3,10 @@
 
 ### Clear workspace and past outputs, set working directory
 rm(list = ls())
-unlink("../results/admix*barplot*")
 setwd('~/cmeecoursework/project/data/')
+unlink("../results/admix*.pdf")
 
 ### Import packages
-#library(pophelper) #need to install #not available in this R version
 library(ggplot2) #need to install - tidyverse
 library(RColorBrewer)
 library(forcats)
@@ -16,7 +15,10 @@ library(dplyr,warn.conflicts=F)
 library(grid)
 library(gridExtra,warn.conflicts=F)
 library(cowplot) #needed installing
+library(qwraps2) #needed installing
 
+
+##### Setup
 
 ### Import and label Admixture output table
 admix_output <- read.table('admixture/output/HGDP_1000g_regen_no_AT_CG_3pop_geno05_shapeit4_allchr_pruned.3.Q')
@@ -31,6 +33,9 @@ data <- cbind(sample_info[,c(1,3,2)], admix_output)
 
 ### Sets ancestry colour palette for diagrams
 anc_palette <- brewer.pal(3,"Set1")
+
+
+
 
 
 
@@ -68,10 +73,13 @@ print(p); graphics.off()
 
 
 
+
+
+
 ##### Creating multiple stacked barcharts for each ADM subpop, showing ancestry proportion of each individual in said population
 
-### Function to create a stacked barplot from a subpop number (from stacked)
 stackplot <- function(nSubpop){
+  ### Function to create a stacked barplot from a subpop number (from stacked)
   subpop <- stacked[3*nSubpop,2] # get subpop name
   n <- dim(subset(data, Subpop == as.character(subpop)))[1] # get sample size
   samples <- subset(data, Subpop == as.character(subpop)) %>% #subset
@@ -99,6 +107,7 @@ stackplot <- function(nSubpop){
       scale_fill_manual(values = anc_palette) 
   return(samples) #probs want to return instead for multiplot
 }
+
 
 ### Create Legend
 legend <- get_legend(
@@ -146,28 +155,56 @@ graphics.off()
 
 
 
+
+
+
+
 ##### Creating comparative boxplots
 
-### Subsets and reorders data so subpops are plotted by African/Native ancestry
-adm <- rbind(subset(data, Subpop=="ACB"), subset(data, Subpop=="ASW"),
-             subset(data, Subpop=="PUR"), subset(data, Subpop=="CLM"),
-             subset(data, Subpop=="MXL"), subset(data, Subpop=="PEL"))
-
-### Names the 3 pops for use in function below
-pops <- c("African", "European", "Native")
-
-### Function to plot jittered comparative boxplot by subpop for argued pop number (corresponding to pops vecotr above)
 anc_boxplot <- function(pop_num){
+  ### Function to plot jittered comparative boxplot by subpop for argued pop number (corresponding to pops vecotr below)
   q <- ggplot(adm, aes_string(x="fct_inorder(Subpop)", y=pops[pop_num])) +
-        labs(y=paste("Proportion",pops[pop_num])) +
+        labs(y=paste("Proportion",pops[pop_num])) + ylim(0, 1) +
         geom_boxplot(outlier.shape=NA) + #avoid plotting outliers twice
         geom_jitter(position=position_jitter(width=.2, height=0),
                     colour=anc_palette[pop_num], size=.5) +
-        stat_boxplot(geom ='errorbar') +
-        theme_bw() + theme(axis.title.x = element_blank(),
-                           axis.title.y = element_text(face="bold"))
+        stat_boxplot(geom ='errorbar') + theme_bw() + 
+        # top whisker goes to last value within 1.5x the interquartile range &vv
+        theme(axis.title.x = element_blank(),
+              axis.title.y = element_text(face="bold"))
+  for (i in 1:6) {
+  q <- q + geom_text(x=i, y=-0.025, label = table[i,pop_num+1], size=3, fontface="plain")}
+  
   return(q)
 }
+
+MeanSD3 <- function(vector, fun=round, num=3){
+  ### Converts vector into its mean ± SD to 3 decimal places each
+  mean <- fun(mean(vector), num)
+  sd   <- fun(  sd(vector), num)
+  return(paste0(mean, "±", sd))
+}
+
+
+### Names the 3 pops for use in function above, and the 6 subpops
+pops    <- c("African", "European", "Native")
+subpops <- c("ACB", "ASW","PUR", "CLM", "MXL", "PEL")
+
+### Subsets and reorders data so subpops are plotted by African/Native ancestry
+adm <- data.frame()
+for (subpop in subpops){
+  adm <- rbind(adm, subset(data, Subpop==subpop))
+}
+
+### table in same layout as boxplots, giving mean+-SD for each box
+table <- adm %>% 
+         group_by(Subpop) %>%
+         summarize(.groups="keep", 
+                   Native   = MeanSD3(Native),
+                   African  = MeanSD3(African), 
+                   European = MeanSD3(European)) %>% as.data.frame()
+table <- table[match(subpops, table$Subpop),] #reorders rows
+table <- table[,c(1, 3:4, 2)] #reorders cols
 
 ### Lays out multiplot
 plot <- cowplot::plot_grid(
@@ -194,16 +231,21 @@ graphics.off()
 
 
 
+
+
+
+
+##### Not using yet
+
 ### Wilcoxin test - between ancestry for each subpop - basically between every boxplot and the others vertically and horizontally
-wilcox.test()
 #for loop for ancestry and nested loop for subpop?
 
 nat_pel <- subset(data, Subpop=="PEL")[,4]
 nat_pur <- subset(data, Subpop=="PUR")[,4]
+#experiment
+test <- wilcox.test(nat_pel, nat_pur) #understand output before scaling up
 
-wilcox.test(nat_pel, nat_pur) #understand output before scaling up
-
-
+#
 
 
 
