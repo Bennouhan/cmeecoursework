@@ -76,17 +76,17 @@ for (chr in 22:22){ #change range as appropriate
   }
   
   ### Creates directories if don't exist, and deletes past outputs if exists
-  dir.create(file.path("../results/"), showWarnings=FALSE)
-  dir.create(file.path("../results/analysis/"), showWarnings=FALSE)
-  dir.create(file.path("../results/analysis/count_tables/"), showWarnings=FALSE)
-  unlink(paste0("../results/analysis/count_tables/chr", chr))
+  dir.create(file.path("../data/"), showWarnings=FALSE)
+  dir.create(file.path("../data/analysis/"), showWarnings=FALSE)
+  dir.create(file.path("../data/analysis/count_tables/"), showWarnings=FALSE)
+  unlink(paste0("../data/analysis/count_tables/chr", chr))
 
   ### Name columns and save, to be used when consolidating the chromosomes prior to final analysis 
   colnames(count_table) <- as.character(fb$physical_position[range])
   rownames(count_table) <- paste0(rep(subpops, each=6), rep(c("_eur_hom", "_nat_hom", "_afr_hom", "_eur_nat", "_afr_eur", "_afr_nat"),6))
   save(count_table,
-        file=paste0("../results/analysis/count_tables/chr",chr,".Rda"))
-  ### NB: just save() saves name also. readRDS(file = "my_data.rds") to read:
-  # test <- readRDS(file = paste0("../results/analysis/count_tables/chr",chr,".rds"))
-  # 300 rows takes 32 seconds, so the full file would take 1.7 hours, which would be 1.7 * (1/0.017676) = 96 hours for the full chromosome
+        file=paste0("../data/analysis/count_tables/chr",chr,".Rda"))
+  ## NB, subsequent analysis uses .rds file, so the output of this doesn't overwrite stuff transferred from HPC
+  
+  # 300 rows takes 32 seconds, so the full file would take 1.7 hours, which would be 1.7 * (1/0.017676) = 96 hours for the full genome
 }

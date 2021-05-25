@@ -1,10 +1,9 @@
 ##### Script to make stacked barchart of Admixture output
 
-
 ### Clear workspace and past outputs, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/')
-unlink("../results/admix*.pdf")
+unlink(c("../results/admix*.pdf", "../data/analysis/*admix*"))
 
 ### Import packages
 library(ggplot2) #need to install - tidyverse
@@ -30,6 +29,9 @@ colnames(sample_info) <- c("ID", "Subpop", "Pop")
 
 ### Combine tables, swapping pop and subpop columns
 data <- cbind(sample_info[,c(1,3,2)], admix_output)
+
+### Save dataframe for use by other scripts
+saveRDS(data, paste0("../data/analysis/admixture_output_full.rds"))
 
 ### Sets ancestry colour palette for diagrams
 anc_palette <- brewer.pal(3,"Set1")

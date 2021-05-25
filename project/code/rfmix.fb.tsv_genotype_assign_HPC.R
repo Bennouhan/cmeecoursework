@@ -84,6 +84,7 @@ dir.create(file.path("../results/"), showWarnings=FALSE)
 dir.create(file.path("../results/analysis/"), showWarnings=FALSE)
 dir.create(file.path("../results/analysis/count_tables/"), showWarnings=FALSE)
 unlink(paste0("../results/analysis/count_tables/chr",chr,".rds"))
+# save to results not data to avoid any overwriting; will never be saved in data on local computer
 
 ### Name columns and save, to be used when consolidating the chromosomes prior to final analysis 
 colnames(count_table) <- as.character(fb$physical_position[range])

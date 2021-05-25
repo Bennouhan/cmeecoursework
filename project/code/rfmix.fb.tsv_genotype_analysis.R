@@ -2,89 +2,185 @@
 ### Clear workspace, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/') #for local
-#setwd('~/project/data/') #for ssh, IMPORTANT!
+unlink("../results/*AMI*")
 
 
-### Read and concatenate each chromosome's genotype assignment
-load(paste0("../results/analysis/count_tables/chr",22,".Rda"))
-table <- count_table
-for (chr in c(22, 22)){#2:22 #when ready; 1 above
-  load(paste0("../results/analysis/count_tables/chr",chr,".Rda"))
-  table <- cbind(table, count_table)
+
+### Loads necessary package(s)
+library(parallel)
+library(ggplot2) #need to install - tidyverse
+library(RColorBrewer)
+library(forcats)
+library(tidyr)
+library(dplyr,warn.conflicts=F)
+library(grid)
+library(gridExtra,warn.conflicts=F)
+library(cowplot) #needed installing
+library(qwraps2) #needed installing
+
+
+##### Assign functions
+anc_ami_boxplot <- function(pop_num, subset=FALSE){
+### Function to plot jittered comparative boxplot by subpop for argued pop number (corresponding to pops vecotr below)
+
+  ### Takes subset of the dataframe if too many datapoints to plot
+  ami4plot <- ami4plot[!is.na(ami4plot[,2+pop_num]),]
+  q <- ggplot(ami4plot,
+              aes_string(x="fct_inorder(Subpop)", y=pops[pop_num])) +
+        labs(y=paste(pops[pop_num], "AMIs")) +
+        ylim((min(ami4plot[,2+pop_num])-.2), (max(ami4plot[,2+pop_num])+.2)) +
+        geom_boxplot(outlier.shape=NA, na.rm=TRUE) + #avoid duplicate outliers
+        geom_jitter(position=position_jitter(width=.2, height=.05),
+                    colour=anc_palette[pop_num], size=.2, na.rm=TRUE) +
+        stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
+        # top whisker goes to last value within 1.5x the interquartile range &vv
+        theme(axis.title.x = element_blank(),
+              axis.title.y = element_text(face="bold"))
+  for (i in 1:6) {
+  q <- q + geom_text(x=i, y=(min(ami4plot[,2+pop_num])-.3), label = meanSDtable[i,pop_num+1], size=3, fontface="plain")}
+  return(q)
 }
 
-### Creates & names 19 (num needed by function for each subpop) blank rows
-extra_rows <- data.frame(matrix(0, nrow=19, ncol=ncol(table)))
-colnames(extra_rows) <- colnames(table)
-new_row_names <- c("obs_eur", "obs_nat", "obs_afr", 
-          "obs_eur_hom", "obs_nat_hom", "obs_afr_hom",
-          "obs_eur_het", "obs_nat_het", "obs_afr_het",
-          "exp_eur_hom", "exp_nat_hom", "exp_afr_hom",
-          "exp_eur_het", "exp_nat_het", "exp_afr_het", 
-          "AMI", "AMI_eur", "AMI_nat", "AMI_afr")
+MeanSD3 <- function(vector, fun=round, num=3){
+### Converts vector into its mean ± SD to 3 decimal places each
+  vector = vector[!is.na(vector)]
+  mean <- fun(mean(vector), num)
+  sd   <- fun(  sd(vector), num)
+  return(paste0(mean, "±", sd))
+}
 
-### Appends the 19 blank rows, and adds copies of it below each subpop's counts
-table <- rbind(table, extra_rows)
-table <- table[c(1:6, 37:55, 7:12, 37:55, 13:18, 37:55, 19:24, 37:55, 25:30, 37:55, 31:36, 37:55),]
 
-### Rename row names apropriately, so each set of 25 consecutive rows correspond to one of six subpopulations, named for that subpopulation and: the 6 rows each that were previously there when loading, and the names in the new_row_names list above
+
+
+################################# ANALYSIS #####################################
+
+
+### Fetch assignment output from HPC:
+# scp bjn20@login.cx1.hpc.ic.ac.uk:~/project/results/analysis/count_tables/chr*.rds ~/cmeecoursework/project/data/analysis/count_tables/
+
+### Read and concatenate each chromosome's genotype assignment
+table <- readRDS(paste0("../data/analysis/count_tables/chr",1,".rds")) 
+for (chr in c(1:3,5:10,12,14:22)){ #change to 2:22 ultimately
+  table <- cbind(table,
+            readRDS(paste0("../data/analysis/count_tables/chr",chr,".rds")))
+} ## NB: genotype_assign.R -> .Rda, genotype_assign_HPC -> .rds
+print("Finished loading RDS files. Starting AMI calculation, will take several minutes...")
+
+### Creates vectors with population and subpopulation names, & plotting colours
+pops    <- c("African", "European", "Native")
 subpops <- c("PEL", "MXL", "CLM", "PUR", "ASW", "ACB")
-rownames <- paste0(rownames(table), "_geno_count")
-rownames[c(7:25, 32:50, 57:75, 82:100, 107:125, 132:150)] <-
-  paste0(rep(subpops, each=19), "_", new_row_names)
-rownames(table) <- rownames
+anc_palette <- brewer.pal(3,"Set1")
 
+### Sets the subset value - the n value for which every nth row is taken; plotting crashes without it
+subset <- 3000 #set to false if none wanted
 
-### Takes subpop sample number vector and a row (genomic window), sums the genotypes of given subpop for that window
-analyse_column <- function(ncol, npop){
-  ### Finds first row relevent to this subpop, creates vector of the 6 genotype counts, and sums them to find the total number of samples assigned with >90% confidence, of that subpop, at that position
-  table[1:25,1] #for debugging, DELETE AFTER!!!!
-  row1 <- npop*25-24 
-  genotypes <- table[row1:(row1+5),ncol]
-  nsamples <- sum(genotypes)
-  ### Calculates and enters observed frequency for eur, nat and afr haplotypes
-  table[row1+6,ncol] <- (genotypes[1] + (genotypes[4]+genotypes[5])/2) /nsamples
-  table[row1+7,ncol] <- (genotypes[2] + (genotypes[4]+genotypes[6])/2) /nsamples
-  table[row1+8,ncol] <- (genotypes[3] + (genotypes[5]+genotypes[6])/2) /nsamples
+### Creates empty dfs for AMIs and their mean+-SDs to rbind to
+ami4plot    <- data.frame(v1=character(0), v2=numeric(0), v3=numeric(0),
+                                           v4=numeric(0), v5=numeric(0))
+meanSDtable <- data.frame(v1=character(0), v2=numeric(0), v3=numeric(0),
+                                           v4=numeric(0), v5=numeric(0))
+
+### Generates AMI values (overall and for each ancestry) from genotype counts
+for (subpop in 1:length(subpops)){
+  ### Extracts relevent data from "table", and counts each position's alleles
+  genotype_counts <- t(table[(subpop*6-5):(subpop*6),])
+  nalleles <- rowSums(genotype_counts)*2
+  ### Calculates observed frequency for eur, nat and afr haplotypes
+  obs_eur <- as.numeric(rowSums(genotype_counts[,c(1,1,4,5)])/nalleles)
+  obs_nat <- rowSums(genotype_counts[,c(2,2,4,6)])/nalleles
+  obs_afr <- rowSums(genotype_counts[,c(3,3,5,6)])/nalleles
   ### Calculates and enters observed frequency for each genotype
-  table[(row1+9):(row1+14),ncol]  <- genotypes/nsamples
-  ### Calculates and enters expected frequency for each homozygous genotype
-  table[(row1+15):(row1+17),ncol] <- table[(row1+6):(row1+8),ncol]^2
-  ### Calculates and enters expected frequency for each heterozygous genotype
-  table[(row1+18):(row1+20),ncol] <- c(2*table[row1+6,ncol]*table[row1+7,ncol],
-                                       2*table[row1+8,ncol]*table[row1+6,ncol],
-                                       2*table[row1+8,ncol]*table[row1+7,ncol])
-  ### Calculates Assortative Mating Index (AMI) for subpop at that position
-  table[row1+21,ncol] <- log((sum(table[(row1+ 9):(row1+11),ncol])/ #overall AMI
-                              sum(table[(row1+15):(row1+17),ncol]))/
-                             (sum(table[(row1+12):(row1+14),ncol])/
-                              sum(table[(row1+18):(row1+20),ncol])))
-  ### Calculates ancestry-specific AIMs for subpop at that position
-  # NB - do these AMI_x values mean anything? ask 
-  table[row1+22,ncol] <- log(table[row1+ 9,ncol]/table[row1+15,ncol]/ #AMI_eur
-                             (sum(table[(row1+12):(row1+13),ncol])/
-                              sum(table[(row1+18):(row1+19),ncol])))
-  table[row1+23,ncol] <- log(table[row1+10,ncol]/table[row1+16,ncol]/ #AMI_nat
-                             (sum(table[(row1+12):(row1+14),ncol])/
-                              sum(table[(row1+18):(row1+20),ncol])))
-  table[row1+24,ncol] <- log(table[row1+11,ncol]/table[row1+17,ncol]/ #AMI_afr
-                             (sum(table[(row1+13):(row1+14),ncol])/
-                              sum(table[(row1+19):(row1+20),ncol])))
-}       
-######## NB, when this is confirmed to work, vectorise down and accross by splitting the above into 2 functions (one vectorising the other) as in assign script
+  obs_genotypes <- genotype_counts/nalleles*2
+  ### Calculates and enters expected frequency for each genotype
+  exp_homs <- cbind(obs_eur, obs_nat, obs_afr)^2
+  exp_genotypes <- cbind(exp_homs, 2*obs_eur*obs_nat, 2*obs_eur*obs_afr, 
+                                  2*obs_afr*obs_nat)
+  ### calculates overall AMIs and those for each ancestry
+  AMIs    <- log((rowSums(obs_genotypes[,1:3])/rowSums(exp_genotypes[,1:3]))/
+                 (rowSums(obs_genotypes[,4:6])/rowSums(exp_genotypes[,4:6])))
+  European <- log((obs_genotypes[,1]/exp_genotypes[,1])/
+                (rowSums(obs_genotypes[,4:5])/rowSums(exp_genotypes[,4:5])))
+  Native <-   log((obs_genotypes[,2]/exp_genotypes[,2])/
+              (rowSums(obs_genotypes[,c(4,6)])/rowSums(exp_genotypes[,c(4,6)])))
+  African <-  log((obs_genotypes[,3]/exp_genotypes[,3])/
+                (rowSums(obs_genotypes[,5:6])/rowSums(exp_genotypes[,5:6])))
+  ### Rounds to 4 sf, replaces inf with NA for plotting
+  AMI_df <- signif(cbind(AMIs,  African, European, Native),4)
+  AMI_df[sapply(AMI_df, is.infinite)] <- NA 
+  ### Labels each row with its subpop
+  Subpop <- rep(subpops[subpop], ncol(table))
+  AMI_df <- cbind.data.frame(Subpop, AMI_df)
+  ### Calculates each AMI's mean and standard deviation for this subpop
+  meanSDtable_subpop <- AMI_df %>% 
+                      group_by(Subpop) %>%
+                      summarize(.groups="keep", 
+                                Overall  = MeanSD3(AMIs),
+                                African  = MeanSD3(African),
+                                European = MeanSD3(European), 
+                                Native   = MeanSD3(Native)) %>% as.data.frame()
+  ### Takes sample for plotting
+  AMI_df <- AMI_df[seq(1, nrow(AMI_df), subset),] #should really take mean+-SD first...
+  ### Appends subpop tables to overall tables
+  ami4plot    <- rbind(ami4plot,    AMI_df)
+  meanSDtable <- rbind(meanSDtable, meanSDtable_subpop)
+  print(paste("Finished calculating AMIs for subpopulation", subpops[subpop]))
+}
+
+### Reorders meanSDtable rows to match order of subpops vector
+meanSDtable <- meanSDtable[match(subpops, meanSDtable$Subpop),] #reorders rows
 
 
 
 
 
+############################### VISUALISATION ##################################
+
+
+##### Multiplot figure
+### Lays out multiplot
+plot <- cowplot::plot_grid(
+  anc_ami_boxplot(1) + theme(axis.text.x=element_blank(),
+                                            axis.ticks.x=element_blank()),
+  anc_ami_boxplot(2) + theme(axis.text.x=element_blank(),
+                                            axis.ticks.x=element_blank()), 
+  anc_ami_boxplot(3),
+  ncol=1,
+  labels = "AUTO",
+  label_size = 13,
+  axis=c("b"),
+  align = "hv",
+  label_x = .07, 
+  label_y = 0.985)
+  ### Common x label
+  x.grob <- textGrob("Admixed Subpopulation", 
+                     gp=gpar(fontface="bold", col="black", fontsize=11))
+### Combine multiplot and axis label, prints out to pdf
+plot <- grid.arrange(arrangeGrob(plot, bottom=x.grob))
+ggsave(file="../results/anc_AMI_plot.png", plot, dpi=1000,
+width=6, height=15, units="in")
+print("Finished plotting ancestry-specific AMI multiplot")
 
 
 
 
 
+##### Overall AMI figure
+### Makes plot
+OGami4plot <- ami4plot[!is.na(ami4plot[,2]),]
+AMI_plot <- ggplot(OGami4plot,
+      aes_string(x="fct_inorder(Subpop)", y="AMI")) +
+      labs(y="Assortative Mating Index", x="Admixed Subpopulation") +
+      ylim((min(OGami4plot[,2])-.2), (max(OGami4plot[,2])+.2)) +
+      geom_boxplot(outlier.shape=NA, na.rm=TRUE) + #avoid duplicate outliers
+      geom_jitter(position=position_jitter(width=.2, height=0.05),
+                  colour=anc_palette[2], size=.2, na.rm=TRUE) +
+      stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
+      # top whisker goes to last value within 1.5x the interquartile range &vv
+      theme(axis.title = element_text(face="bold"))
+for (i in 1:6) {
+AMI_plot <- AMI_plot + geom_text(x=i, y=-.73, 
+            label = meanSDtable[i,2], size=3, fontface="plain")}
 
-
-
-### NB - the resulting dataframe will be just under half as big as the chr1 fb
-# chr1fb <- 350000 * 3500
-# this   <- 350000 * 10 * 150
+### Prints out as a png
+ggsave(file="../results/AMI_plot.png", dpi=1000, width=6, height=5, units="in")
+print("Finished plotting overall AMI figure")

@@ -1,9 +1,9 @@
+##### Script to make stacked barchart of RFMix2 output
 
 ### Clear workspace, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/')
-unlink("../results/rfmix.Q*.pdf")
-
+unlink(c("../results/rfmix.Q*.pdf", "../data/analysis/*rfmix*"))
 
 ### Import packages
 library(ggplot2) #need to install - tidyverse
@@ -15,7 +15,6 @@ library(grid)
 library(gridExtra,warn.conflicts=F)
 library(cowplot) #needed installing
 library(qwraps2) #needed installing
-
 
 ##### Setup
 
@@ -66,9 +65,8 @@ for (row in 1:nrow(data2)){
 ### Subsets the dataframe to only ADM samples, and no "PEL_sub_99" - since seeing the distribution without the 99+ NAT isnt at all helpful here
 data <- data2 %>% filter(Pop == "ADM" & Subpop != "PEL_sub_99")
 
-# NB: no point doing first fig, as admixed individuals from AFr Nat and Eur populations have been removed; skip straight to multiplots
-
-
+### Save dataframe for use by other scripts
+saveRDS(data, paste0("../data/analysis/rfmix_output_full.rds"))
 
 
 
