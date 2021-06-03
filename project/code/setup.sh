@@ -6,3 +6,5 @@
 ### Need to install all programs found in utilites script
 # do manually for shapeit4: https://odelaneau.github.io/shapeit4/#installation
 #(needs higher g++ than 4)
+
+# THIS SCRIPT WILL COVER HOW TO GET AND PREP THE DATA, THEN THE HPC RUNS THAT HAVE TO BE DONE. THE PROJECT RUN SCRIPT WILL THEN DO ALL THE ANALYSIS IN ONE GO. 

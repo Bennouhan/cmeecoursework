@@ -1,7 +1,7 @@
 ### Clear workspace, set working directory
 rm(list = ls())
-setwd('~/cmeecoursework/project/data/') #for local
-#setwd('~/project/data/') #for ssh, IMPORTANT!
+#setwd('~/cmeecoursework/project/data/') #for local
+setwd('~/project/data/') #for ssh, IMPORTANT!
 
 ### Import packages
 library(parallel)

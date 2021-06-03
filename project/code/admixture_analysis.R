@@ -237,73 +237,16 @@ graphics.off()
 
 
 
-##### Not using yet
+# ##### Not using yet
 
-### Wilcoxin test - between ancestry for each subpop - basically between every boxplot and the others vertically and horizontally
-#for loop for ancestry and nested loop for subpop?
+# ### Wilcoxin test - between ancestry for each subpop - basically between every boxplot and the others vertically and horizontally
+# #for loop for ancestry and nested loop for subpop?
 
-nat_pel <- subset(data, Subpop=="PEL")[,4]
-nat_pur <- subset(data, Subpop=="PUR")[,4]
-#experiment
-test <- wilcox.test(nat_pel, nat_pur) #understand output before scaling up
+# nat_pel <- subset(data, Subpop=="PEL")[,4]
+# nat_pur <- subset(data, Subpop=="PUR")[,4]
+# #experiment
+# test <- wilcox.test(nat_pel, nat_pur) #understand output before scaling up
 
-#
-
-
+# #
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# Obsolete, ignore
-
-
-# ### Plots the big multiplot figure as a 4x3 grid
-# pdf("../results/admixture_sample_analysis.pdf")
-# grid.newpage()
-# pushViewport(viewport(layout = grid.layout(2,3, heights=rep(1,6))))
-# for (num in 1:6){
-#   print(stackplot(num+27),
-#         vp=viewport(layout.pos.row=ceiling(num/3),
-#                     layout.pos.col=ifelse(num%%3!=0, num%%3, 3)))}
-# graphics.off()
-
-
-### Alternative plotting method, allows sharing of axis labels
-# plot <- cowplot::plot_grid(
-#   stackplot(28) + theme(axis.title.x=element_blank()),
-#   stackplot(29) + theme(axis.text.y=element_blank(),
-#                         axis.title.x=element_blank(),
-#                         axis.title.y=element_blank(),
-#                         axis.ticks=element_blank()),
-#   stackplot(30) + theme(axis.text.y=element_blank(),
-#                         axis.title.x=element_blank(),
-#                         axis.title.y=element_blank(),
-#                         axis.ticks=element_blank()), 
-#   stackplot(31) + theme(axis.title.x=element_blank()),
-#   stackplot(32) + theme(axis.text.y=element_blank(),
-#                         axis.title.y=element_blank(),
-#                         axis.ticks=element_blank()), 
-#   stackplot(33) + theme(axis.text.y=element_blank(),
-#                         axis.title.x=element_blank(),
-#                         axis.title.y=element_blank(),
-#                         axis.ticks=element_blank()), 
-#   nrow = 2,
-#   labels = "AUTO",
-#   label_size = 10,
-#   #align = "hv",
-#   label_x = .155, 
-#   label_y = .98) #needs to be changed based on plot size
-
-# pdf("../results/admixture_sample_analysis_alt.pdf", 6, 4)
-# plot
-# graphics.off()

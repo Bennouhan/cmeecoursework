@@ -6,10 +6,19 @@ unlink("../results/window_lengths.png")
 
 
 ### Import packages
-library(parallel)
 library(data.table,warn.conflicts=F) #needs installing
-library(qpcR) #needs installing
-library(dplyr)
+library(parallel)
+library(ggplot2) #need to install - tidyverse
+library(RColorBrewer)
+library(forcats)
+library(tidyr)
+library(dplyr,warn.conflicts=F)
+library(grid)
+library(gridExtra,warn.conflicts=F)
+library(cowplot) #needed installing
+library(qwraps2) #needed installing
+
+
 
 
 
@@ -44,7 +53,6 @@ for (chr in 2:22){ #change to 2:22 ultimately
 
 ### Creates a table of values for each ancestry for each subpopulation
 for (subpop in 1:length(subpops)){
-  # subpop <- 1 #for debug only!!!  subpop_df[1:10,1:10]
   ### Creates matrix of the first 6 columns and the columns specific to each subpopulation
   samples <- which(whole_query_df[,3] == subpops[subpop])
   samp_cols <- 1:6
@@ -56,17 +64,16 @@ for (subpop in 1:length(subpops)){
   ### make a list of 3 vectors you can append grangments to; afr=0, eur=1, nat=2, so value +1 is the list fragment length is appended to
   frag_ls <- list(vector(), vector(), vector())
   for (col_num in 1:length(rle_on_cols)){
-    col_output <- data.frame(unclass(rle_on_cols[[col_num]])) #how to 
+    col_output <- data.frame(unclass(rle_on_cols[[col_num]]))
     col_output$lengths <- cumsum(col_output$lengths)
-    col_output <- rbind(c(0,0), col_output) #not sure yet
+    col_output <- rbind(c(0,0), col_output) 
     ### Find length between each fragment, appends to relevent row
     for (frag in 2:nrow(col_output)){
       ls_num <- col_output$values[frag]+1
       frag_ls[[ls_num]] <- c(frag_ls[[ls_num]],
       as.integer(subpop_df[ col_output$lengths[frag],3] - 
                 subpop_df[(col_output$lengths[frag-1]+1),2]))
-    } ############### NB #####################
-    ### Leads to negative results - not problem with code but with data; gets up to about 00,000,00bp then jumps down to start again. Two options: remove the negative values, misses the fragments where this happens but should disproportionately effect any ancestry; or add all following to the previous amount so it doesnt skip back down - might be to reduce file size which isnt really an issue... either can be done later, continuting for now.
+    } 
   }
   ### Finds longest column, matches it with one of repeated subpop labels
   max <- max(c(length(frag_ls[[1]]),length(frag_ls[[2]]),length(frag_ls[[3]])))
@@ -82,11 +89,8 @@ for (subpop in 1:length(subpops)){
   }
 }
 
-### Replace negatives with NA - one of two fixes, ask alex and matteo
+### Replace negatives (which are the gaps between chromosomes) with NA
 frag_df[frag_df < 1] <- NA
-# my.min <- function(x) ifelse( !all(is.na(x)), min(x, na.rm=T), NA)
-# my.min(as.numeric(as.matrix(frag_df[,2:4]))) #test it works
-
 
 
 
@@ -99,7 +103,6 @@ anc_boxplot <- function(pop_num){
   ### Removes NAs and takes log10 of data
   adm <- adm[!is.na(adm[,1+pop_num]),]
   adm[,1+pop_num] <- log10(adm[,1+pop_num])
-  #adm[,1+pop_num] <- log10(adm[!is.na(adm[,1+pop_num]),][,1+pop_num])
   q <- ggplot(adm, aes_string(x="fct_inorder(Subpop)", y=pops[pop_num])) +
         labs(y=paste(pops[pop_num], "Fragment Lengths (bp)")) +
         geom_boxplot(outlier.shape=NA, na.rm=TRUE) + ylim(c(4.95, NA)) +
@@ -149,7 +152,7 @@ table <- table[match(subpops, table$Subpop),] #reorders rows
 table <- table[,c(1, 3:4, 2)] #reorders cols
 
 ### Randomly remove a given percent of values from each column to make plot less dense
-percent <- 90 #temp - 95 is good final value I reckon
+percent <- 0
 adm$African[ sample(nrow(adm), round(nrow(adm)*percent/100))] <- NA
 adm$European[sample(nrow(adm), round(nrow(adm)*percent/100))] <- NA
 adm$Native[  sample(nrow(adm), round(nrow(adm)*percent/100))] <- NA
@@ -188,8 +191,6 @@ legend <- get_legend(L + guides(color = guide_legend(nrow = 1)) +
 ### Set common y and x labels
 xGrob <- textGrob("Admixed Subpopulation", 
                    gp=gpar(col="black", fontsize=15))
-# y.grob <- textGrob("Fragment Lengths in log10(bp)", 
-#                    gp=gpar(fontface="bold", col="black", fontsize=12), rot=90)
 yGrob <- textGrob(expression(paste("Length of Fragment   log"["10"],"(bp)")),
                    gp=gpar(col="black", fontsize=15), rot=90)
 
