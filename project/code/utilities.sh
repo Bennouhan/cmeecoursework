@@ -20,7 +20,6 @@ cd ~/project/data/unphased/22/
 # Root to lab dir
 cd ~/../projects/human-popgen-datasets/live
 
-
 # FUll details: http://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/support/getting-started/using-ssh/
 
 ../data/admixture/admixture/merge.3.Q

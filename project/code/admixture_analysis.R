@@ -34,10 +34,10 @@ data <- cbind(sample_info[,c(1,3,2)], admix_output)
 saveRDS(data, paste0("../data/analysis/admixture_output_full.rds"))
 
 ### Sets ancestry colour palette for diagrams
-anc_palette <- brewer.pal(3,"Set1")
-
-
-
+#anc_palette <- brewer.pal(3,"Set1")
+anc_palette <- brewer.pal(3,"Set2")
+#anc_palette <- brewer.pal(7,"Set1")[c(1,6,2)]
+#anc_palette <- brewer.pal(11,"Paired")[c(6,11,2)]
 
 
 
@@ -56,6 +56,7 @@ stacked <- data %>%
   arrange(desc(Pop), African) %>% 
   pivot_longer(!c(Subpop,Pop), names_to="Ancestry", values_to="Proportion")
 
+
 ### Plot chart
 p <- ggplot(data=stacked, aes(fill=Ancestry, y=Proportion,
                                              x=fct_inorder(Subpop))) +#OrderKept
@@ -63,7 +64,7 @@ p <- ggplot(data=stacked, aes(fill=Ancestry, y=Proportion,
      theme(axis.text.x  = element_text(angle=90, hjust=1, vjust=.5),
            axis.title   = element_text(face="bold"),
            legend.title = element_text(face="bold")) + 
-     labs(x="Subpopulation", y="Proportion of Ancestry") +
+     labs(x="Population", y="Proportion of Ancestry") +
      scale_y_continuous(expand = c(0,0), limits = c(-0.003,1.003)) + #no gaps
      scale_fill_manual(values = anc_palette) 
 
@@ -103,7 +104,7 @@ stackplot <- function(nSubpop){
             plot.title        = element_text(hjust=0.5, vjust=-1.8,
                                              face="plain", size=8),
             plot.margin       = unit(c(0, 0, .8, 0), "pt")) +
-      labs(x="Subpopulation Individuals", y="Proportion of Ancestry") +
+      labs(x="Population Individuals", y="Proportion of Ancestry") +
       geom_text(label=paste0("n=",n), x=n*.5,y=.04, size=2, fontface="plain") +
       scale_y_continuous(expand = c(0,0), limits = c(0,1)) +
       scale_fill_manual(values = anc_palette) 
@@ -145,7 +146,7 @@ plot <- cowplot::plot_grid(
 ### Common y and x labels
 y.grob <- textGrob("Proportion of Ancestry", 
                    gp=gpar(fontface="bold", col="black", fontsize=8), rot=90)
-x.grob <- textGrob("Subpopulation Individuals", 
+x.grob <- textGrob("Population Individuals", 
                    gp=gpar(fontface="bold", col="black", fontsize=8))
 
 ### Combine plots, legend and axis labels, prints ou to pdf
@@ -223,7 +224,7 @@ plot <- cowplot::plot_grid(
   label_x = .09, 
   label_y = 0.985)
   ### Common x label
-  x.grob <- textGrob("Admixed Subpopulation", 
+  x.grob <- textGrob("Admixed Population", 
                      gp=gpar(fontface="bold", col="black", fontsize=11))
 
 ### Combine plot and axis label, prints out to pdf

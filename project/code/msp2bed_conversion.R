@@ -39,6 +39,7 @@ for (subpop in subpops){
              showWarnings=FALSE)
   dir.create(file.path(paste0("../data/analysis/bed_files/",subpop,"/output")),
              showWarnings=FALSE) }
+dir.create(file.path("../results/tracts"), showWarnings=FALSE)
 
 ### Reads and merges MSP files
 msp <- fread(paste0('RFMix2/output/RFMix2_output_chr',1,'.msp.tsv'),nThread=6)

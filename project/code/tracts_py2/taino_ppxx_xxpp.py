@@ -10,8 +10,8 @@ import scipy
 # tractspath = "../.."  # the path to tracts if not in your default pythonpath
 # sys.path.append(tractspath)
 import tracts
-import models
-#import models_notvalidated #added myself
+#import models
+import models_notvalidated #added myself
 import numpy
 import pylab
 
@@ -29,11 +29,11 @@ method = "brute"
 # followed by a pulse from population 2. "fix" referes to the fact that the
 # migration rates in the model are fixed to the observed global ancestry
 # proportions--then, we only have to optimize the timing of the migrations.
-func = models.ppx_xxp_fix
+func = models_notvalidated.ppxx_xxpp_fix
 
 # this function keeps track of whether parameters are in a "forbidden" region:
 # whether mproportions are between 0 and 1, times positive, etc.
-bound = models.outofbounds_ppx_xxp_fix
+bound = models_notvalidated.outofbounds_ppxx_xxpp_fix
 
 # defines the values of parameters to loop over in the brute force
 # step. Times are in units of 100 generations: the start time will
@@ -53,7 +53,7 @@ bounds = [(0, 1), (0, 1)]
 # "labels" will tell tracts that model population 0 has label '0', model
 # population 1 has label '2', and model population 2 has label '1' in the
 # local ancestry files. #order changed since related to this; just 1st 2nd & 3rd
-labels = ['1', '2', '0'] #I changed from 0,2,1; african (0) came after other 2
+labels = ['1', '2', '0', '1'] #I changed from 0,2,1; african (0) came after other 2
 
 
 # string between individual label and haploid chromosome id in input file
@@ -219,3 +219,5 @@ for bootnum in runboots:
     ford = open(outf + "_ord", 'w')
     ford.write("\t".join(map(lambda i: "%d" % (i,), bootorder)))
     ford.close()
+
+33238497
