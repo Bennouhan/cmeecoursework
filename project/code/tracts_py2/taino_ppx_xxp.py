@@ -87,7 +87,7 @@ elif len(args) == 4:
 
 # directories in which to read and write
 directory = "../../data/analysis/bed_files/"+args[1]+"/"
-outdir = "../../data/analysis/bed_files/"+args[1]+"/output/"
+outdir = "../../data/analysis/bed_files/"+args[1]+"/output/3_pop/"
 
 
 

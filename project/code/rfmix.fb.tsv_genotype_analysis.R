@@ -30,7 +30,7 @@ anc_ami_boxplot <- function(pop_num){
         labs(y=paste("Biallelic", pops[pop_num], "AMI")) +
         ylim((min(ami4plot[,2+pop_num])-.2), (max(ami4plot[,2+pop_num])+.2)) +
         geom_boxplot(outlier.shape=NA, na.rm=TRUE) + #avoid duplicate outliers
-        geom_jitter(position=position_jitter(width=.2, height=.05),
+        geom_jitter(position=position_jitter(width=.2, height=0),
                     colour=anc_palette[pop_num], size=.2, na.rm=TRUE) +
         stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
         # top whisker goes to last value within 1.5x the interquartile range &vv
@@ -55,7 +55,7 @@ subpop_ami_boxplot <- function(subpop_num, legend=FALSE){
         ggtitle(subpops[subpop_num]) +
         ylim((min(ami4plot$AMI)-.2), (max(ami4plot$AMI)+.2)) +
         geom_boxplot(outlier.shape=NA, na.rm=TRUE) + #avoid duplicate outliers
-        geom_jitter(position=position_jitter(width=.2, height=.05), size=.2,
+        geom_jitter(position=position_jitter(width=.2, height=0), size=.2,
                     na.rm=TRUE, aes(color=Ancestry)) +
         stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
         # top whisker goes to last value within 1.5x the interquartile range &vv
@@ -163,7 +163,7 @@ subpops <- c("PEL", "MXL", "CLM", "PUR", "ASW", "ACB")
 anc_palette <- brewer.pal(3,"Set1")
 
 ### Sets the subset value - the n value for which every nth row is taken; plotting crashes without it
-subset <- 3000 #set to false if none wanted
+subset <- 2500 #set to false if none wanted
 
 ### Creates empty dfs for AMIs and their mean+-SDs to rbind to
 ami4plot    <- data.frame(v1=character(0),  v2=numeric(0), v3=numeric(0),
@@ -216,7 +216,9 @@ for (subpop in 1:length(subpops)){
   ### Renames subpop-specific df for use in wilcoxin test; too large to append
   assign(paste0(subpops[subpop], "_AMI_df"), AMI_df)
   ### Takes sample for plotting, and appends subpop tables to overall tables
-  sub_seq <- seq(1, nrow(AMI_df), subset)
+  set.seed(1)
+  sub_seq <- sort(sample(nrow(AMI_df), ceiling(nrow(AMI_df)/subset)))
+  #sub_seq <- seq(1, nrow(AMI_df), subset)
   ami4plot <- rbind(ami4plot, cbind(AMI_df[sub_seq,], Afr_prop=obs_afr[sub_seq], Eur_prop=obs_eur[sub_seq], Nat_prop=obs_nat[sub_seq]))
   meanSDtable <- rbind(meanSDtable, meanSDtable_subpop)
   print(paste("Finished calculating AMIs for population", subpops[subpop]))
@@ -224,9 +226,6 @@ for (subpop in 1:length(subpops)){
 
 ### Reorders meanSDtable rows to match order of subpops vector
 meanSDtable <- meanSDtable[match(subpops, meanSDtable$Subpop),] #reorders rows
-
-
-
 
 
 ################################## BOX PLOTS ###################################
@@ -459,7 +458,7 @@ plot <- cowplot::plot_grid(
   label_size = 18,
   axis=c("b"),
   align = "hv",
-  label_x = .074, 
+  label_x = .07, 
   label_y = 0.91)
 x.grob <- textGrob("Ancestry Proportion", 
                      gp=gpar(fontface="bold", col="black", fontsize=15))

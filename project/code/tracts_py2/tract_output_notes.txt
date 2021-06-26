@@ -8,9 +8,10 @@ _dat: the observed counts in each bins
 _pred: the predicted counts in each bin, according to the model
 
 _mig: the inferred migration matrix, with the most recent generation at the top, and one column per migrant population. Entry i,j in the matrix represent the proportion of individuals in the admixed population who originate from the source population j at generation i in the past.
+The population is founded when two populations meet; at the first generation, we consider all individuals in the population as “migrants”, so the sum of migration frequencies at the first generation must be one. If it isn’t, tracts will complain.
 
 _pars: the optimal parameters. I.e., if these models are passed to the admixture model, it will return the inferred migration matrix.
 
 _liks: the likelihoods in the model parameter space in the output format of scipy.optimizes' "brute" function: the first number is the best likelihood, the top matrices define the grid of parameters usedin the search, and the last matrix defines the likelihood at all grid points. see http://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brute.html
 
-_ord: not mentiones on github
+_ord: not mentioned on github

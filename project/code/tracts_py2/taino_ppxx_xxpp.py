@@ -53,7 +53,8 @@ bounds = [(0, 1), (0, 1)]
 # "labels" will tell tracts that model population 0 has label '0', model
 # population 1 has label '2', and model population 2 has label '1' in the
 # local ancestry files. #order changed since related to this; just 1st 2nd & 3rd
-labels = ['1', '2', '0', '1'] #I changed from 0,2,1; african (0) came after other 2
+# 0=afr, 1=eur, 2=nat in rfmix output file
+labels = ['1', '2', '0', '1'] #I changed from 0,2,1; african (0) came after other 2 # then tried with labels = ['1', '2', '0', '1'] but was weird
 
 
 # string between individual label and haploid chromosome id in input file
@@ -69,6 +70,7 @@ usage = "python taino_ppx_xxp.py [subpop] 1 to run without bootstrap \n"\
         "number are reproducible.\n"\
         "bootstrap instance 0 is the original dataset."
 
+#test: args = ["taino_ppxx_xxpp.py", "ACB", "1"]
 args = sys.argv
 print args
 
@@ -87,7 +89,7 @@ elif len(args) == 4:
 
 # directories in which to read and write
 directory = "../../data/analysis/bed_files/"+args[1]+"/"
-outdir = "../../data/analysis/bed_files/"+args[1]+"/output/"
+outdir = "../../data/analysis/bed_files/"+args[1]+"/output/4_pop/"
 
 
 
@@ -100,9 +102,10 @@ files = [file
 # Get unique individual labels
 names = list(set(file.split('_')[0] for file in files))
 
-if len(_files) != len(files):
-    warn("some files in the bed directory were ignored, since they do not "
-            "end with `.bed`.")
+## Optional check I disabled
+# if len(_files) != len(files):
+#     warn("some files in the bed directory were ignored, since they do not "
+#             "end with `.bed`.")
 
 # Load the population using the population class's constructor. It
 # automatically iterates over individuals and haploid copies (labeled _A"

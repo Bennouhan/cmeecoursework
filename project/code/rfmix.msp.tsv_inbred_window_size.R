@@ -133,12 +133,12 @@ subpop_hist <- function(subpop, x, y){
 
 ### Lays out multiplot
 plot <- cowplot::plot_grid(
-  subpop_hist("PEL", 24, 4), 
-  subpop_hist("MXL", 24, 4), 
-  subpop_hist("CLM", 24, 6), 
-  subpop_hist("PUR", 22, 8), 
-  subpop_hist("ASW", 24, 4), 
-  subpop_hist("ACB", 24, 4), 
+  subpop_hist("PEL", 20, 4), 
+  subpop_hist("MXL", 20, 4), 
+  subpop_hist("CLM", 20, 6), 
+  subpop_hist("PUR", 20, 8), 
+  subpop_hist("ASW", 20, 4), 
+  subpop_hist("ACB", 20, 4), 
   ncol=3,
   labels = "AUTO",
   label_size = 20,
