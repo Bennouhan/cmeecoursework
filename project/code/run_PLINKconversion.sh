@@ -2,7 +2,8 @@
 #PBS -lwalltime=1:0:0
 #PBS -J 1-22
 
-########## NB - OBSCELETE!!! Went with different method, leads to more 99% natives. below commented section goes in admixture.sh, replacing everythin up to admixture except dir change and module load
+########## NB - WHOLE SCRIPT OBSCELETE!!! ALL IN run_admixture.sh NOW!!!!!
+# Went with different method, leads to more 99% natives. below commented section goes in admixture.sh, replacing everythin up to admixture except dir change and module load
 
 # ### Merging
 # #Get a list of all PLINK files

@@ -130,7 +130,7 @@ MeanSD3 <- function(vector, fun=round, num=3){
 ### Names the 3 pops for use in function above, and the 6 subpops in new order
 pops    <- c("African", "European", "Native")
 subpops <- c("ACB", "ASW","PUR", "CLM", "MXL", "PEL_sub_99", "PEL")
-anc_palette <- brewer.pal(3,"Set1")
+anc_palette <- brewer.pal(3,"Set2")
 
 ### Subsets and reorders data so subpops are plotted by African/Native ancestry
 adm <- data.frame()

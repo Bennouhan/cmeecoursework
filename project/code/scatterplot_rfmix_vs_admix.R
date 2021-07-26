@@ -25,7 +25,7 @@ admix <- readRDS("../data/analysis/admixture_output_full.rds")
 admix <- admix[(admix$Pop == "ADM"),] #removes non-adm samples, admix ~ rfmix
 
 ### Sets plotting colours and their corresponding ancestry
-anc_palette <- brewer.pal(3,"Set1")
+anc_palette <- brewer.pal(3,"Set2")
 pops <- c("African", "European", "Native")
 
 ### Merges them for plotting, renames columns

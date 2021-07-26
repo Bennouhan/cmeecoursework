@@ -19,7 +19,7 @@ library(qwraps2) #needed installing
 ##### Setup
 
 ### Sets ancestry colour palette for diagrams
-anc_palette <- brewer.pal(3,"Set1")
+anc_palette <- brewer.pal(3,"Set2")
 
 ### Initialises total output matrix, creates chromosome size list
 nsamples <- nrow(read.table('RFMix2/output/RFMix2_output_chr1.rfmix.Q'))
@@ -111,7 +111,7 @@ stackplot <- function(nSubpop){
             plot.title        = element_text(hjust=0.5, vjust=-1.8,
                                              face="plain", size=8),
             plot.margin       = unit(c(0, 0, .8, 0), "pt")) +
-      labs(x="Subpopulation Individuals", y="Proportion of Ancestry") +
+      labs(x="Population Individuals", y="Proportion of Ancestry") +
       geom_text(label=paste0("n=",n), x=n*.5,y=.04, size=2, fontface="plain") +
       scale_y_continuous(expand = c(0,0), limits = c(0,1)) +
       scale_fill_manual(values = anc_palette) 
@@ -153,7 +153,7 @@ plot <- cowplot::plot_grid(
 ### Common y and x labels
 y.grob <- textGrob("Proportion of Ancestry", 
                    gp=gpar(fontface="bold", col="black", fontsize=8), rot=90)
-x.grob <- textGrob("Subpopulation Individuals", 
+x.grob <- textGrob("Population Individuals", 
                    gp=gpar(fontface="bold", col="black", fontsize=8))
 
 ### Combine plots, legend and axis labels, prints ou to pdf
@@ -232,7 +232,7 @@ plot <- cowplot::plot_grid(
   label_x = .09, 
   label_y = 0.985)
   ### Common x label
-  x.grob <- textGrob("Admixed Subpopulation", 
+  x.grob <- textGrob("Admixed Population", 
                      gp=gpar(fontface="bold", col="black", fontsize=11))
 
 ### Combine plot and axis label, prints out to pdf

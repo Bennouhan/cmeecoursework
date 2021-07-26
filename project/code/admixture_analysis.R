@@ -34,11 +34,7 @@ data <- cbind(sample_info[,c(1,3,2)], admix_output)
 saveRDS(data, paste0("../data/analysis/admixture_output_full.rds"))
 
 ### Sets ancestry colour palette for diagrams
-#anc_palette <- brewer.pal(3,"Set1")
 anc_palette <- brewer.pal(3,"Set2")
-#anc_palette <- brewer.pal(7,"Set1")[c(1,6,2)]
-#anc_palette <- brewer.pal(11,"Paired")[c(6,11,2)]
-
 
 
 

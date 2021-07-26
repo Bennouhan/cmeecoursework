@@ -12,25 +12,27 @@
 #
 # Desc: Compiles 5_report.tex into Ben_Nouhan_Report.pdf, the project's formal form of presentation
 
+### Changes to writeup directory
+cd ~/cmeecoursework/project/writeup
+
+### Import .bib file (will be imperial-Project-Report.bib ultimately, this=test)
+cp ~/Documents/imperial-Miniproject.bib library.bib
 
 ### Removes any previous version of compiled report
 if [[ -f ../results/Ben_Nouhan_Report.pdf ]]
  then rm ../results/Ben_Nouhan_Report.pdf; fi
 
-
 ### Removes any previous version of texcount file before recreating it
-if [[ -f ${1%.tex}.sum ]]
- then rm ${1%.tex}.sum; fi
-texcount -1 $1 | cut -f 1 -d "+" > ${1%.tex}.sum
-
+if [[ -f report.sum ]]
+ then rm report.sum; fi
+texcount -1 report.tex | cut -f 1 -d "+" > report.sum
 
 ### Conversion to pdf, renames and moves as appropriate
-pdflatex $1
-biber ${1%.tex}
-pdflatex $1
-pdflatex $1
-mv ${1%.tex}.pdf ../results/Ben_Nouhan_Report.pdf
-
+pdflatex report.tex
+biber report
+pdflatex report.tex
+pdflatex report.tex
+mv report.pdf ../results/Ben_Nouhan_Report.pdf #wont work till above fixed
 
 ### Project Cleanup
 declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")

@@ -38,7 +38,9 @@ for (subpop in subpops){
   dir.create(file.path(paste0("../data/analysis/bed_files/",subpop,"/")),
              showWarnings=FALSE)
   dir.create(file.path(paste0("../data/analysis/bed_files/",subpop,"/output")),
-             showWarnings=FALSE) }
+             showWarnings=FALSE)
+  dir.create(file.path(paste0("../data/analysis/bed_files/",subpop,"/output/3_pop")), showWarnings=FALSE)
+  dir.create(file.path(paste0("../data/analysis/bed_files/",subpop,"/output/4_pop")), showWarnings=FALSE) }
 dir.create(file.path("../results/tracts"), showWarnings=FALSE)
 
 ### Reads and merges MSP files

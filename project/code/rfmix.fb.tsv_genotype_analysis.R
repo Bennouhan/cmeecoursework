@@ -160,7 +160,7 @@ print("Finished loading RDS files. Starting AMI calculation, will take several m
 ### Creates vectors with population and subpopulation names, & plotting colours
 pops    <- c("African", "European", "Native")
 subpops <- c("PEL", "MXL", "CLM", "PUR", "ASW", "ACB")
-anc_palette <- brewer.pal(3,"Set1")
+anc_palette <- brewer.pal(3,"Set2")
 
 ### Sets the subset value - the n value for which every nth row is taken; plotting crashes without it
 subset <- 2500 #set to false if none wanted

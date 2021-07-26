@@ -11,18 +11,40 @@
 \usepackage[labelfont=bf, justification=justified]{caption}
 \usepackage{graphicx}
 \usepackage{pgfplotstable,booktabs}
+\usepackage{array,ragged2e}
+\usepackage{multirow}
 \pgfplotsset{compat=1.16}
 \usepackage{setspace}
 \usepackage[sorting=nyt,style=apa]{biblatex}
+\usepackage{booktabs}
 
-\bibliography{library}
+\bibliography{library.bib}
 
-\title{High-Throughput Non-Linear Model Comparison and Analysis for Bacterial Growth Curves: a Bayesian Approach}
+% titles:
+% Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprint upon Admixed Populations of the Americas
+\title{Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprint upon Admixed Populations of the Americas}
 \author{\\ \\ \\ \\ Ben Nouhan, bjn20@ic.ac.uk \\ \\ Imperial College London \\}
 \date{\today}
 \newcommand\wordcount{\input{report.sum}}
 
-%not sure why all the errors but when compiled manually it's fine... fix another time or just put up with the red
+
+% general instructions
+% • Structure and Style:
+% All reports should have an Abstract, Introduction, Methods, Results, Discussion and possibly, a separate Conclusions section. Do not format your report to look like a paper from a specific journal.
+% • Word limit:
+% The main text should not exceed 6,000 words in length (excluding figures, tables, references and appendices/supplementary information). Using the full 6,000 words is often not advisable – this is an absolute maximum. Clarity and brevity are better than wordiness, so do not puff up your thesis to reach 6,000 words. More instructions on content are provided below. You must not abuse the exclusion of figure and table legends from the word count to squeeze in more material. They must only explain the contents of the figure or table!
+% • Figure Limit:
+% Most journals have an upper limit of the total number of figures and tables – it is rare to see more than a total of about 6 – 8 figures and tables (not 6 – 8 of each!). We would like you to try and keep under a total of 8 figures and tables. If you have more than this, then think carefully about whether they are all crucial to helping the reader understand your research. If they are, then include them; if not, then move them to supplementary material. Published papers often use complex multipart figures to reduce figure counts. Bringing related figures and tables together is good practice, but is often very time consuming and fiddly. You should prioritize making your selected figures and tables as clear and informative as possible: do not spend time and effort merging figures unless you are sure you have nothing else left to do!
+% • Font:
+% You should use a ‘normal’ font at 11 point or 12 point size. We recommend Helvetica, Arial or Times New Roman – similar fonts are also fine. Do not use highly stylized or bitmap fonts. You may have any number of references, but note that excessive referencing will be as frowned upon as inadequate referencing!
+% The main body of the text should use 1.5 line spacing and page numbering should be used.
+% The thesis margins should be at least 2 cm and the main text font size should not be smaller than 11 point.
+
+
+
+
+
+
 
 
 \begin{document}
@@ -41,6 +63,8 @@
 \onehalfspacing
 \renewcommand{\abstractname}{\vspace{-\baselineskip}} %hide abstract title
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NB: follow the usual thing for this, from nature - best resource I reckon
 \begin{abstract}
     \linenumbers
     \noindent
@@ -56,8 +80,20 @@
 
 \newpage
 \linenumbers
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \setcounter{page}{1}
-\section{Introduction}%%%%%%%%% Introduction
+\section{Introduction}
+% A good introduction should leave the reader with a clear idea of the problem to be tackled and looking forward to the more detailed sections to follow.
+% It should include a section on the general way the problem has been approached. 
+% An essential concluding part of the introduction is to clearly define the aims of the research project and any hypotheses tested.
+% Also, think about:
+%  o What is this paper about? (i.e., the broad area, big picture) Why is that interesting?
+%  o Given it’s so interesting, why don’t we know the answer?
+%  o So, what is this about, more specifically? What are hypothesised to be the important things? Build from the most general and fundamental hypotheses to the most refined or tenuous ones.
+%  o How, roughly and briefly, will you go about testing these hypotheses? Why are you using this system? What approach will you use?
+%  o State clearly what your hypotheses are.
 
 History and background of pop genetics (perhaps specifically study of mating patterns)
 
@@ -69,9 +105,13 @@ assortative mating by social structures eg wealth, status, etc in the region - h
 
 genetic markers telling us about ancestry (assuming that's how RFMix works)
 
+
+
 neural networks
 
 use of neural networks on these markers/windows/whatever
+
+
 
 Aims of paper
 
@@ -84,11 +124,13 @@ Aims of paper
 
 
 
+From proposal: 
 
+intro
+Certain genetic phenomena, including assortative mating and sex bias, have the potential to alter the structure of human populations.  This in turn modifies genomic variation, reflected in a population’s genomic data which can be used to infer said phenomena.  Various factors,  cultural or socio-economic, can cause them to arise or to manifest themselves.  Historically, the social stratification of societies by wealth, power and perceived race, alongside explicit racial segregation policies, have modulated human mating behaviour away from random mating. In  the  past  century,  the geopolitical  and  economic  landscape  has  experienced  and  will  continue to experience intercontinental migration towards areas of high population density, engendered by the  likes  of  globalization,  industrialisation,  shifting  demographics,  the  fallout  of  colonialism  and global  warming.   This  mass  migration  occurring  within  a  relatively  small  timescale  has  founded new, diverse societies with complex and stratified urban population structures.The  modern  era  is  not  the  first  in  which  this  has  occurred,  indeed  the  convoluted  layers  ofancient processes of migration and subsequent admixture,  which shaped populations around theworld  over  millennia,  are  shown  to  have  been  sex-biased  in  many  cases,  and  may  additionallyhave been impacted by localised assortative mating patterns.(Goldberg et al., 2014; Skoglund and Mathieson, 2018) This project seeks to utilise deep learning algorithms and widely available genomic data in theelucidation of how complex human mating behaviours have been effected by both social and eco-nomic conditions, which stem from the genetic structure of different historic and current admixingpopulations.(Sheehan and Song, 2016)
 
-
-
-
+Outcome
+The project’s outcome will be in two forms.  I will be comparing the efficacy of the different neuralnetwork combinations outlined above based on their accuracy estimating multiple parameters.  Iwill then be using highest-performing method to infer parameters, such as assortative mating andsex bias, from genomic data and ultimately integrate my findings into the phenotypic and culturallandscape of the studied region.
 
 
 
@@ -184,54 +226,211 @@ Modelling is seen by some as the successor of classical hypothesis testing, and 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \vspace{5mm}
-\section{Methods}%%%%%%%%%Methods
+\section{Methods}
 
-\subsection{Computing Tools}
+% This should contain details of any methods used extensively during the project, layout of field experiments, theoretical methods, methods of statistical analyses etc.
+% You can use subheadings for different procedures or tests.
+% If field work is done, a general description of the study area may be included here.
+% Extra methodological details can be placed in appendices.
+% The golden rule is that the reader should be able to repeat what you did, should they so wish.
+% The other rule -- more important for your project than in a paper -- is that you describe in enough detail to show you’ve understood what you did.
+% You should feel free to use subheadings in your methods and results to help organise different parts of your project.
+% If so, keep the same order of the different parts of the project in all of your sections: the methods for testing each hypothesis and the results of those tests are described in the same order as the hypotheses are described in the introduction.
 
-\subsubsection{Python}
-Data preprocessing was performed using Python 3.9.0 for its superior data processing functionality. Its \textit{pandas} package enables effient and user-friendly database manipulation, while its \textit{numpy} package enables generation of unique hash identifiers and log transformation of data.
+% Also, think about:
+% o What is the overall design of the study?
+% o What are the variables and how do they relate to the hypotheses?
+% o How did you get the data?
+% o What are the characteristics of the data set / experiment -- how many observations, how many replicates etc.
+% o General procedures, if any, that are true in all of the analyses (e.g., transformation of data, model checking, how models were compared)
+% o How did you test the hypotheses, in the logical order outlined in the introduction (i.e., from the general to the specific)? Make sure you show that your tests are appropriate.
 
-\subsubsection{R}
-R 4.0.3 was utilised for model fitting and subsequent analysis and visualisation of results. Arguably less generally capable than Python, it was built specifically for statistical analysis, hence the tools required are presently more established, comprehensive and supported in R than their Python counterparts. Additionally, the R Core distribution includes the \textit{parallel} package allowing the harnessing of all available computer cores for more computer-intensive tasks which, alongside vectorisation of model fitting and plotting, cuts the runtime to mere seconds. The \textit{tidyverse} package is needed for a wealth of processes, from efficiently importing dataframes to increasing dataframe manipulation and data visualisation capabilities. 
-
-\subsubsection{Resources}
-The dataset used to develop the workflow, alongside explanatory metadata and the workflow itself, are available on github (\url{github.com/mhasoba/TheMulQuaBio/blob/master/content/data/LogisticGrowthData.csv}, \url{github.com/mhasoba/TheMulQuaBio/blob/master/content/data/}LogisticGrowthMetaData.csv and \url{github.com/Bennouhan/cmeecoursework/tree/master/miniproject} respectively). See \textit{README.md} for details and dependencies.
-
-
-\subsection{Data}
-\subsubsection{Raw Dataset}
- The dataset comprises 305 bacterial population growth timeseries from a multitude of published studies in a long-format, 4388 row dataframe, each row representing a datapoint. These timeseries use a variety of variables, each constant for a given timeseries: 17 incubation temperatures irregularly spaced between 0 and 37°C; 18 growth media; 45 bacterial species; and four population estimation techniques. These were colony-forming units (CFU) counts, a sample's dryweight, sample optical density at OD-595, and CFUs of differently appearing colonies in a mixed-species sample (referred to as 'N' in the dataset).\parencite{Al-qadiri2008} For later visualisation nine growth media, used in fewer than ten timeseries, were excluded.
-
-\subsubsection{Preprocessing}
-The workflow organises and cleanses the dataset before indexing each timeseries with a unique ID, facilitating subsequent referencing. This includes calibrating timeseries containing a negative initial time measurement to zero since these are likely systematic errors, and deleting negative population datapoints, assuming them irreconcilable errors.
-The population measurements are subsequently log\textsubscript{2}(x+1) transformed. Taking the log of the population data makes processing and visualising their wide range between studies more intuitive by normalising them and their measurement unit, and is to no detriment since only relative changes in population are of interest. Base 2 is used because bacteria duplicate, while the log(x+1) transformation accepts population measurements below 1. Fifteen timeseries with fewer than six datapoints were omitted to avoid the LMs with up to five parameters overfitting those timeseries.
-
-
-
-\subsection{Model Fitting}
-
-\subsubsection{Linear Models}
-I performed linear regression by fitting each of the time series with four LMs of first, second, third and fourth order polynomials, using R's \textit{lm()} function. These correspond to linear, quadratic, cubic and quartic expressions respectfully, named as such in this paper. \textbf{Equation 1} is the generic form of a second order, quadratic model, with three parameters, a-c. The Linear, cubic and quartic expressions have two, four and five parameters respectively, following the sequence. These parameters are found by ordinary least square (OLS) linear regression and not based upon scientific theory, hence LMs are phenomenological unlike mechanistic NLMs. 
+% Computer Programs. If the program has been published, cite the reference, include it in the reference list and provide a brief outline of the methods it uses.
+% If you are using a program or code generated for the project then a more complete description is needed in the main text.
+% You should provide the code used in an appendix and consider providing a flow chart and usage notes to help interpretation.
+% You should take care to define all the input variables used in the program.
 
 
-\subsubsection{Non-Linear Models}
-I fitted the NLMs to the time series using the \textit{nlsLM()} function from the \textit{minpack.lm} R package. With the exception of the logistic model, lacking t\textsubscript{lag}, all four of the NLMs used - logistic, Gompertz, Baranyi and Buchanan - have identical parameters underpinned by the same scientific theory and can, therefore, be interpreted uniformly.\parencite{Odenbaugh2006}
+\subsection{Studied Populations}
 
-As mechanistic models, NLM fitting requires parameter starting values. If sufficiently close to the true value, the function will perform fitting iteratively until converging on the function's parameter estimates. To adequately predict the true parameter values for each timeseries, I utilised their datapoints. Within each timeseries, my estimate for: N\textsubscript{max} was the highest population present; N\textsubscript{0} was the lowest population present; r\textsubscript{max} was the highest rate of the change between two adjacent datapoints; and t\textsubscript{lag} was that same rate of change extrapolated from those datapoints to the intercept with my N\textsubscript{0} estimate.\parencite{Micha2011}
-
-R\textsuperscript{2}, a common measure of correlation, is invalid for NLMs as the sum of squares of residuals divided by the total sum of squares can exceed 1, nor does it consider model complexity thereby ignoring the principle of parsimony.\parencite{Johnson2004} However, it can be used as a rough proxy of correlation or to compare multiple fits solely in that regard, hence I used the R\textsuperscript{2} of the resulting regression line of each timeseries to assess the fit. If the fit had failed or had an R\textsuperscript{2} below 0.5, I reattempted the fit up to 500 times by randomly selecting starting values from a normal distribution around the original estimate with a standard deviation of four times that original estimate.
-
-
-\subsection{Model Comparison}
-I calculated the BIC score and R\textsuperscript{2} of each successful fit before using them to compare models by their collective fits. To remove poor datasets, those where no model's fit had an R\textsuperscript{2} above 0.7 were excluded, leaving 256. Since the NLMs, excluding logistic, have equinumerous parameters, and BIC and AIC differ only in their parameter number penalty, their outcomes were largely identical hence I used only the more stringent BIC.
-The model comparison metrics used were mean and median R\textsuperscript{2} values, mean and median BIC values, and three others I designed using BIC values: \textit{Win Count}, \textit{Score} and \textit{Total}. The \textit{Win Count} finds which model generated the fit with the lowest BIC value for each timeseries and tallies them.
-Because that fails to consider how close the other BIC values were to this lowest value, the \textit{Score}, derived from the aforementioned relative BIC value interpretation, assigns: five points to the winner and models within a BIC value of two; three to those within six; and one to those within ten, before summing them for each model.
-Because that too fails to consider some models may have performed significantly worse than the winner, i.e. a BIC value of ten to multiple hundreds higher, the \textit{Total} for each timeseries calculates the total of the difference between each model and all models it outperformed, prior to summing them for each model.
+For the initial analyses, all African, European and American populations from the 1000 Genomes Project (1KGP) and the Human Genome Diversity Project (HGDP) were used \textbf{(Table 1)}, with the exception of the Russian and Finnish populations. These were excluded owing to minimal colonial-era migration to the Americas from these populations, alongside the genetic similarities between these populations, Siberans and, by extension, Native Americans.
 
 
 
-\section{Results}%%%%%%%%% Results
+\begin{table}[htb]
+    \centering
+    \caption{
+        \textbf{Details of the populations used throughout this study.} 
+        Populations abbreviated as three capitalised letters are from the 1000 Human Genome Project dataset, while full-word abbreviated populations are from the Human Genome Diversity Project dataset. The number of samples used from each population is denoted by "n". \\
+        **The Tuscan and Yoruba populations comprise samples from both datasets.
+        }
+    \small
+    \begin{tabular}{ |p{3cm}||p{8cm}|p{3cm}|p{0.8cm}|  }
+    \hline
+    \multicolumn{1}{|c||}{\textbf{Superpopulation}} &
+    \multicolumn{1}{c|}{\textbf{Population}} & 
+    \multicolumn{1}{c|}{\textbf{Abbreviation}} & %vline missing here on purpose
+    \multicolumn{1}{c|}{\textbf{n}}\\
+    \hline
+    \hline
+    \multirow{6}{*}{Admixed}  %num == number of cols included
+        &African Ancestry in Southwest USA & ASW & 61 \\
+        &African Caribbean in Barbados & ACB & 96 \\
+        &Colombian in Medellin, Colombia & CLM & 94 \\
+        &Mexican Ancestry in Los Angeles, California & MXL & 64 \\
+        &Peruvian in Lima, Peru & PEL & 85 \\
+        &Puerto Rican in Puerto Rico & PUR & 104 \\
+        \hline
+    \multirow{11}{*}{African}
+        &Bantu in Kenya & BantuKenya & 11 \\
+        &Bantu in South Africa & BantuSouthAfrica & 8 \\
+        &Biaka in Central African Republic & Biaka & 22 \\
+        &Esan in Nigeria & ESN & 99 \\
+        &Gambian in Western Division, The Gambia & GWD & 113 \\
+        &Luhya in Webuye, Kenya & LWK & 99 \\
+        &Mandenka in Senegal & Mandenka & 22 \\
+        &Mbuti in Democratic Republic of Congo & Mbuti & 13 \\
+        &Mende in Sierra Leone & MSL & 85 \\
+        &San in Namibia & San & 6 \\
+        &Yoruba in Nigeria & YRI/Yoruba* & 129 \\
+    \hline
+    \multirow{9}{*}{European}
+        &Basque in France & Basque & 23 \\
+        &Bergamo Italian in Bergamo, Italy & BergamoItalian & 12 \\
+        &British in England and Scotland & GBR & 91 \\
+        &Northern and Western European Ancestry in Utah & CEU & 99 \\
+        &French in France & French & 28 \\
+        &Orcadian in Orkney & Orcadian & 15 \\
+        &Sardinian in Italy & Sardinian & 28 \\
+        &Iberian in Spain & IBS & 107 \\
+        &Toscani in Italy & TSI/Tuscan* & 115 \\
+    \hline
+    \multirow{5}{*}{Native American}
+        &Colombian in Colombia & Colombian & 7 \\
+        &Karitiana in Brazil & Karitiana & 12 \\
+        &Maya in Mexico & Maya & 21 \\
+        &Pima in Mexico & Pima & 13 \\
+        &Surui in Brazil & Surui & 8 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+
+
+
+
+
+\subsection{Sample \& SNP Filtering with BCFtools}
+
+Once downloaded, the 30x coverage 1KGP and high-coverage HGDP datasets were merged, and all populations except those listed in \textbf{(Table 1)} were removed. All C→G, G→C, A→T and T→A SNPs were filtered out as they are harder to align and are hence prone to error. SNPs were further filtered with a minor allele frequency threshold of 5\%, as to reduce the dataset and remove rare and thus uninformative SNPs. Following this, all 22 filtered VCF files, one per somatic chromosome, were indexed for phasing using BCFtools.
+
+
+
+\subsection{Genome Phasing with SHAPEIT4}
+
+
+
+
+
+\subsection{Sample Filtering with PLINK \& ADMIXTURE}
+
+
+
+
+
+\subsection{Local-Ancestry Inference with RFMix2}
+
+
+
+
+\subsection{Assortative Mating Index Calculation}
+
+
+
+\subsection{Genomic Window Length Analysis}
+
+
+
+
+\subsection{Timeline of Admixture Estimation with TRACTS}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Results}
+
+% Describe your results in a logical order: this may not necessarily be the order in which you did the experiments.
+% Briefly summarise the main results at the end of each main experiment or sequence of associated experiments.
+% Do not duplicate results -- put a table or a graph but not both unless the two methods of presentation demonstrate different points of importance.
+% You must refer appropriately to figures or tables in the text and remember to emphasise and perhaps quote significant results.
+
+% In particular, think about:
+% o What were the results of your hypothesis tests, in the order you describe them in the Methods?
+
+
+
+
+% Figures:
+% You should prepare figures to the same standard required for publication.
+% All journals provide advice on preparing figures for publication, so do look at the advice to authors pages for your chosen journal.
+% All figures must be numbered and have a caption that is sufficiently detailed to explain the main features of the content by itself.
+% All figures must be referred to in the main text of the thesis.
+% Put the figures in appropriate points in the text, close to the text that refers to them.
+
+% In particular:
+% o The resolution of your figures is crucial. For plots, try to use vector image formats (exported as svg, pdf, or eps) and not bitmapped (raster) formats like JPG and TIFF. Standard /LaTex documents typically allow *.eps or *.pdf figures to be inserted. Using the freely available (and very capable!) vector graphics program Inkscape to ``fine-tune'' your figures is often a good idea.
+% Inkscape will also allow svgs to be exported in a /LaTex compatible format (see the Inkscape documentation). For RASTER graphics, the freely available GIMP editor works very well.
+% o When using Word, figures in Windows Metafile format are the most reliable vector format. For Word 2011 on Mac, figures in PDF format should give a good result. If you do have to use bitmaps, make sure they are at a high resolution (300 dpi or more) -- this can be particularly important if you need to present line drawings or photographs of specimens or equipment.
+% o Plots are all about the data, so reduce margins and maximise the space in the figure for showing the data.
+% o Create the figure at the right size -- when it is included in your thesis are all the axis labels and text going to be clearly legible.
+% o Avoid `chartjunk' (google Edward Tufte!) -- and avoid superfluous lines, legends and titles along with 3D effects.
+
+% Tables:
+% Each table should be numbered, have a full descriptive caption and again must be referred to in the main text.
+% Column headings should state units of measurement.
+% Avoid large, complicated tables in the main thesis and if you have a large body of numerical data put it in an appendix.
+
+
+
+
+
 
 
 \subsection{Model Fitting}
@@ -304,29 +503,159 @@ In contrast, \textbf{Figure 4} is the visualisation of an attempt to correlate i
 
 
 
-\section{Discussion}%%%%%%%%% Discussion
 
-I set out to devise a methodology to fit multiple models to hundreds of datasets, compare the performance of these models, and visualise biases certain models may have for certain experimental conditions.
 
-The model fitting algorithm was highly effective, but illuminated the shortcomings of all eight models (\textbf{Figure 2}). The four NLMs are restrained by their parameters from fitting growth curves deviating from the standard lag, exponential and stationary phases. The logistic model, lacking the t\textsubscript{lag} parameter, was additionally intolerant of lag phases but performed well absent one; the converse is true for the others. Gompertz best modelled atypical exponential phases, but all failed to capture death phases.
 
-Meanwhile LMs are more malleable to irregular shapes, but restrained by their fixed number of parameters and innate curvature. One way to mitigate this restraint is with splines: linear models which produce smooth curves to fit the data.\parencite{White2017} As the linear regressions used herein rely upon OLS, they mathematically mould to the data, and will fit it perfectly where the dataset size equals one plus the number of linear model parameters; effectively "connecting the dots". This is known as Runge's phenomenon.\parencite{White2017} If there are other datapoints conveniently lined up as is common with empirical data of established natural relationships like population growth, LMs will also closely fit larger datasets with closeness of fit increasing with the order of linear model as \textbf{Table 1} demonstrates. This accounts for this deceitfully superior quartic model result. Its aforementioned weaknesses, which allow the NLMs to outperform it in typical growth curves, are outweighed by its superior but phenomenological, biologically inane fits of atypical ones: a shortfall that cannot be resolved with splines.
 
-While this is in stark contrast with the theory-based NLMs fit using Levenberg-Marquardt non-linear least squares, an iterative method, these too have systematic problems which need resolution. Primarily, none of them address the death phase. Others have attempted to incoporate it into models but absent scientific basis, rendering them as uninformative as the dismissed LMs.\parencite{Peleg1997} Furthermore, they are innately inflexible with incomplete datasets missing one or both peripheral population growth phases. Ideally an alteration could be made to their equations enabling them to act similarly to splines, which allow the linear modelling of a supplied dataset while allowing for there to be an implicit 'bigger picture' behind the data not explicitly evident. While we could reactively resort to case-by-case altering of the model, such as how a simplified Baranyi model can be used to model growth without a plateau, that method is incompatible with the high-throughput focus of this paper.\parencite{Baranyi1993} Finally, they are sufficient as generic models for typical growth curves, but to accurately predict bacterial growth in fundamentally different scenarios a series of far more complex models which can be scientifically related to bacterial behaviour, physiology and biochemistry would be needed. 
 
-Model comparison heralded the modified Gompertz model as the most consistently high-performing NLM. This is corroborated by the conclusions of similar papers, which in turn supports the designed model comparison methodology.\parencite{Zwietering1990,Buchanan1997} While the workflow in its current form is highly specific to the dataset and the models, its infrastructure was designed in some instances for more general use. Hence this workflow could in theory be repurposed into a bioinformatics pipeline to explore other groups of models, provided they can be translated into R functions, they model the same relationship, and the dataset both follows that relationship and includes potential covariate data.
 
-The efficacy of the visualisation of covariables was less conclusive. In \textbf{Figure 3}, the only visible pattern is the Buchanan model suggesting growth rate increases with temperature. As for \textbf{Figure 4}, one must consider sample size before drawing conclusions, however the Baranyi model seems the superior choice when measuring population size with the "N" method explained in Section 2.2.1, wheras one may fare better with Gompertz when modelling bacterial growth on TSB. These are visual patterns with no formal statistical backing, but the objective was always to point towards potential lines of investigation, and could continue to with alternative groups of models.
 
-An extra step not undertaken here is to perform similar visualisation on the poor datasets filtered out after fitting, to check for correlations between the other variables and highly irregular growth curves. Similarly, the visualisation would be more meaningful with larger and more equal samples, the collections of experiments with, for example, the same growth medium.
 
-Ultimately, improving such visualisation could inform not only further investigation but also model development. Covariable regression could allow growth rate to be defined additionally by temperature, medium and so forth; after all, real-world bacterial growth is anisothermic. This could potentially be achieved by systematically incorporating dummy variables into a model using a base dataset like the one used herein, and observing if the model is significantly improved by it when tested on further datasets.\parencites{Suits2016}
 
-In summation the Gompertz model, with Baranyi close behind, appear the best of those tested, but the parameters with which they are hard-coded mean they inherently require both a lag and stationary phase. This is true even where the timeseries in question would have been a typical sigmoidal growth curve had additional datapoints either side been collected. Moreover, this result is consistent with previous findings, lending credence to the model comparison algorithm used herein. While this did not discount the quartic model, it is widely accepted such LMs are tools for local prediction and not for extrapolation or mechanistic modelling. The overall methodology proved effective, and with the recommended alterations a repurposed version of it could enable the comparison of other models and the formation of new hypotheses.
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Discussion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Discussion}
+
+% This should attempt to tie together the results, what they indicate in a broader context, the extent to which the original aims have been satisfied and what future work is suggested.
+% Return to and address the ideas raised in the introduction.
+
+% In particular, think about:
+% o What’s the main thing we know now that we didn’t know before?
+% o What’s the chain of logic and results that means we know it?
+% o How does this affect our -- and other scientists’ -- view of the world? What are the implications?
+% o What are the implications of the intermediate steps in the chain towards the main thing?
+% o What are the caveats that apply to this study? (Leave out caveats that apply to all studies.) What might be done about them? (Very important in a project write-up -- What would you do differently if you were doing the project again or had more time?)
+% o What future work could build more broadly on what we’ve found?
+% o A nice wrap-up, emphasising how this study in this system is of interest to people who work on other things, or other systems.
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%% NB DO NOT DELETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+stuff for discussion (main project)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+QUESTION
+% hap1_afr=1      hap1_eur=0      hap1_nat=0      hap2_afr=1     hap2_eur=0     hap2_nat=0  
+
+In example above, is it not possible the two african haplotypes are different alleles? Which would technically make it heterozygous without us knowing?
+(see email 20th may for more context)
+
+ANSWER
+If you are analyzing the nucletotides, you don't know. It could be a fragment from African ancestry and be a T and a fragment from European ancestry and be a T as well. You have to look to the vcf. This applies to your second example also.
+It has the problem that unadmixed admixture sources from sub-Saharan Africa have higher effective population size and therefore higher heterozygosity of nucleotides. So there will be a correlation of higher sub-Saharan ancestry and higher heterozygosity of nucleotides, and therefore a bias. However, it might be interesting to discuss how heterozygosity only is not a good indicator of assortative mating in an admixed population. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Remember above 99pc PEL individuals are included in ref sample, hence assignment of PEL ancestry will be a bit weird - definitely a bias. I went forward with both populations, but the one with will match native very perfectly, and the one without will A. show as less native than it truly is as a population as v native ones are excluded, and B. might have a native bias in assignment, where there are similarities between two PEL individuals which may not be a general native trait but a specific PEL trait. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For frag length histograms, 2nd peaks suggest another migration event, as one would expect it to simply be a normal distribution if only one migration event occured. Similarly, right-tailed distributions suggest constant strean of subsequent immigrants after main migration event (and vice versa). test.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Remember, ASW is Americans of Sub-Saharan African Ancestry in Oklahoma, Southwest USA, MXL is Mexican Ancestry in Los Angeles CA United States - so significant sample bias; ASW will have more african than the average US SW resident; MXL will have more European, and possibly african could have come later when in LA vs generations ago in Mexico
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Data/Code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Data and Code Availability}
+
+% name a data and a code (GitHub) archive from where the data and code can be obtained that will allow replication of your results. The code may be in the form of a single script file. You will be taught the principles of reproducible analyses in the R week of your coursework. If the data cannot be made available publicly (e.g., because it is yet to be formally published), or if there are some other confidentiality issues with submitting the data, speak with your course director and supervisor, and include a clear statement about why the data cannot be made available under the same Code and Data Availability header.
+\subsection{Data}
+
+1KGP Samples: https://www.internationalgenome.org/data-portal/data-collection/30x-grch38
+HGDP Samples: https://www.internationalgenome.org/data-portal/data-collection/hgdp
+
+
+\subsection{Code}
+
+
+
+
 
 
 \newpage
-
 \printbibliography[heading=bibintoc]
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sup Material %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Supplementary Material} % * prevents numbering
+\addcontentsline{toc}{section}{Supplementary Material} %add to table of contents
+
+% You may provide Supplementary Information (SI) to provide parts of the study not directly relevant to the main narrative: detailed methods, mathematical derivations, details of computer algorithms, long tables of detailed results, and taxonomic descriptions, lists and drawings in an otherwise ecological study.
+% For example, a molecular study might state in the Methods section of the main text that you extracted DNA according to a phenol/chloroform extraction protocol according to a particular reference.
+% In the SI, you should then describe the steps of your lab protocol in sufficient detail that other people could reproduce this procedure by following your description.
+% Similarly, you should put long tables of results in the main text (these should be in SI); only summary tables or graphs and key results of analysis should appear in the main text.
+% However, the project markers are not obliged to read the SI, so the text in the main manuscript should detail everything that the marker needs to know.
+% The SI should be presented as an additional document and must be concatenated to the end of the main thesis pdf file before submission (that is, a single pdf file must be submitted).
+% Make sure that the SI is neatly formatted (using the same style as the main text), and that all Sections, Tables and/or Figures of the SI are appropriately cited in the main text.
+
+
+% Computer Programs: If the program has been published, cite the reference, include it in the reference list and provide a brief outline of the methods it uses.
+% If you are using a program or code generated for the project then a more complete description is needed in the main text.
+% You should provide the code used in an appendix and consider providing a flow chart and usage notes to help interpretation.
+% You should take care to define all the input variables used in the program.
+
 
 \end{document}
