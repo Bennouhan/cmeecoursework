@@ -352,10 +352,18 @@ To do generate the fragment length distributions, the script "rfmix.msp.tsv_wind
 
 \subsection{Timeline of Admixture Estimation with TRACTS}
 
-TRACTS is a software for modelling migration histories using ancestry tracts data, incorporating the theory of time-dependent gene-flow and correcting for chromosomal end effects and haplotype assignment errors \parencite{Gravel2012}. 
+TRACTS is a software for modelling migration histories using ancestry tracts data, incorporating the theory of time-dependent gene-flow and correcting for chromosomal end effects and haplotype assignment errors \parencite{Gravel2012}. In doing so, it predicts how many generations prior to the query genomes the migration events bringing the different populations together occured.
 
-The software uses the .bed file format as input, a file output of the original RFMIX but not of RFMIX v2. 
-%explain briefly how the conversion script works, and what .bed files entail. also mention the voyage data, and how the generation data was calculated.
+The software uses the .bed file format as input, a file output of the original RFMIX but not of RFMIX v2, hence I created a script to convert .msp.tsv to .bed, "msp2bed_conversion.R". This merges together each chromosome from the 22 .msp.tsv files, and merges each consecutive intrachromosomal fragment - pre-defined by RFMIX - of the same ancestry into single fragments whereby adjhacent fragments can be of vastly different lengths and always different assigned ancestries. It then recalculates each cell based on this mergeing of fragments assigned to the same ancestry, reshuffles and reformats the columns, and saves one .bed file per query sample, each .bed file containing fragments constituing the entire genome of one individual, as required to run TRACTS.
+
+Because in each of the admixed query populations there was initial admixture between Native Americans and Europeans populations, followed by African and further European ancestry being added to the gene pool, none of the models provided by TRACTS were entirely apropriate. I therefore adjusted the three pulse four population model, which assumes admixture of two initial populations and subsequently two further populations with three migration events, to instead assume initial admixture between two populations and subsequent admixture with one of those two populations (European) and a third population (African). Said adjusted model is encoded in the Python 2 script "models_4pop.py", which is run by "taino_ppxx_xxpp.py" for each admixed query populations with 25 bootstraps.
+
+The _mig file outputs of TRACTS contain what proportion each newly introduced ancestry contributes to the query population after each migration event, and how many generations ago that migration event occurred. The script "tracts_mig_plots.R" uses this data to calculate the estimated relative proportion of the three ancestries during each of the past 25 generations for each query population. 
+
+
+%how did I alter the tracts script?
+% what did I do with the output
+%mention the voyage data, and how the generation data was calculated? or save for results? probs latter 
 
 
 \parencite{Gravel2012}

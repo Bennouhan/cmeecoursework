@@ -11,7 +11,7 @@ import scipy
 # sys.path.append(tractspath)
 import tracts
 #import models
-import models_notvalidated #added myself
+import models_4pop.py #added myself
 import numpy
 import pylab
 
@@ -29,11 +29,11 @@ method = "brute"
 # followed by a pulse from population 2. "fix" referes to the fact that the
 # migration rates in the model are fixed to the observed global ancestry
 # proportions--then, we only have to optimize the timing of the migrations.
-func = models_notvalidated.ppxx_xxpp_fix
+func = models_4pop.ppxx_xxpp_fix
 
 # this function keeps track of whether parameters are in a "forbidden" region:
 # whether mproportions are between 0 and 1, times positive, etc.
-bound = models_notvalidated.outofbounds_ppxx_xxpp_fix
+bound = models_4pop.outofbounds_ppxx_xxpp_fix
 
 # defines the values of parameters to loop over in the brute force
 # step. Times are in units of 100 generations: the start time will

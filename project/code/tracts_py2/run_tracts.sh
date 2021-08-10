@@ -28,21 +28,21 @@ python2 taino_ppxx_xxpp.py PUR 1
 
 
 ### 3 POP, 50 bootstraps
-python2 taino_ppx_xxp.py ACB 50
-python2 taino_ppx_xxp.py ASW 50
-python2 taino_ppx_xxp.py CLM 50
-python2 taino_ppx_xxp.py MXL 50
-python2 taino_ppx_xxp.py PEL 50
+python2 taino_ppx_xxp.py ACB 25
+python2 taino_ppx_xxp.py ASW 25
+python2 taino_ppx_xxp.py CLM 25
+python2 taino_ppx_xxp.py MXL 25
+python2 taino_ppx_xxp.py PEL 25
 #python2 taino_ppx_xxp.py PEL_sub_99
-python2 taino_ppx_xxp.py PUR 50
+python2 taino_ppx_xxp.py PUR 25
 ### 4 POP, 50 bootstraps
-python2 taino_ppxx_xxpp.py ACB 50
-python2 taino_ppxx_xxpp.py ASW 50
-python2 taino_ppxx_xxpp.py CLM 50
-python2 taino_ppxx_xxpp.py MXL 50
-python2 taino_ppxx_xxpp.py PEL 50
+python2 taino_ppxx_xxpp.py ACB 25
+python2 taino_ppxx_xxpp.py ASW 25
+python2 taino_ppxx_xxpp.py CLM 25
+python2 taino_ppxx_xxpp.py MXL 25
+python2 taino_ppxx_xxpp.py PEL 25
 #python2 taino_ppxx_xxpp.py PEL_sub_99
-python2 taino_ppxx_xxpp.py PUR 50
+python2 taino_ppxx_xxpp.py PUR 25
 
 
 
