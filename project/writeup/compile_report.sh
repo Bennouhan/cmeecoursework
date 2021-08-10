@@ -15,8 +15,8 @@
 ### Changes to writeup directory
 cd ~/cmeecoursework/project/writeup
 
-### Import .bib file (will be imperial-Project-Report.bib ultimately, this=test)
-cp ~/Documents/imperial-Miniproject.bib library.bib
+### Import .bib file
+cp ~/bibtex/imperial-Project-Report.bib library.bib
 
 ### Removes any previous version of compiled report
 if [[ -f ../results/Ben_Nouhan_Report.pdf ]]

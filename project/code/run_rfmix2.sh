@@ -86,4 +86,4 @@ rfmix \
 -g ../data/gen_maps/rfmix2_altered/chr${PBS_ARRAY_INDEX}.b38.alt.gmap \
 -o ../data/RFMix2/output/RFMix2_output_chr${PBS_ARRAY_INDEX} \
 --chromosome=${PBS_ARRAY_INDEX} \
---n-threads=32 -G 19 -e 3 #32 ncpus, 19 generations of admixture extimate, 3 runs of algorith (default is 1)
+--n-threads=32 -G 20 -e 3 #32 ncpus, 20 generations of admixture extimate, 3 runs of algorith (default is 1)

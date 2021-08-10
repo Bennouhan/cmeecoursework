@@ -4,6 +4,9 @@
 from pathlib import Path
 from random import sample, seed
 
+###### NB - not needed to run - obselete, problem solved in different way ######
+################################################################################
+
 ### Delete file, make new one, initialise set - uncomment when one decided upon
 # try:
 #     Path('../data/sample_maps/sample_map_no_admix_balanced.txt').unlink()
