@@ -68,7 +68,8 @@
 \begin{abstract}
     \linenumbers
     \noindent
-    \textbf{The ability to understand and predict population growth is vital for multiple disciplines. Technology is increasingly enabling us to model large datasets, uncover the insights buried within them, and improve the models iteratively. Scaling up this process to ingest more data and quantify improvements to the models would push forward our capabilities and inform future research. Here I showcase a prototypal pipeline to fit established models to hundreds of datasets, quantify their performance for comparison between them, and use control variable data to glean insights out of this process. Consistent with the literature, the methodology proclaimed the Gompertz model as the highest-performing of those tested, while highlighting its flaws. Correlating performance of the models and separately the morphology of their resultant fits with potential covariables has the potential to improve or even inspire subsequent investigation. Meanwhile the pipeline as a whole can, with modest alterations, be used on groups of models from a multitude of fields, at best facilitating the development of the very models it upon which it is used to analyse and elucidate.
+    \textbf{
+        ABSTRACT!
     }
 \end{abstract}
 \vspace{10mm}
@@ -99,7 +100,7 @@ General layout: (borrow from prose below at will, reword slightly and reference)
 
 History and background of pop genetics (perhaps specifically study of mating patterns)
 
-genetic markers - SNPs - telling us about ancestry (assuming that's how RFMix works)
+AIMs - SNPs - telling us about ancestry (assuming that's how RFMix works)
 
 background of assortative mating and pop structure, significance
 
@@ -118,25 +119,40 @@ Hence to accurately understand AM, we must understand and be able to corect for 
 
 Well researched area (assortative mating of admixed SA populations), however, most papers either explore assortative mating following a single migration event bringing the different ancestries together(AM ones, globetrotter? or is that one like tracts?), or explore migration while assuming admixture occurs by random mating. (various AM and mig references)
 
-I want to integrate these two phenomena to get the whole picture
+I want to integrate/reconcile these two phenomena to get the whole picture
 
 
 Aims of paper is to 
 Here I explore different methods to unveil non-random admixture in a population, and compare them by their potential to distigunish between migration and assortative mating - ie the removal of geographical barriers to mating vs the manifestation of social barriers to mating - as sources for this non-random admixture.
 
-Doing this as a means to accurately unveil complex mating behaviors driven by cultural and social environments from the genetic structure of different admixing populations of past and present. (from project advert reword!)
+Doing this as a means to accurately unveil complex mating behaviors driven by cultural and social environments from the genetic structure of different admixing populations of past and present. (from project advert, reword!)
 
-This could have real-world uses in the present day, a way to genetically quantify social stratification in modern societies?
-
-
+This could have real-world uses in the present day, perhaps a way to quantify genetics-based social stratification in modern societies?
 
 
+
+ \parencite{}
 
 
 1000ish words max should be good
 
+Positive assortative mating, a phnomenon wherein individuals are more likely to mate with those phenotypically similar to themselves, is widely regarded to occur in human populations \parencite{Norris2019}. This has the potential to alter population structure by introducing social stratification and, in turn, create social constructs upon which further assortative mating can be based, such as wealth, class or social policies \parencite{Risch2009}.
 
-Certain genetic phenomena, including assortative mating and sex bias, have the potential to alter the structure of human populations.  This in turn modifies genomic variation, reflected in a population’s genomic data which can be used to infer said phenomena.  Various factors,  cultural or socio-economic, can cause them to arise or to manifest themselves.  Historically, the social stratification of societies by wealth, power and perceived race, alongside explicit racial segregation policies, have modulated human mating behaviour away from random mating. In  the  past  century,  the geopolitical  and  economic  landscape  has  experienced  and  will  continue to experience intercontinental migration towards areas of high population density, engendered by the  likes  of  globalization,  industrialisation,  shifting  demographics,  the  fallout  of  colonialism  and global  warming.   This  mass  migration  occurring  within  a  relatively  small  timescale  has  founded new, diverse societies with complex and stratified urban population structures.The  modern  era  is  not  the  first  in  which  this  has  occurred,  indeed  the  convoluted  layers  ofancient processes of migration and subsequent admixture,  which shaped populations around theworld  over  millennia,  are  shown  to  have  been  sex-biased  in  many  cases,  and  may  additionallyhave been impacted by localised assortative mating patterns.(Goldberg et al., 2014; Skoglund and Mathieson, 2018) This project seeks to utilise deep learning algorithms and widely available genomic data in theelucidation of how complex human mating behaviours have been effected by both social and eco-nomic conditions, which stem from the genetic structure of different historic and current admixingpopulations.(Sheehan and Song, 2016)
+This multigenerational non-random admixture between genetically distinct groups leaves a genomic imprint in the individuals comprising the population, in stark contrast to populations more closely following the Hardy–Weinberg model \parencite{Zaitlen2017}. However, when studying the admixture or lack thereof between two or more groups, geographical barriers such as oceans must be considered alongside social ones. Afterall, large scale immigration of a new ethnic group will genetically manifest itself similarly to, for example, the revocation of racial segregation policies applying to that same ethnic group: both events facilitate future admixture between those groups. Smaller fluctuations in assortative mating and migration over a period of time would also manifest themselves similarly.
+
+Ancestry-informative markers (AIMs) are single nucleotide polymorphisms (SNPs) than indicate an individual is of a certain ancestry \parencite{Risch2009}. Population genomics techniques allow us to generate a large array of AIMs which can be analysed using local ancestry inference to map ancestries to positions and regions along the genome, after which further analysis can unveil past assortative mating in a population \parencite{Schubert2020}.
+
+One such analysis is that of continuous ancestry tract (CAT) lengths: the lengths of genomic regions wherein AIMs are consecutively assigned to the same ancestry. Looking at the distribution of these lengths, the ancestry to which they belong and the overall ancestry proprtion of individuals within a population can indicate how long ago the admixture occurred and to what extent. Recombination of the DNA of admixing individuals leads to a decrease in CAT lengths, as CATs within the parents' genomes interupt one another upon recombination, hence admixture more generations ago will manifest as distributions of shorter CATs and vice versa \parencite{Gravel2012}. 
+
+AIM genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently hint at assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under Hardy-Weinberg equilibrium can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity:heterozygosity ratio at a given position based off of this concept, which can be used as a proxy for the extent of assortative mating \parencite{Norris2019}.
+
+Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many of such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks through war, hard labour and disease, while the European population grows through migration; these phenomena continue and African slaves are transported to the region to summplement or replace the Natives; and colonialism eventually ends in the region after which the population continues evolving with these historical scars \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
+
+These North and South American populations are far from the only examples of meeting points between assortative mating and migration, and with the current geopolitical and economic landscape - globalisation, industrialisation, wars, shifting demographics and global warming - they will not be the last. Understanding and perhaps even quantifying ancestry-based assortative mating, and using it as a proxy for ancestry-based social stratification, will not only help us better understand the past and present of the Americas, but could also be used to track or predict racial discrimination and tension in present and future admixed populations.
+
+However, to accurately estimate the extent of assortative mating in a population, migration 
+
+This  mass  migration  occurring  within  a  relatively  small  timescale  has  founded new, diverse societies with complex and stratified urban population structures.The  modern  era  is  not  the  first  in  which  this  has  occurred,  indeed  the  convoluted  layers  ofancient processes of migration and subsequent admixture,  which shaped populations around theworld  over  millennia,  are  shown  to  have  been  sex-biased  in  many  cases,  and  may  additionallyhave been impacted by localised assortative mating patterns.(Goldberg et al., 2014; Skoglund and Mathieson, 2018) This project seeks to utilise deep learning algorithms and widely available genomic data in theelucidation of how complex human mating behaviours have been effected by both social and eco-nomic conditions, which stem from the genetic structure of different historic and current admixingpopulations.(Sheehan and Song, 2016)
 
 
 The project’s outcome will be in two forms.  I will be comparing the efficacy of the different neuralnetwork combinations outlined above based on their accuracy estimating multiple parameters.  Iwill then be using highest-performing method to infer parameters, such as assortative mating andsex bias, from genomic data and ultimately integrate my findings into the phenotypic and culturallandscape of the studied region.
@@ -290,7 +306,7 @@ Phasing was carried out using SHAPEIT4.2.0, which efficiently assigns haplotype 
 \subsection{Ancestry Estimation with PLINK \& ADMIXTURE}
 
 
-Linkage disequilibrium pruning was performed with PLINK on the genomes in VCF format, which creates a subset of more or less independent SNPs - thereby significantly reducing the computational power needed for subsequent analyses with minimal information loss - before converting the pruned dataset to PLINK format \parencite{Purcell2007}.
+Linkage disequilibrium pruning was performed with PLINK on the genomes in VCF format, which creates a subset of largely independent SNPs - thereby significantly reducing the computational power needed for subsequent analyses with minimal information loss - before converting the pruned dataset to PLINK format \parencite{Purcell2007}. This effectively generates a large array of AIMs upon which to base this study.
 The programme ADMIXTURE v1.3.0 used cluster analysis and principal component analysis to estimate the proportions of African, European and Native American ancestry for each remaining sample, with default parameters and three ancestries to be detected \parencite{Alexander2009}.
 
 
@@ -431,6 +447,7 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 
 
 
+
 Check methods for any results, eg numbers of samples filtered at various points 
 
 ADMIXTURE: (African, European or Native American ancestry. This subset of  1129 samples - 550, 507 and 72 samples respectively used for RFMIX)
@@ -442,7 +459,7 @@ Overall AMI plot is trallelic and sums all the hets and all the homs, while the 
 
 
 
-
+The inbred plot sort of combines the concept of CATs with that of AMI
 
 
 
