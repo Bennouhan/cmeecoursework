@@ -95,41 +95,50 @@
 %  o How, roughly and briefly, will you go about testing these hypotheses? Why are you using this system? What approach will you use?
 %  o State clearly what your hypotheses are.
 
+General layout: (borrow from prose below at will, reword slightly and reference)
+
 History and background of pop genetics (perhaps specifically study of mating patterns)
+
+genetic markers - SNPs - telling us about ancestry (assuming that's how RFMix works)
 
 background of assortative mating and pop structure, significance
 
-sociologogical background of the region, eg SA colonialism, slavery effective, why it's a good case study
+An example of this... sociologogical background of the region, eg SA colonialism, slavery
 
-assortative mating by social structures eg wealth, status, etc in the region - have claims that it exists be made?
+assortative mating by social structures eg wealth, status, etc in the region - have claims that it exists be made? - use the social stratification reference, why SA is a good case study
 
-genetic markers telling us about ancestry (assuming that's how RFMix works)
+However, social structure are not the only barriers to admixture: gerographical barriers such as oceans, mountains and forrests are too.
 
+Both prevent random admixture, meaning these phenomena manifest themselves in the human genome seemingly inetricably.
 
+(manifest in tracts length - briefls explain this)
+(maybe try to work in assortative mating?)
 
-neural networks
+Hence to accurately understand AM, we must understand and be able to corect for migration.
 
-use of neural networks on these markers/windows/whatever
+Well researched area (assortative mating of admixed SA populations), however, most papers either explore assortative mating following a single migration event bringing the different ancestries together(AM ones, globetrotter? or is that one like tracts?), or explore migration while assuming admixture occurs by random mating. (various AM and mig references)
 
-
-
-Aims of paper
-
-
-
+I want to integrate these two phenomena to get the whole picture
 
 
+Aims of paper is to 
+Here I explore different methods to unveil non-random admixture in a population, and compare them by their potential to distigunish between migration and assortative mating - ie the removal of geographical barriers to mating vs the manifestation of social barriers to mating - as sources for this non-random admixture.
 
-1000ish words should be good, 1500 absolute max
+Doing this as a means to accurately unveil complex mating behaviors driven by cultural and social environments from the genetic structure of different admixing populations of past and present. (from project advert reword!)
+
+This could have real-world uses in the present day, a way to genetically quantify social stratification in modern societies?
 
 
 
-From proposal: 
 
-intro
+
+
+1000ish words max should be good
+
+
 Certain genetic phenomena, including assortative mating and sex bias, have the potential to alter the structure of human populations.  This in turn modifies genomic variation, reflected in a population’s genomic data which can be used to infer said phenomena.  Various factors,  cultural or socio-economic, can cause them to arise or to manifest themselves.  Historically, the social stratification of societies by wealth, power and perceived race, alongside explicit racial segregation policies, have modulated human mating behaviour away from random mating. In  the  past  century,  the geopolitical  and  economic  landscape  has  experienced  and  will  continue to experience intercontinental migration towards areas of high population density, engendered by the  likes  of  globalization,  industrialisation,  shifting  demographics,  the  fallout  of  colonialism  and global  warming.   This  mass  migration  occurring  within  a  relatively  small  timescale  has  founded new, diverse societies with complex and stratified urban population structures.The  modern  era  is  not  the  first  in  which  this  has  occurred,  indeed  the  convoluted  layers  ofancient processes of migration and subsequent admixture,  which shaped populations around theworld  over  millennia,  are  shown  to  have  been  sex-biased  in  many  cases,  and  may  additionallyhave been impacted by localised assortative mating patterns.(Goldberg et al., 2014; Skoglund and Mathieson, 2018) This project seeks to utilise deep learning algorithms and widely available genomic data in theelucidation of how complex human mating behaviours have been effected by both social and eco-nomic conditions, which stem from the genetic structure of different historic and current admixingpopulations.(Sheehan and Song, 2016)
 
-Outcome
+
 The project’s outcome will be in two forms.  I will be comparing the efficacy of the different neuralnetwork combinations outlined above based on their accuracy estimating multiple parameters.  Iwill then be using highest-performing method to infer parameters, such as assortative mating andsex bias, from genomic data and ultimately integrate my findings into the phenotypic and culturallandscape of the studied region.
 
 
@@ -291,7 +300,7 @@ The programme ADMIXTURE v1.3.0 used cluster analysis and principal component ana
 \subsection{Local Ancestry Inference with RFMIX v2}
 
 
-The ADMIXTURE outputs were subsequently used to filter out all significantly admixed samples, with a minimum threshold of 99\% African, European or Native American ancestry. This subsetting was executed using BCFTools, yielding a subset VCF of >99\% pure samples was used as a reference panel for local ancestry assignment with the programme RFMIX. A query subset was created correspondingly, containing all samples in the "Admixed" superpopulation in \textbf{(Table 1)}.
+The ADMIXTURE outputs were subsequently used to filter out all significantly admixed samples, with a minimum threshold of 99\% African, European or Native American ancestry. This subsetting was executed using BCFTools, yielding a subset VCF of $>$99\% pure samples was used as a reference panel for local ancestry assignment with the programme RFMIX. A query subset was created correspondingly, containing all samples in the "Admixed" superpopulation in \textbf{(Table 1)}.
 
 RFMIX v2.03-r0, based on concepts developed in RFMIX v1, assigns ancestries to segments of an individual's genome, which not only yields ancestry proportions as with ADMIXTURE, but also effectively maps out each genome in terms of each genomic region's estimated ancestry or origin \parencite{Maples2013}. It does this by subjecting the chromosomes to a combination of machine learning methods: discriminant random forests and conditional random field modelling.
 
@@ -314,23 +323,22 @@ One measure of assortative mating is the assortative mating index (AMI), which t
 \vspace{3mm}
 
 
-Three ancestries are being investigated, hence expected homozygous and heterozygous allelic frequencies can be thought of in terms of the biallelic (\textbf{(Equation ???)}) or triallelic (\textbf{(Equation ???)}) Hardy-Weinberg models \parencite{Norris2019}: 
+Three ancestries are being investigated, hence expected homozygous and heterozygous allelic frequencies can be thought of in terms of the biallelic (\textbf{(Equation 2)}) or triallelic (\textbf{(Equation 3)}) Hardy-Weinberg models \parencite{Norris2019}: 
+
+\begin{equation}
+    (x + \bar{x})^{2} = x^{2} + 2\bar{x}x + \bar{x}^{2}
+\end{equation}
 
 
 \begin{equation}
     (a + e + n)^{2} = a^{2} + e^{2} + n^{2} + 2ae + 2an + 2en
 \end{equation}
-
-
-\begin{equation}
-    (x + y)^{2} = x^{2} + 2xy + y^{2}
-\end{equation}
 \vspace{3mm}
 
 
-Here a, e and n in the triallelic model are initials of the ancestries they signify, while x and y in the biallelic model correspond to a given ancestry - African, European or Native - and all other ancestries. Hence, while AMI is calculated only one time using the triallelic model, the AMI using the biallelic model must be calculated three times: once with respect to each ancestry. For example, with respect to African ancestry, the homozygous genotype would be both African alleles or both non-African alleles, and the heterozygous genotype would be one African allele and one of the other Ancestry's alleles.
+Here a, e and n in the triallelic model are initials of the ancestries they signify, while $x$ and $\bar{x}$ in the biallelic model correspond to a given ancestry - African, European or Native - and all other ancestries respectively. Hence, while AMI is calculated only once using the triallelic model, the AMI using the biallelic model must be calculated three times: once with respect to each ancestry. For example, with respect to African ancestry, the homozygous genotype would be both African alleles or both non-African alleles, and the heterozygous genotype would be one African allele and one allele of one of the other ancestries.
 
-The outputs of RFMIX were analysed by a series of R Studio scripts I created for this project (see: \textbf{Data and Code Availability}). Firstly, the forward-backward (.fb.tsv) ouput files were read by the script "rfmix.fb.tsv_genotype_assign_HPC.R". These files contain the estimated haplotype probabilities at each genolmic position for each sample. The script then assigns the genotype for each genomic position in each sample, with a probability threshold of 0.9, and returns the frequencies of each of the six triallelic genotypes at each position across samples as a table. This genotype frequency table is then read by the script "rfmix.fb.tsv_genotype_analysis.R", before calculating the triallelic AMI, and the three biallelic AMIs with respect to each ancestry, at each position.
+The outputs of RFMIX were analysed by a series of R Studio scripts I created for this project (see: \textbf{Data and Code Availability}). Firstly, the forward-backward (.fb.tsv) ouput files were read by the script "rfmix.fb.tsv\_genotype\_assign\_HPC.R". These files contain the estimated haplotype probabilities at each genolmic position for each sample. The script then assigns the genotype for each genomic position in each sample, with a probability threshold of 0.9, and returns the frequencies of each of the six triallelic genotypes at each position across samples as a table. This genotype frequency table is then read by the script "rfmix.fb.tsv\_genotype\_analysis.R", before calculating the triallelic AMI, and the three biallelic AMIs with respect to each ancestry, at each position.
 
 
 
@@ -344,7 +352,7 @@ Another indicator of assortative mating is analysis of ancestry tract lengths: t
 
 Assignments of lower certainty in the forward-backward file, using the 0.9 probability threshold, have the potential to fracture fragment lengths and completely alter the fragment length distribution. Hence the .msp.tsv RFMIX output files were used instead, equivalent to the forward-backward files but with automatic haplotype assignment to haploytype with highest estimated liklihood.
 
-To do generate the fragment length distributions, the script "rfmix.msp.tsv_window_size.R" read the .msp.tsv files, summed the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv_inbred_window_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assigmnets. 
+To do generate the fragment length distributions, the script "rfmix.msp.tsv\_window\_size.R" read the .msp.tsv files, summed the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv\_inbred\_window\_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assigmnets. 
 
 
 
@@ -354,11 +362,11 @@ To do generate the fragment length distributions, the script "rfmix.msp.tsv_wind
 
 TRACTS is a software for modelling migration histories using ancestry tracts data, incorporating the theory of time-dependent gene-flow and correcting for chromosomal end effects and haplotype assignment errors \parencite{Gravel2012}. In doing so, it predicts how many generations prior to the query genomes the migration events bringing the different populations together occured.
 
-The software uses the .bed file format as input, a file output of the original RFMIX but not of RFMIX v2, hence I created a script to convert .msp.tsv to .bed, "msp2bed_conversion.R". This merges together each chromosome from the 22 .msp.tsv files, and merges each consecutive intrachromosomal fragment - pre-defined by RFMIX - of the same ancestry into single fragments whereby adjhacent fragments can be of vastly different lengths and always different assigned ancestries. It then recalculates each cell based on this mergeing of fragments assigned to the same ancestry, reshuffles and reformats the columns, and saves one .bed file per query sample, each .bed file containing fragments constituing the entire genome of one individual, as required to run TRACTS.
+The software uses the .bed file format as input, a file output of the original RFMIX but not of RFMIX v2, hence I created a script to convert .msp.tsv to .bed, "msp2bed\_conversion.R". This merges together each chromosome from the 22 .msp.tsv files, and merges each consecutive intrachromosomal fragment - pre-defined by RFMIX - of the same ancestry into single fragments whereby adjhacent fragments can be of vastly different lengths and always different assigned ancestries. It then recalculates each cell based on this mergeing of fragments assigned to the same ancestry, reshuffles and reformats the columns, and saves one .bed file per query sample, each .bed file containing fragments constituing the entire genome of one individual, as required to run TRACTS.
 
-Because in each of the admixed query populations there was initial admixture between Native Americans and Europeans populations, followed by African and further European ancestry being added to the gene pool, none of the models provided by TRACTS were entirely apropriate. I therefore adjusted the three pulse four population model, which assumes admixture of two initial populations and subsequently two further populations with three migration events, to instead assume initial admixture between two populations and subsequent admixture with one of those two populations (European) and a third population (African). Said adjusted model is encoded in the Python 2 script "models_4pop.py", which is run by "taino_ppxx_xxpp.py" for each admixed query populations with 25 bootstraps.
+Because in each of the admixed query populations there was initial admixture between Native Americans and Europeans populations, followed by African and further European ancestry being added to the gene pool, none of the models provided by TRACTS were entirely apropriate. I therefore adjusted the three pulse four population model, which assumes admixture of two initial populations and subsequently two further populations with three migration events, to instead assume initial admixture between two populations and subsequent admixture with one of those two populations (European) and a third population (African). Said adjusted model is encoded in the Python 2 script "models\_4pop.py", which is run by "taino\_ppxx\_xxpp.py" for each admixed query populations with 25 bootstraps.
 
-The _mig file outputs of TRACTS contain what proportion each newly introduced ancestry contributes to the query population after each migration event, and how many generations ago that migration event occurred. The script "tracts_mig_plots.R" uses this data to calculate the estimated relative proportion of the three ancestries during each of the past 25 generations for each query population. 
+The \_mig file outputs of TRACTS contain what proportion each newly introduced ancestry contributes to the query population after each migration event, and how many generations ago that migration event occurred. The script "tracts\_mig\_plots.R" uses this data to calculate the estimated relative proportion of the three ancestries during each of the past 25 generations for each query population. 
 
 
 %how did I alter the tracts script?
@@ -513,6 +521,8 @@ More NAT samples would be better; 72 vs 507 Eur and 550 Afr
 
 
 
+End of the day, migration and the ending of AM, both the removal of barriers to admixture, manifest themselves identically - hence the two are inextricable absent accurate migration data which can be used to explain the contribution of migration to admixture, leaving information as to the impact of assortative mating.
+But can machine learning bypass this need? Talk to alex and/or matteo about this
 
 
 
@@ -536,8 +546,8 @@ More NAT samples would be better; 72 vs 507 Eur and 550 Afr
 
 1KGP Samples: https://www.internationalgenome.org/data-portal/data-collection/30x-grch38
 HGDP Samples: https://www.internationalgenome.org/data-portal/data-collection/hgdp
-Phasing Reference Panel: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20201028_3202_phased/
-Phasing Genetic Map: https://github.com/odelaneau/shapeit4/blob/master/maps/genetic_maps.b38.tar.gz
+Phasing Reference Panel: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data\_collections/1000G\_2504\_high\_coverage/working/20201028\_3202\_phased/
+Phasing Genetic Map: https://github.com/odelaneau/shapeit4/blob/master/maps/genetic\_maps.b38.tar.gz
 
 \subsection{Code}
 
