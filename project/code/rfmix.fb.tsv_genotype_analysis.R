@@ -83,10 +83,10 @@ expSup <- function(w, digits=0) { #was %d but didnt work with 0s; g sorta does
   sprintf(paste0("%.", digits, "f*x*10^%g"), w/10^floor(log10(abs(w))), floor(log10(abs(w))))
 }
 
-pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
+pvalue_heatmap <- function(p_df, nudge_x, title=NULL){
   options(warn = -1)
   p <-  ggplot(p_df, aes(fct_inorder(y), fct_inorder(x))) + 
-        geom_tile(aes(fill=p)) + theme_bw() + ggtitle(pop) + 
+        geom_tile(aes(fill=p)) + theme_bw() + ggtitle(title) + 
         geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) + ##
         geom_text(aes(label=replace(rep("<", nrow(p_df)), p_df[,1]>1e-8, "")), nudge_x=nudge_x, size=3) +
         scale_fill_gradientn( name ="p-value", 
@@ -99,7 +99,7 @@ pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
               legend.title = element_text(vjust = .9, face="bold"),
               axis.title=element_blank(),
               plot.title = element_text(hjust = 0.5))
-  if (length(pop) > 0){
+  if (title != "Triallelic AMI"){
     p <- p + theme(legend.position = "none") }
   return(p)
   options(warn = getOption("warn"))
@@ -131,7 +131,7 @@ subpop_ami_scatter <- function(subpop_num=FALSE, legend=FALSE){
       theme_bw() + theme(axis.title = element_text(face="bold", size=13)) +
       ggtitle(subpops[subpop_num]) +
       ### Legend formatting
-      theme(legend.position="bottom",
+      theme(legend.position="top",
             legend.key.size = unit(.5, "cm"),
             legend.title=element_text(size=11, face="bold.italic"), 
             legend.text=element_text(size=10, face="italic"),
@@ -354,9 +354,10 @@ for (comb in 1:length(combs)){ #calculate p-value for each subpop combination
                         get(paste0(combs[[comb]][2], "_AMI_df"))[["AMIs"]],
                                 alternative = "two.sided")[3]) ,2) }
 p_df[p_df < 1e-8] <- signif(1e-8,2) # replaces values rounded to 0
-overall <- pvalue_heatmap(p_df, -0.22) #plot
+overall <- pvalue_heatmap(p_df, -0.22, title="Triallelic AMI") #plot
+overall_print <- overall + theme(legend.position = "none")
 ggsave(file="../results/overall_AMI_comp_by_subpop_heatmap.png",
-overall, width=6, height=5, units="in")
+overall_print, width=6, height=4.5, units="in")
 print("Finished plotting overall AMI Wilcoxin heatmap, starting subpop by ancestry...")
 
 
@@ -382,8 +383,9 @@ plot <- cowplot::plot_grid( African, European,  Native, ncol=1)
 p_legend <- get_legend(overall)
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/AMI_subpop_comp_by_anc_heatmap.png",
-grid.arrange(arrangeGrob(plot, p_legend,heights=c(2,.2))),
-width=6, height=12, units="in")
+grid.arrange(arrangeGrob(plot, heights=c(2))),
+#grid.arrange(arrangeGrob(plot, p_legend,heights=c(2,.2))),
+width=6, height=11, units="in")
 print("Finished plotting subpop by ancestry AMI Wilcoxin heatmap, starting ancestry by subpop...")
 
 
@@ -409,11 +411,11 @@ for (subpop in subpops){
   p_df[p_df < 1e-8] <- signif(1e-8,2)  
   assign(subpop, pvalue_heatmap(p_df, -0.33, subpop)) }
 ### Lays out multiplot
-plot <- cowplot::plot_grid( PEL, MXL, CLM, PUR, ASW, ACB, ncol=3)
+plot <- cowplot::plot_grid( PEL, MXL, CLM, PUR, ASW, ACB, ncol=2)
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/AMI_anc_comp_by_subpop_heatmap.png",
-grid.arrange(arrangeGrob(plot, p_legend, heights=c(2,.4))),
-width=7, height=4, units="in")
+grid.arrange(arrangeGrob(plot, p_legend, heights=c(2,.2))),
+width=6, height=7, units="in")
 print("Finished plotting ancestry by subpop AMI Wilcoxin heatmap")
 
 

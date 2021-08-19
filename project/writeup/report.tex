@@ -9,6 +9,7 @@
 \usepackage{lineno}
 \usepackage[skip=0pt,font=scriptsize]{caption} 
 \usepackage[labelfont=bf, justification=justified]{caption}
+\usepackage{mwe}
 \usepackage{subfig}
 \usepackage{graphicx}
 \usepackage{pgfplotstable,booktabs}
@@ -527,6 +528,67 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 
 
 
+
+
+\begin{figure}[htb!]%%%%%%%%%%% RFMIX VS ADMIXTURE SCATTER
+    \centering
+    \includegraphics[width=4in]{../results/rf_vs_admix.png} 
+    \caption{\textbf{
+        Caption title
+    }
+        general caption text
+    }
+\end{figure}
+
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% AMI vs Anc Prop SCATTER
+    \centering
+    \includegraphics[width=3.95in]{../results/anc_prop_vs_AMI.png} 
+    \caption{\textbf{
+        Caption title
+    }
+        general caption text
+    }
+\end{figure}
+
+
+
+
+
+
+\begin{figure}[!htb]%%%%%%%%%%% AMI Wilcoxin *3
+\sffamily
+\begin{tabular}{cc}
+    \begin{minipage}{0.46\textwidth}
+    \includegraphics[width=\textwidth]{
+        ../results/overall_AMI_comp_by_subpop_heatmap.png} \\
+    \includegraphics[width=\textwidth]{
+        ../results/AMI_anc_comp_by_subpop_heatmap.png} 
+    \end{minipage}
+    \begin{minipage}{0.54\textwidth}
+    \includegraphics[width=0.9\textwidth]{
+        ../results/AMI_subpop_comp_by_anc_heatmap.png}
+    \end{minipage}
+    \put (-775, 189){\makebox[0.7\textwidth][r]{\scriptsize\textbf{A} }}
+    \put (-775, 40 ){\makebox[0.7\textwidth][r]{\scriptsize\textbf{B} }}
+    \put (-554, 190){\makebox[0.7\textwidth][r]{\scriptsize\textbf{C} }}
+
+\end{tabular}
+        \caption{\textbf{
+            Caption title
+        }
+            general caption text
+        }
+\end{figure}
+
+
+
+
+
+
+
 \begin{figure}[htb!]%%%%%%%%%%% Window length boxplots + Wilcoxin
     \centering
     \subfloat{\includegraphics[width=0.53\textwidth]{
@@ -539,39 +601,6 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
             Mean and standard deviation are in Mbp
         }
 \end{figure}
-
-
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% RFMIX VS ADMIXTURE SCATTER
-    \centering
-    \includegraphics[width=5in]{../results/rf_vs_admix.png} 
-    \caption{\textbf{
-        Caption title
-    }
-        general caption text
-    }
-\end{figure}
-
-
-
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% AMI vs Anc Prop SCATTER
-    \centering
-    \includegraphics[width=5in]{../results/anc_prop_vs_AMI.png} 
-    \caption{\textbf{
-        Caption title
-    }
-        general caption text
-    }
-\end{figure}
-
-
 
 
 
