@@ -267,3 +267,77 @@ yGrob <- textGrob("Fragment Count",
 ggsave(file="../results/window_lengths_histogram.png",
 grid.arrange(legend, arrangeGrob(plot,left=yGrob,bottom=xGrob),
              heights=c(.1,2)), width=13, height=10, units="in")
+
+
+
+
+
+
+################################ Wilcoxin plots ################################
+
+
+### Function to make cell entries have fancu scientific notation
+expSup <- function(w, digits=0) { #was %d but didnt work with 0s; g sorta does
+  sprintf(paste0("%.", digits, "f*x*10^%g"), w/10^floor(log10(abs(w))), floor(log10(abs(w))))
+}
+
+### Function to plot the heatmap
+pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
+  options(warn = -1)
+  p <-  ggplot(p_df, aes(fct_inorder(y), fct_inorder(x))) + 
+        geom_tile(aes(fill=p)) + theme_bw() + ggtitle(pop) + 
+        geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) + ##
+        geom_text(aes(label=replace(rep("<", nrow(p_df)), p_df[,1]>1e-8, "")), nudge_x=nudge_x, size=3) +
+        scale_fill_gradientn( name ="p-value", 
+            colours=c(pal[10], pal[9], pal[7], pal[5], pal[3], pal[2], pal[1]),
+            values =c(0,       0.01,   0.05,   0.051,   0.1,    0.5,    1),
+            limits=c(0,1), breaks=c(0.01, 0.05, 0.25, 0.5, 0.75),
+            guide=guide_colourbar(nbin=100, draw.ulim=FALSE, draw.llim=TRUE)) + 
+        theme(legend.key.width=unit(2.5, 'cm'), legend.position="bottom", 
+              legend.text = element_text(angle = 45, vjust=1.3, hjust=1),
+              legend.title = element_text(vjust = .9, face="bold"),
+              axis.title=element_blank(),
+              plot.title = element_text(hjust = 0.5))
+  if (length(pop) > 0){
+    p <- p + theme(legend.position = "none") }
+  return(p)
+  options(warn = getOption("warn"))
+}
+
+
+
+### Set palette for plotting
+pal <- brewer.pal(n=11, name="RdYlBu") #formerly "RdYlGn", chaned for colorblind
+
+### Create template df to fill with various data comparing subpopulations
+combs <- combn(subpops[c(1:5,7)], 2)
+combs <- split(combs, rep(1:ncol(combs), each = nrow(combs)))
+pvalues <- rep(0, length(combs))
+template_p_df <- cbind.data.frame(pvalues, t(as.data.frame(combs)))
+colnames(template_p_df) <- c("p", "x", "y")
+
+### Generate legend
+p_df <- template_p_df
+p_df[,1] <- 1:15
+p_legend <- get_legend(pvalue_heatmap(p_df, -0.22))
+
+### AMI Anc plot
+for (pop in pops){
+  p_df <- template_p_df
+  frag_df_subset <- cbind.data.frame(frag_df$Subpop, frag_df[[pop]])
+  frag_df_subset <- na.omit(frag_df_subset)
+  for (comb in 1:length(combs)){
+    p_df[comb,1] <- signif(as.numeric(wilcox.test(
+        as.numeric(frag_df_subset[frag_df_subset[,1] == combs[[comb]][1],][,2]),
+        as.numeric(frag_df_subset[frag_df_subset[,1] == combs[[comb]][2],][,2]),
+                                          alternative = "two.sided")[3]) ,2) }
+  p_df[p_df < 1e-8] <- signif(1e-8,2) 
+  assign(pop, pvalue_heatmap(p_df, -0.22, paste(pop, "Ancestry"))) }
+### Lays out multiplot
+plot <- cowplot::plot_grid( African, European,  Native, ncol=1)
+### Arrange plot, legend and axis titles, saves to png
+ggsave(file="../results/window_length_subpop_comp_by_anc_heatmap.png",
+grid.arrange(arrangeGrob(plot, p_legend,heights=c(2,.2))),
+width=6, height=12, units="in")
+print("Finished plotting subpop by ADMIXTURE anc Wilcoxin heatmap, starting ancestry by subpop...")
+
