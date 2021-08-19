@@ -111,9 +111,10 @@ anc_boxplot <- function(pop_num){
         stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
         # top whisker goes to last value within 1.5x the interquartile range &vv
         theme(axis.title.x = element_blank(),
-              axis.title.y = element_blank())
+              axis.title.y = element_blank(),
+              axis.text    = element_text(size=11))
   for (i in 1:length(subpops)) {
-  q <- q + geom_text(x=i, y=4.9, size=2.7, fontface="plain", 
+  q <- q + geom_text(x=i, y=4.87, size=3.5, fontface="plain", 
   label = table[i,pop_num+1])}
   return(q)
 }
@@ -123,13 +124,13 @@ MeanSD3 <- function(vector, fun=round, num=3){
   vector = as.numeric(vector[!is.na(vector)])
   mean <- fun(mean(vector), num)/1000000
   sd   <- fun(  sd(vector), num)/1000000
-  return(paste0(mean, "±", sd, "Mbp"))
+  return(paste0(mean, " ± ", sd))
 }
 
 
 ### Names the 3 pops for use in function above, and the 6 subpops in new order
 pops    <- c("African", "European", "Native")
-subpops <- c("ACB", "ASW","PUR", "CLM", "MXL", "PEL_sub_99", "PEL")
+subpops <- c("ACB", "ASW","PUR", "CLM", "MXL", "PEL")
 anc_palette <- brewer.pal(3,"Set2")
 
 ### Subsets and reorders data so subpops are plotted by African/Native ancestry
@@ -166,10 +167,10 @@ plot <- cowplot::plot_grid(
   anc_boxplot(3),
   ncol=1,
   labels = "AUTO",
-  label_size = 13,
+  label_size = 14,
   axis=c("b"),
   align = "hv",
-  label_x = .03, 
+  label_x = .035, 
   label_y = 0.985)
 
 ### Create Legend from scratch
@@ -190,13 +191,13 @@ legend <- get_legend(L + guides(color = guide_legend(nrow = 1)) +
           
 ### Set common y and x labels
 xGrob <- textGrob("Admixed Population", 
-                   gp=gpar(col="black", fontsize=15))
-yGrob <- textGrob(expression(paste("Length of Fragment   log"["10"],"(bp)")),
-                   gp=gpar(col="black", fontsize=15), rot=90)
+                   gp=gpar(col="black", fontsize=14, fontface="bold"))
+yGrob <- textGrob(expression(bold(paste("Length of Fragment   log"["10"],"(bp)"
+))),               gp=gpar(col="black", fontsize=14), rot=90)
 
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/window_lengths_boxplot.png",
-grid.arrange(arrangeGrob(plot,left=yGrob,bottom=xGrob), legend,heights=c(2,.1)),
+grid.arrange(legend, arrangeGrob(plot,left=yGrob,bottom=xGrob),heights=c(.1,2)),
 dpi=1000, width=6, height=15, units="in")
 
 
@@ -285,7 +286,7 @@ expSup <- function(w, digits=0) { #was %d but didnt work with 0s; g sorta does
 pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
   options(warn = -1)
   p <-  ggplot(p_df, aes(fct_inorder(y), fct_inorder(x))) + 
-        geom_tile(aes(fill=p)) + theme_bw() + ggtitle(pop) + 
+        geom_tile(aes(fill=p)) + theme_bw() + #ggtitle(pop) + 
         geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) + ##
         geom_text(aes(label=replace(rep("<", nrow(p_df)), p_df[,1]>1e-8, "")), nudge_x=nudge_x, size=3) +
         scale_fill_gradientn( name ="p-value", 
@@ -294,15 +295,23 @@ pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
             limits=c(0,1), breaks=c(0.01, 0.05, 0.25, 0.5, 0.75),
             guide=guide_colourbar(nbin=100, draw.ulim=FALSE, draw.llim=TRUE)) + 
         theme(legend.key.width=unit(2.5, 'cm'), legend.position="bottom", 
-              legend.text = element_text(angle = 45, vjust=1.3, hjust=1),
+              legend.text  = element_text(angle = 45, vjust=1.3, hjust=1),
               legend.title = element_text(vjust = .9, face="bold"),
-              axis.title=element_blank(),
-              plot.title = element_text(hjust = 0.5))
+              axis.title   = element_blank(),
+              axis.text    = element_text(size=11),
+              plot.title   = element_text(hjust = 0.5)) +
+        scale_y_discrete(position = "right")
   if (length(pop) > 0){
-    p <- p + theme(legend.position = "none") }
+  p <- p + theme(legend.position = "none")
+  if      (pop == "African Ancestry"){
+        p <- p + theme(plot.margin=unit(c(-1,0,3,0),"cm"))
+ }else if (pop == "European Ancestry"){
+        p <- p + theme(plot.margin=unit(c(-1.7,0,2.9,0),"cm"))
+ }else{ p <- p + theme(plot.margin=unit(c(-1.2,0,2.7,0),"cm"))}}
   return(p)
   options(warn = getOption("warn"))
 }
+
 
 
 
@@ -310,7 +319,7 @@ pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
 pal <- brewer.pal(n=11, name="RdYlBu") #formerly "RdYlGn", chaned for colorblind
 
 ### Create template df to fill with various data comparing subpopulations
-combs <- combn(subpops[c(1:5,7)], 2)
+combs <- combn(subpops, 2)
 combs <- split(combs, rep(1:ncol(combs), each = nrow(combs)))
 pvalues <- rep(0, length(combs))
 template_p_df <- cbind.data.frame(pvalues, t(as.data.frame(combs)))
@@ -337,7 +346,7 @@ for (pop in pops){
 plot <- cowplot::plot_grid( African, European,  Native, ncol=1)
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/window_length_subpop_comp_by_anc_heatmap.png",
-grid.arrange(arrangeGrob(plot, p_legend,heights=c(2,.2))),
-width=6, height=12, units="in")
+grid.arrange(arrangeGrob(p_legend, plot, heights=c(.2,2))),
+width=6, height=17.2, units="in")
 print("Finished plotting subpop by ADMIXTURE anc Wilcoxin heatmap, starting ancestry by subpop...")
 

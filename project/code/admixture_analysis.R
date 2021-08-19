@@ -179,18 +179,19 @@ anc_boxplot <- function(pop_num){
         stat_boxplot(geom ='errorbar') + theme_bw() + 
         # top whisker goes to last value within 1.5x the interquartile range &vv
         theme(axis.title.x = element_blank(),
-              axis.title.y = element_text(face="bold"))
+              axis.title.y = element_text(face="bold", size=14),
+              axis.text    = element_text(size=11))
   for (i in 1:6) {
-  q <- q + geom_text(x=i, y=-0.025, label = table[i,pop_num+1], size=3, fontface="plain")}
+  q <- q + geom_text(x=i, y=-0.026, label = table[i,pop_num+1], size=3.5, fontface="plain")}
   
   return(q)
 }
 
-MeanSD3 <- function(vector, fun=round, num=3){
+MeanSD3 <- function(vector, fun=round, num=2){
   ### Converts vector into its mean ± SD to 3 decimal places each
   mean <- fun(mean(vector), num)
   sd   <- fun(  sd(vector), num)
-  return(paste0(mean, "±", sd))
+  return(paste0(mean, " ± ", sd))
 }
 
 
@@ -223,14 +224,14 @@ plot <- cowplot::plot_grid(
   anc_boxplot(3),
   ncol=1,
   labels = "AUTO",
-  label_size = 13,
+  label_size = 14,
   axis=c("b"),
   align = "hv",
-  label_x = .09, 
+  label_x = .105, 
   label_y = 0.985)
   ### Common x label
   x.grob <- textGrob("Admixed Population", 
-                     gp=gpar(fontface="bold", col="black", fontsize=11))
+                     gp=gpar(fontface="bold", col="black", fontsize=14))
 
 ### Combine plot and axis label, prints out to pdf
 pdf("../results/admixture_boxplots.pdf", 6, 15)
@@ -253,7 +254,7 @@ expSup <- function(w, digits=0) { #was %d but didnt work with 0s; g sorta does
 pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
   options(warn = -1)
   p <-  ggplot(p_df, aes(fct_inorder(y), fct_inorder(x))) + 
-        geom_tile(aes(fill=p)) + theme_bw() + ggtitle(pop) + 
+        geom_tile(aes(fill=p)) + theme_bw() + #ggtitle(pop) + 
         geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) + ##
         geom_text(aes(label=replace(rep("<", nrow(p_df)), p_df[,1]>1e-8, "")), nudge_x=nudge_x, size=3) +
         scale_fill_gradientn( name ="p-value", 
@@ -262,12 +263,19 @@ pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
             limits=c(0,1), breaks=c(0.01, 0.05, 0.25, 0.5, 0.75),
             guide=guide_colourbar(nbin=100, draw.ulim=FALSE, draw.llim=TRUE)) + 
         theme(legend.key.width=unit(2.5, 'cm'), legend.position="bottom", 
-              legend.text = element_text(angle = 45, vjust=1.3, hjust=1),
+              legend.text  = element_text(angle = 45, vjust=1.3, hjust=1),
               legend.title = element_text(vjust = .9, face="bold"),
-              axis.title=element_blank(),
-              plot.title = element_text(hjust = 0.5))
+              axis.title   = element_blank(),
+              axis.text    = element_text(size=11),
+              plot.title   = element_text(hjust = 0.5)) +
+        scale_y_discrete(position = "right")
   if (length(pop) > 0){
-    p <- p + theme(legend.position = "none") }
+  p <- p + theme(legend.position = "none")
+  if      (pop == "African Ancestry"){
+        p <- p + theme(plot.margin=unit(c(-1,0,3.9,0),"cm"))
+ }else if (pop == "European Ancestry"){
+        p <- p + theme(plot.margin=unit(c(-.6,0,3.2,0),"cm"))
+ }else{ p <- p + theme(plot.margin=unit(c(-.2,0,2.7,0),"cm"))}}
   return(p)
   options(warn = getOption("warn"))
 }
@@ -305,7 +313,7 @@ for (pop in pops){
 plot <- cowplot::plot_grid( African, European,  Native, ncol=1)
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/ADMIXTURE_subpop_comp_by_anc_heatmap.png",
-grid.arrange(arrangeGrob(plot, p_legend,heights=c(2,.2))),
-width=6, height=12, units="in")
+grid.arrange(arrangeGrob(p_legend, plot, heights=c(.2,2))),
+width=6, height=17.5, units="in")
 print("Finished plotting subpop by ADMIXTURE anc Wilcoxin heatmap, starting ancestry by subpop...")
 
