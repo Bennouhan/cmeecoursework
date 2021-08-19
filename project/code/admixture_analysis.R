@@ -59,7 +59,11 @@ p <- ggplot(data=stacked, aes(fill=Ancestry, y=Proportion,
      geom_bar(position="fill", stat="identity", width=1) + theme_bw() + #stacks
      theme(axis.text.x  = element_text(angle=90, hjust=1, vjust=.5),
            axis.title   = element_text(face="bold"),
-           legend.title = element_text(face="bold")) + 
+           axis.title.x = element_text(vjust=5),
+           legend.title = element_text(size=10, face="bold.italic"),
+           legend.text  = element_text(size=9,   face="italic"),
+           legend.key.size = unit(.65,"line"),
+           legend.position = "top") + 
      labs(x="Population", y="Proportion of Ancestry") +
      scale_y_continuous(expand = c(0,0), limits = c(-0.003,1.003)) + #no gaps
      scale_fill_manual(values = anc_palette) 
@@ -147,8 +151,8 @@ x.grob <- textGrob("Population Individuals",
 
 ### Combine plots, legend and axis labels, prints ou to pdf
 pdf("../results/admixture_sample_barplots.pdf", 6, 4)
-grid.arrange(arrangeGrob(plot, left=y.grob, bottom=x.grob),
-                         legend, heights=c(2, .1))
+grid.arrange(legend, arrangeGrob(plot, left=y.grob, bottom=x.grob),
+             heights=c(.1, 2))
 graphics.off()
 
 

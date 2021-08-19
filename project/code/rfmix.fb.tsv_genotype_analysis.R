@@ -2,7 +2,7 @@
 ### Clear workspace, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/') #for local
-unlink("../results/*AMI*")
+#unlink("../results/*AMI*")
 
 
 
@@ -83,13 +83,14 @@ expSup <- function(w, digits=0) { #was %d but didnt work with 0s; g sorta does
   sprintf(paste0("%.", digits, "f*x*10^%g"), w/10^floor(log10(abs(w))), floor(log10(abs(w))))
 }
 
-pvalue_heatmap <- function(p_df, pop=NULL){
+pvalue_heatmap <- function(p_df, nudge_x, pop=NULL){
   options(warn = -1)
   p <-  ggplot(p_df, aes(fct_inorder(y), fct_inorder(x))) + 
         geom_tile(aes(fill=p)) + theme_bw() + ggtitle(pop) + 
-        geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) +
+        geom_text(label=parse(text=expSup(p_df$p, digits=3)), size=3) + ##
+        geom_text(aes(label=replace(rep("<", nrow(p_df)), p_df[,1]>1e-8, "")), nudge_x=nudge_x, size=3) +
         scale_fill_gradientn( name ="p-value", 
-            colours=c(pal[11], pal[9], pal[7], pal[5], pal[3], pal[2], pal[1]),
+            colours=c(pal[10], pal[9], pal[7], pal[5], pal[3], pal[2], pal[1]),
             values =c(0,       0.01,   0.05,   0.051,   0.1,    0.5,    1),
             limits=c(0,1), breaks=c(0.01, 0.05, 0.25, 0.5, 0.75),
             guide=guide_colourbar(nbin=100, draw.ulim=FALSE, draw.llim=TRUE)) + 
@@ -111,7 +112,10 @@ subpop_ami_scatter <- function(subpop_num=FALSE, legend=FALSE){
   if (subpop_num == FALSE){
   data <- scat_data
   size <- 2.5
+  p <- annotate("text", x=0.82, y=0.35, 
+                label= "r value = 0.368 \np value = 0.133")
  }else{ 
+  p <- NULL
   ### Takes subset of the dataframe of the given subpop, pivots, removes NAs
   temp1 <- ami4plot[ami4plot$Subpop == subpops[subpop_num],][,c(1,3:5)] %>% 
               pivot_longer(2:4, names_to="Ancestry", values_to="AMI")
@@ -136,7 +140,7 @@ subpop_ami_scatter <- function(subpop_num=FALSE, legend=FALSE){
             scale_color_manual(name = "Ancestry:",
                             values = anc_palette, # messed with order above but 
                             labels = pops) + # it works out correctly coloured
-            guides(color = guide_legend(override.aes = list(size = 3)))
+            guides(color = guide_legend(override.aes = list(size = 3))) + p
   if (legend == FALSE){
     q <- q + theme(legend.position="none",
                    axis.title = element_blank()) }
@@ -242,7 +246,7 @@ AMI_plot <- ggplot(OGami4plot,
       ylim((min(OGami4plot[,2])-.2), (max(OGami4plot[,2])+.2)) +
       geom_boxplot(outlier.shape=NA, na.rm=TRUE) + #avoid duplicate outliers
       geom_jitter(position=position_jitter(width=.2, height=0.05),
-                  colour=anc_palette[2], size=.2, na.rm=TRUE) +
+                  colour=brewer.pal(3,"Set1")[2], size=.2, na.rm=TRUE) +
       stat_boxplot(geom ='errorbar', na.rm=TRUE) + theme_bw() + 
       # top whisker goes to last value within 1.5x the interquartile range &vv
       theme(axis.title = element_text(face="bold"))
@@ -255,37 +259,37 @@ ggsave(AMI_plot, file="../results/AMI_plot.png", dpi=1000, width=6, height=5, un
 print("Finished plotting overall AMI plot")
 
 
-##### Multiplot figure by subpopulation
-### Gets legend
-legend <- get_legend(
-            subpop_ami_boxplot(1, legend=TRUE) +
-            theme(legend.position="bottom",
-                  legend.key.size = unit(.5, "cm"),
-                  legend.title=element_text(size=15, face="bold.italic"), 
-                  legend.text =element_text(size=14, face="italic")) +
-                  scale_color_manual(name = "Ancestry:",
-                                     values = anc_palette, 
-                                     labels = pops) + 
-                  guides(color = guide_legend(override.aes = list(size = 3))))
+# ##### Multiplot figure by subpopulation
+# ### Gets legend
+# legend <- get_legend(
+#             subpop_ami_boxplot(1, legend=TRUE) +
+#             theme(legend.position="bottom",
+#                   legend.key.size = unit(.5, "cm"),
+#                   legend.title=element_text(size=15, face="bold.italic"), 
+#                   legend.text =element_text(size=14, face="italic")) +
+#                   scale_color_manual(name = "Ancestry:",
+#                                      values = anc_palette, 
+#                                      labels = pops) + 
+#                   guides(color = guide_legend(override.aes = list(size = 3))))
 
-### Lays out multiplot
-plot <- cowplot::plot_grid(
-  subpop_ami_boxplot(1), subpop_ami_boxplot(2), subpop_ami_boxplot(3),
-  subpop_ami_boxplot(4), subpop_ami_boxplot(5), subpop_ami_boxplot(6),
-  ncol=3,
-  labels = "AUTO",
-  label_size = 18,
-  axis=c("b"),
-  align = "hv",
-  label_x = .075, 
-  label_y = 0.92)
-y.grob <- textGrob("Biallelic Ancestral AMI", rot=90,
-                     gp=gpar(fontface="bold", col="black", fontsize=15))
-### Arrange plot, legend and axis titles, saves to png
-ggsave(file="../results/subpop_AMI_plot.png",
-grid.arrange(arrangeGrob(plot, left=y.grob), legend, heights=c(2,.2)),
-width=15, height=10, units="in")
-print("Finished plotting ancestry-specific AMI by subpopulation multiplot")
+# ### Lays out multiplot
+# plot <- cowplot::plot_grid(
+#   subpop_ami_boxplot(1), subpop_ami_boxplot(2), subpop_ami_boxplot(3),
+#   subpop_ami_boxplot(4), subpop_ami_boxplot(5), subpop_ami_boxplot(6),
+#   ncol=3,
+#   labels = "AUTO",
+#   label_size = 18,
+#   axis=c("b"),
+#   align = "hv",
+#   label_x = .075, 
+#   label_y = 0.92)
+# y.grob <- textGrob("Biallelic Ancestral AMI", rot=90,
+#                      gp=gpar(fontface="bold", col="black", fontsize=15))
+# ### Arrange plot, legend and axis titles, saves to png
+# ggsave(file="../results/subpop_AMI_plot.png",
+# grid.arrange(arrangeGrob(plot, left=y.grob), legend, heights=c(2,.2)),
+# width=15, height=10, units="in")
+# print("Finished plotting ancestry-specific AMI by subpopulation multiplot")
 
 
 
@@ -293,21 +297,27 @@ print("Finished plotting ancestry-specific AMI by subpopulation multiplot")
 ##### Multiplot figure by ancestry
 ### Lays out multiplot
 plot <- cowplot::plot_grid(
-  anc_ami_boxplot(1) + theme(axis.text.x=element_blank(),
-                                            axis.ticks.x=element_blank()),
-  anc_ami_boxplot(2) + theme(axis.text.x=element_blank(),
-                                            axis.ticks.x=element_blank()), 
-  anc_ami_boxplot(3),
+  anc_ami_boxplot(1) + theme(axis.text.x  = element_blank(),
+                             axis.title.y = element_text(size=14),
+                             axis.ticks.x = element_blank(),
+                             axis.text.y  = element_text(size=12)),
+  anc_ami_boxplot(2) + theme(axis.text.x  = element_blank(),
+                             axis.title.y = element_text(size=14),
+                             axis.ticks.x = element_blank(),
+                             axis.text.y  = element_text(size=12)), 
+  anc_ami_boxplot(3) + theme(axis.text    = element_text(size=12),
+                             axis.title.y = element_text(size=14)),
+
   ncol=1,
   labels = "AUTO",
-  label_size = 13,
+  label_size = 15,
   axis=c("b"),
   align = "hv",
-  label_x = .09, 
-  label_y = 0.985)
+  label_x = .105, 
+  label_y = 0.982)
   ### Common x label
   x.grob <- textGrob("Admixed Population", 
-                     gp=gpar(fontface="bold", col="black", fontsize=11))
+                     gp=gpar(fontface="bold", col="black", fontsize=14))
 ### Combine multiplot and axis label, prints out to pdf
 ggsave(file="../results/anc_AMI_plot.png",
 grid.arrange(arrangeGrob(plot, bottom=x.grob)),
@@ -322,7 +332,7 @@ print("Performing and plotting Wilcoxin comparisons of AMI distributions. These 
 
 
 ### Set palette for plotting
-pal <- brewer.pal(n=11, name="RdYlGn")
+pal <- brewer.pal(n=11, name="RdYlBu") #formerly "RdYlGn", chaned for colorblind
 
 ### Create template df to fill with various data comparing subpopulations
 combs <- combn(subpops, 2)
@@ -330,7 +340,6 @@ combs <- split(combs, rep(1:ncol(combs), each = nrow(combs)))
 pvalues <- rep(0, length(combs))
 template_p_df <- cbind.data.frame(pvalues, t(as.data.frame(combs)))
 colnames(template_p_df) <- c("p", "x", "y")
-
 
 
 
@@ -344,8 +353,8 @@ for (comb in 1:length(combs)){ #calculate p-value for each subpop combination
                         get(paste0(combs[[comb]][1], "_AMI_df"))[["AMIs"]],
                         get(paste0(combs[[comb]][2], "_AMI_df"))[["AMIs"]],
                                 alternative = "two.sided")[3]) ,2) }
-p_df[p_df == 0] <- signif(1e-299,2) # replaces values rounded to 0 with smallest number R can handle     
-overall <- pvalue_heatmap(p_df) #plot
+p_df[p_df < 1e-8] <- signif(1e-8,2) # replaces values rounded to 0
+overall <- pvalue_heatmap(p_df, -0.22) #plot
 ggsave(file="../results/overall_AMI_comp_by_subpop_heatmap.png",
 overall, width=6, height=5, units="in")
 print("Finished plotting overall AMI Wilcoxin heatmap, starting subpop by ancestry...")
@@ -365,8 +374,8 @@ for (pop in pops){
                         get(paste0(combs[[comb]][1], "_AMI_df"))[[pop]],
                         get(paste0(combs[[comb]][2], "_AMI_df"))[[pop]],
                                           alternative = "two.sided")[3]) ,2) }
-  p_df[p_df == 0] <- signif(1e-299,2) # replaces values rounded to 0 with smallest number R can handle     
-  assign(pop, pvalue_heatmap(p_df, paste(pop, "Ancestry"))) }
+  p_df[p_df < 1e-8] <- signif(1e-8,2) 
+  assign(pop, pvalue_heatmap(p_df, -0.22, paste(pop, "Ancestry"))) }
 ### Lays out multiplot
 plot <- cowplot::plot_grid( African, European,  Native, ncol=1)
 ### Create Legend from scratch for both multiplot heatmaps
@@ -397,8 +406,8 @@ for (subpop in subpops){
                         get(paste0(subpop, "_AMI_df"))[[anc_combs[[comb]][1]]],
                         get(paste0(subpop, "_AMI_df"))[[anc_combs[[comb]][2]]],
                                           alternative = "two.sided")[3]) ,2) }
-  p_df[p_df == 0] <- signif(1e-299,2) # replaces values rounded to 0 with smallest number R can handle     
-  assign(subpop, pvalue_heatmap(p_df, subpop)) }
+  p_df[p_df < 1e-8] <- signif(1e-8,2)  
+  assign(subpop, pvalue_heatmap(p_df, -0.33, subpop)) }
 ### Lays out multiplot
 plot <- cowplot::plot_grid( PEL, MXL, CLM, PUR, ASW, ACB, ncol=3)
 ### Arrange plot, legend and axis titles, saves to png
@@ -438,6 +447,8 @@ ami_means <- meanSDtable[,c(1,3:5)] %>%
 
 ### Merges to two
 scat_data <- cbind(anc_means, AMI=ami_means$AMI)
+Rval <- cor(scat_data$Proportion, scat_data$AMI)
+pval <- .132737 #so not significant
 
 ### Plots
 p <- subpop_ami_scatter(legend=TRUE)

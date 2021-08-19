@@ -42,7 +42,7 @@ ggplot(data, aes(x=ad_Afr,y=rf_Afr, col=anc_palette[2])) + geom_point(size=.4) +
     ylim(0,1) + xlim(0,1) +
     theme_bw() + theme(axis.title = element_text(face="bold", size=13)) +
     ### Legend formatting
-    theme(legend.position="bottom",
+    theme(legend.position="top",
           legend.key.size = unit(.5, "cm"),
           legend.title=element_text(size=11, face="bold.italic"), 
           legend.text=element_text(size=10, face="italic")) +
@@ -53,3 +53,4 @@ ggplot(data, aes(x=ad_Afr,y=rf_Afr, col=anc_palette[2])) + geom_point(size=.4) +
 
 ### Save plot as png file
 ggsave(file="../results/rf_vs_admix.png", width=7, height=7.4, units="in")
+graphics.off()

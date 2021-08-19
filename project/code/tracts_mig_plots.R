@@ -131,10 +131,11 @@ tract_plot <- function(subpop, npop, bootstrap, interval=25, legend=FALSE){
           position="fill", stat="identity", width=1) +
         # plots number of slaves transported to region each generation linegraph
         geom_line(aes(y=SlaveCount/7, x=Generation),
-          colour="darkgreen", cex=.6) +
+          colour=anc_palette[1], cex=1.5) + #was "darkgreen"
         # formats plot text
-        theme(plot.title=element_text(hjust=.55, face="plain", size=18),
-              axis.title.y=element_blank()) + #swap with below if titles wanted
+        theme(axis.text   = element_text(size=13),
+              plot.title  = element_text(hjust=.55, face="plain", size=18),
+              axis.title.y= element_blank()) + #swap with below if titles wanted
               #axis.title.y=element_text(face="bold", size=12)) +
         ylab("Ancestry Proportion") +
         # formats axes: flips x axis, adds second y axis, sets fill colours
@@ -160,7 +161,7 @@ tract_plot <- function(subpop, npop, bootstrap, interval=25, legend=FALSE){
 
 ### Sets interval size - 5 or 25; whether 3_pop is plotted; & which bootstrap numbers should be plotted
 plot3 <- FALSE
-bootstraps <- 0:49 # 0:49 to plot all of them! 25 may be good example
+bootstraps <- 25 # 0:49 to plot all of them! 25 may be good example
 defaultW <- getOption("warn")
 options(warn = -1)
 options(scipen=1000000)
@@ -174,6 +175,7 @@ subpops <- c("PEL", "MXL", "CLM", "PUR", "ASW", "ACB")
 anc_palette <- brewer.pal(3,"Set2")
 
 ### Read dataframes from https://www.slavevoyages.org/voyage/database#tables:
+# Tables tab
 # Row == 25/5-year periods (as below - data[x]),
 # Column == Principal place of landing, 
 # Cell == Sum of disembarkwed slaves
@@ -215,16 +217,17 @@ for (bs in bootstraps){
 legend <- get_legend(tract_plot("PEL", 3, 0, legend=TRUE)
  + guides(color = guide_legend(nrow = 1)) +
     theme(legend.position = "top",
-          legend.key.size = unit(0.5, "cm"),
-          legend.title=element_text(size=11, face="bold.italic"), 
-          plot.margin = margin(0, 0, 10, 0),
-          legend.text=element_text(size=10, face="italic")))   
+          legend.key.size = unit(0.6, "cm"),
+          legend.title    = element_text(size=16, face="bold.italic"), 
+          plot.margin     = margin(0, 0, 10, 0),
+          legend.text     = element_text(size=14, face="italic")))   
 ### Set common y and x labels
 xGrob <-  textGrob("Year", #mention year generation started in figure legend!!
-                           gp=gpar(col="black", fontsize=20), hjust=.54)
+            gp=gpar(fontface="bold", col="black", fontsize=18), hjust=.54)
 yGrob <-  textGrob("Proportion of Ancestry in Population",
-                           gp=gpar(col="black", fontsize=20), rot=90)
-yGrob2 <- textGrob(expression(paste("Cumulative Number of Slaves Transported to Region  (log"["10"],")")), gp=gpar(col="black", fontsize=20), rot=270)
+            gp=gpar(fontface="bold", col="black", fontsize=18), rot=90)
+yGrob2 <- textGrob(expression(bold(paste("Cumulative Number of Slaves Transported to Region  (log"["10"],")"))),
+            gp=gpar(col="black", fontsize=18), rot=270)
 
 # expression(paste("Cumulative Number of Slaves Transported to Region  (log"["10"],")"))
 
@@ -239,12 +242,12 @@ plot <- cowplot::plot_grid(
   label_size = 20,
   axis=c("b"),
   align = "hv",
-  label_x = 0.065, 
+  label_x = 0.075, 
   label_y = 0.99)
 ### Arrange 3_pop multiplot, legend and axis titles, saves to png
 ggsave(file=paste0(fpath, "3pop_tracts_bs", bs, "_mig_plot_25yrs.png"),
-grid.arrange(arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2), legend,
-heights=c(2,.1)), width=13, height=10, units="in") }
+grid.arrange(legend, arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2),
+heights=c(.1, 2)), width=13, height=10, units="in") }
 
 ##### Lays out & Saves 4_pop multiplot
 plot <- cowplot::plot_grid(
@@ -256,12 +259,12 @@ plot <- cowplot::plot_grid(
   label_size = 20,
   axis=c("b"),
   align = "hv",
-  label_x = 0.050, 
+  label_x = 0.06, 
   label_y = 1)
 ### Arrange 4_pop multiplot, legend and axis titles, saves to png
 ggsave(file=paste0(fpath, "4pop_tracts_bs", bs, "_mig_plot_25yrs.png"),
-grid.arrange(arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2), legend, 
-heights=c(2,.1)), width=13, height=10, units="in")
+grid.arrange(legend, arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2),
+heights=c(.1, 2)), width=13, height=10, units="in") 
 
 
 
@@ -279,13 +282,12 @@ plot <- cowplot::plot_grid(
   label_size = 20,
   axis=c("b"),
   align = "hv",
-  label_x = 0.050, 
+  label_x = 0.06, 
   label_y = 1)
 ### Arrange 4_pop multiplot, legend and axis titles, saves to png
 ggsave(file=paste0(fpath, "4pop_tracts_bs", bs, "_mig_plot_5yrs.png"),
-grid.arrange(arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2), legend, 
-heights=c(2,.1)), width=13, height=10, units="in")
-
+grid.arrange(legend, arrangeGrob(plot, left=yGrob, bottom=xGrob, right=yGrob2),
+heights=c(.1, 2)), width=13, height=10, units="in") 
 }
 
 ######## NB! need to suppress warnings or solve them 

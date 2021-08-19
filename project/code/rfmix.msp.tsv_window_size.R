@@ -216,10 +216,12 @@ subpop_hist <- function(subpop, x, y){
                   ggplot(aes(x = value, fill = Ancestry)) + ggtitle(subpop) +
                     geom_histogram(position="identity", alpha=0.5, bins=100) +
                     scale_fill_manual(values=anc_palette) + theme_bw() + 
-                    theme(axis.title.x = element_blank(),
+                    theme(plot.margin = unit(c(-.5, 0, 0, 0.3), "cm"),
+                          axis.title.x = element_blank(),
                           axis.title.y = element_blank(),
-                          plot.title = element_text(hjust=0.5,    vjust=-80,
-                                                    face="plain", size=16),) + 
+                          axis.text    = element_text(size=14),
+                          plot.title = element_text(hjust=0.53,    vjust=-86.5,
+                                                    face="plain", size=16)) + 
                     scale_x_continuous(expand = c(0, 0), limits = c(NA, NA),
                     breaks=scales::pretty_breaks(n = x)) + 
                     scale_y_continuous(expand = c(0, 0), limits = c(0, 100*y),
@@ -231,36 +233,37 @@ subpop_hist <- function(subpop, x, y){
 
 ### Lays out multiplot
 plot <- cowplot::plot_grid(
-  subpop_hist("PEL", 24, 7), 
-  subpop_hist("MXL", 24, 7), 
-  subpop_hist("CLM", 24, 9), 
-  subpop_hist("PUR", 22, 9), 
-  subpop_hist("ASW", 24, 8), 
-  subpop_hist("ACB", 24, 9), 
+  subpop_hist("PEL", 12, 7), 
+  subpop_hist("MXL", 12, 7), 
+  subpop_hist("CLM", 12, 9), 
+  subpop_hist("PUR", 11, 9), 
+  subpop_hist("ASW", 12, 8), 
+  subpop_hist("ACB", 12, 9), 
   ncol=3,
-  labels = "AUTO",
-  label_size = 20,
+  labels = c("A", "", "", "", "", ""),
+  label_size = 24,
   axis=c("b"),
   align = "hv",
-  label_x = .08, 
-  label_y = 0.92)
+  label_x = .12, 
+  label_y = .98)
+
 
 ### Create Legend from scratch
 legend <- get_legend(subpop_hist("PEL", 24, 7)
  + guides(color = guide_legend(nrow = 1)) +
     theme(legend.position = "top",
-          legend.key.size = unit(0.5, "cm"),
-          legend.title=element_text(size=11, face="bold.italic"), 
+          legend.key.size = unit(0.8, "cm"),
+          legend.title=element_text(size=16, face="bold.italic"), 
           plot.margin = margin(0, 0, 10, 0),
-          legend.text=element_text(size=10, face="italic")))
+          legend.text=element_text(size=14, face="italic")))
           
 ### Set common y and x labels
-xGrob <- textGrob(expression(paste("Length of Fragment  (log"["10"]," bp)")), 
-                   gp=gpar(col="black", fontsize=20))
+xGrob <- textGrob(expression(bold(paste("Length of Fragment  (log"["10"]," bp)"
+))),               gp=gpar(fontface="bold", col="black", fontsize=18))
 yGrob <- textGrob("Fragment Count",
-                   gp=gpar(col="black", fontsize=20), rot=90)
+                   gp=gpar(fontface="bold", col="black", fontsize=18), rot=90)
 
 ### Arrange plot, legend and axis titles, saves to png
 ggsave(file="../results/window_lengths_histogram.png",
-grid.arrange(arrangeGrob(plot,left=yGrob,bottom=xGrob), legend,heights=c(2,.1)),
-width=13, height=10, units="in")
+grid.arrange(legend, arrangeGrob(plot,left=yGrob,bottom=xGrob),
+             heights=c(.1,2)), width=13, height=10, units="in")
