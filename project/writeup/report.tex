@@ -505,105 +505,6 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Supplementary figure} %not actual subsection will be pasted 2 bottom
-% see notes in notepad!!!!!! explains what you need to do still
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% Admixture boxplots + Wilcoxin
-    \centering
-    \subfloat{\includegraphics[width=0.53\textwidth]{
-        ../results/admixture_boxplots.pdf}} \hspace*{0em}
-    \subfloat{\raisebox{-8.5mm}{\includegraphics[width=0.47\textwidth]{
-        ../results/ADMIXTURE_subpop_comp_by_anc_heatmap.png}}}
-        \caption{\textbf{
-            Caption title
-        }
-            general caption text
-        }
-\end{figure}
-
-
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% RFMIX VS ADMIXTURE SCATTER
-    \centering
-    \includegraphics[width=4in]{../results/rf_vs_admix.png} 
-    \caption{\textbf{
-        Caption title
-    }
-        general caption text
-    }
-\end{figure}
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% AMI vs Anc Prop SCATTER
-    \centering
-    \includegraphics[width=3.95in]{../results/anc_prop_vs_AMI.png} 
-    \caption{\textbf{
-        Caption title
-    }
-        general caption text
-    }
-\end{figure}
-
-
-
-
-
-
-\begin{figure}[!htb]%%%%%%%%%%% AMI Wilcoxin *3
-\sffamily
-\begin{tabular}{cc}
-    \begin{minipage}{0.46\textwidth}
-    \includegraphics[width=\textwidth]{
-        ../results/overall_AMI_comp_by_subpop_heatmap.png} \\
-    \includegraphics[width=\textwidth]{
-        ../results/AMI_anc_comp_by_subpop_heatmap.png} 
-    \end{minipage}
-    \begin{minipage}{0.54\textwidth}
-    \includegraphics[width=0.9\textwidth]{
-        ../results/AMI_subpop_comp_by_anc_heatmap.png}
-    \end{minipage}
-    \put (-775, 189){\makebox[0.7\textwidth][r]{\scriptsize\textbf{A} }}
-    \put (-775, 40 ){\makebox[0.7\textwidth][r]{\scriptsize\textbf{B} }}
-    \put (-554, 190){\makebox[0.7\textwidth][r]{\scriptsize\textbf{C} }}
-
-\end{tabular}
-        \caption{\textbf{
-            Caption title
-        }
-            general caption text
-        }
-\end{figure}
-
-
-
-
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% Window length boxplots + Wilcoxin
-    \centering
-    \subfloat{\includegraphics[width=0.53\textwidth]{
-        ../results/window_lengths_boxplot.png}} \hspace*{0em}
-    \subfloat{\raisebox{-8.5mm}{\includegraphics[width=0.47\textwidth]{
-        ../results/window_length_subpop_comp_by_anc_heatmap.png}}}
-        \caption{\textbf{
-            Caption title
-        }
-            Mean and standard deviation are in Mbp
-        }
-\end{figure}
-
-
-
 
 
 
@@ -752,6 +653,8 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 \section*{Supplementary Material} % * prevents numbering
 \addcontentsline{toc}{section}{Supplementary Material} %add to table of contents
+\renewcommand{\thefigure}{S\arabic{figure}}
+\setcounter{figure}{0} 
 
 % You may provide Supplementary Information (SI) to provide parts of the study not directly relevant to the main narrative: detailed methods, mathematical derivations, details of computer algorithms, long tables of detailed results, and taxonomic descriptions, lists and drawings in an otherwise ecological study.
 % For example, a molecular study might state in the Methods section of the main text that you extracted DNA according to a phenol/chloroform extraction protocol according to a particular reference.
@@ -766,6 +669,103 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 % If you are using a program or code generated for the project then a more complete description is needed in the main text.
 % You should provide the code used in an appendix and consider providing a flow chart and usage notes to help interpretation.
 % You should take care to define all the input variables used in the program.
+
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% Admixture boxplots + Wilcoxin
+    \centering
+    \subfloat{\includegraphics[width=0.53\textwidth]{
+        ../results/admixture_boxplots.pdf}} \hspace*{0em}
+    \subfloat{\raisebox{-8.5mm}{\includegraphics[width=0.47\textwidth]{
+        ../results/ADMIXTURE_subpop_comp_by_anc_heatmap.png}}}
+        \caption{\textbf{
+            Caption title
+        }
+            general caption text
+        }
+\end{figure}
+
+
+
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% RFMIX VS ADMIXTURE SCATTER
+    \centering
+    \includegraphics[width=4in]{../results/rf_vs_admix.png} 
+    \caption{\textbf{
+        Caption title
+    }
+        general caption text
+    }
+\end{figure}
+
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% AMI vs Anc Prop SCATTER
+    \centering
+    \includegraphics[width=3.95in]{../results/anc_prop_vs_AMI.png} 
+    \caption{\textbf{
+        Caption title
+    }
+        general caption text
+    }
+\end{figure}
+
+
+
+
+
+
+\begin{figure}[!htb]%%%%%%%%%%% AMI Wilcoxin *3
+\sffamily
+\begin{tabular}{cc}
+    \begin{minipage}{0.46\textwidth}
+    \includegraphics[width=\textwidth]{
+        ../results/overall_AMI_comp_by_subpop_heatmap.png} \\
+    \includegraphics[width=\textwidth]{
+        ../results/AMI_anc_comp_by_subpop_heatmap.png} 
+    \end{minipage}
+    \begin{minipage}{0.54\textwidth}
+    \includegraphics[width=0.9\textwidth]{
+        ../results/AMI_subpop_comp_by_anc_heatmap.png}
+    \end{minipage}
+    \put (-775, 189){\makebox[0.7\textwidth][r]{\scriptsize\textbf{A} }}
+    \put (-775, 40 ){\makebox[0.7\textwidth][r]{\scriptsize\textbf{B} }}
+    \put (-554, 190){\makebox[0.7\textwidth][r]{\scriptsize\textbf{C} }}
+
+\end{tabular}
+        \caption{\textbf{
+            Caption title
+        }
+            general caption text
+        }
+\end{figure}
+
+
+
+
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% Window length boxplots + Wilcoxin
+    \centering
+    \subfloat{\includegraphics[width=0.53\textwidth]{
+        ../results/window_lengths_boxplot.png}} \hspace*{0em}
+    \subfloat{\raisebox{-8.5mm}{\includegraphics[width=0.47\textwidth]{
+        ../results/window_length_subpop_comp_by_anc_heatmap.png}}}
+        \caption{\textbf{
+            Caption title
+        }
+            Mean and standard deviation are in Mbp
+        }
+\end{figure}
+
+
+
+
 
 
 \end{document}
