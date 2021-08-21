@@ -121,15 +121,15 @@ Positive assortative mating, a genetic phnomenon wherein individuals are more li
 
 This multigenerational non-random admixture between genetically distinct groups leaves a genomic imprint in the individuals comprising the population, in stark contrast to populations more closely following Hardy-Weinberg equilibrium (HWE) \parencite{Zaitlen2017}. However, when studying the admixture or lack thereof between two or more groups, geographical barriers such as oceans must be considered alongside social ones. Afterall, large scale immigration of a new ethnic group will genetically manifest itself similarly to, for example, the revocation of racial segregation policies applying to that same ethnic group: both events facilitate future admixture between those groups.
 
-Ancestry-informative markers (AIMs) are single nucleotide polymorphisms (SNPs) than indicate an individual is of a certain ancestry \parencite{Risch2009}. Population genomics techniques allow us to generate a large array of AIMs which can be analysed using local ancestry inference to map ancestries to positions and regions along the genome, after which further analysis can unveil past assortative mating in a population \parencite{Schubert2020}.
+Ancestry-informative markers (AIMs) are single nucleotide polymorphisms (SNPs) than indicate an individual is of a certain ancestry \parencite{Risch2009}. Population genomics techniques allow us to generate a large array of AIMs which can be analysed using local ancestry inference to map ancestries to positions and regions along the genome, after which further analysis can indicate past assortative mating in a population \parencite{Schubert2020}.
 
 One such analysis is that of continuous ancestry tract (CAT) lengths: the lengths of genomic regions wherein AIMs are consecutively assigned to the same ancestry. Looking at the distribution of these lengths, the ancestry to which they belong and the overall ancestry proprtion of individuals within a population can indicate how long ago the admixture occurred and to what extent. Recombination of the DNA of admixing individuals leads to a decrease in CAT lengths, as CATs within the parents' genomes interupt one another upon recombination, hence admixture more generations ago will manifest as distributions of shorter CATs and vice versa \parencite{Gravel2012}. 
 
-AIM genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently indicate assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under HWE can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity:heterozygosity ratio at a given position based off of this concept, which can be used as a proxy for the extent of assortative mating at said position \parencite{Norris2019}.
+AIM genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently indicate assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under HWE can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity:heterozygosity ratio at a given position based on this concept, which can be used as a proxy for the extent of assortative mating at said position \parencite{Norris2019}.
 
-HWE is commonly used in population genomics as a quality check, whereby alleles with frequencies deviating too far from it are removed and considered misreads \parencite{Linares-Pineda2012}. This does not take into account stratificatiom, present in most if not all socitieis, within the studied populations. Showing allelic deviation from HWE is not an artefact but rather an intrincis quality may serve as a warning against this practice.
+HWE is commonly used in population genomics as a quality check, whereby alleles with frequencies deviating too far from it are removed and considered misreads \parencite{Linares-Pineda2012}. This does not take into account stratificatiom, present in most if not all societies, within the populations studied herein. Showing allelic deviation from HWE is not an artefact but rather an intrinsic quality may serve as a warning against this practice.
 
-Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many of such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks due to war, hard labour and disease, while the European population grows via migration; these phenomena continue such that African slaves are transported to the region to supplement or replace the Natives; and colonialism eventually ends in the region after which the population continues evolving with these historical scars \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
+Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many of such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks due to war, hard labour and disease, while the European population grows via migration. These phenomena continue such that African slaves are transported to the region to supplement or replace the Natives; and colonialism eventually ends in the region after which the population continues evolving with these historical scars \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
 
 These North and South American populations are far from the only examples of meeting points between assortative mating and migration, and with the current geopolitical and economic landscape - globalisation, industrialisation, wars, shifting demographics and global warming - they will not be the last. Further understanding and ideally quantifying ancestry-based assortative mating, and using it as a proxy for ancestry-based social stratification, will not only help us better understand how such stratification historically and presently influence mating behaviours in the Americas, but could also be used to track or predict it in present and future admixed populations. 
 
@@ -326,7 +326,7 @@ The outputs of RFMIX v2 were analysed by a series of R Studio scripts I created 
 
 Ancestry assignments of lower certainty in the forward-backward file, using the 0.9 probability threshold, have the potential to fracture CATs thereby completely alter the CAT length distribution. Hence the .msp.tsv RFMIX output files were used instead, equivalent to the forward-backward files but with automatic haplotype assignment to haploytype with highest estimated liklihood.
 
-To do generate the fragment length distributions, the script "rfmix.msp.tsv\_window\_size.R" reads the .msp.tsv files, sums the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv\_inbred\_window\_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assigmnets. 
+To generate the fragment length distributions, the script "rfmix.msp.tsv\_window\_size.R" reads the .msp.tsv files, sums the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv\_inbred\_window\_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assigmnets. 
 
 
 
@@ -480,7 +480,7 @@ Less intense right skewness, such as with European ancestry in the ASW populatio
 Each homozygous CAT length distribution has a left tail absent in the haplotype CAT lengths, likely an artefact of heterozygous alleles breaking large homozygous CATs which would leave one of the two haplotype CATs intact.
 A more sophisticated software for CAT length analysis is TRACTS, which uses them to infer how many generations ago migration events took place. Cross-referencing this with relevent slave migration data provides a picture of delays between migration and significant admixture, ie assortative mating (\textbf{Fig. 6}). As it was Europeans transporting slaves accross the Atlantic, we know Europeans arrived in the region the same generation Africans began to arrive or earlier.
 Therefore, for example in Peru, we can see that Europeans and Africans began arriving around 1525, the majority of Africans had arrived by 1575, significant admixture between Europeans and Natives occurred around 1650, and significant admixture between Africans and the rest of the populations occurred around 1675. This suggests extreme assortative mating for 4-6 generations in Europeans and a similar length, albeit lagging by a generation, in Africans.
-While the Mexican and Colombian plots can be interpretted similarly, the other three seem to suggest that the most significant African admixture occurred prior to 80-95\% of the slaves beign transported to the region, and that Europeans arrived at Barbados long before they historically did so. 
+While the Mexican and Colombian plots can be interpretted similarly, the other three seem to suggest that the most significant African admixture occurred prior to 80-95\% of the slaves being transported to the region, and that Europeans arrived at Barbados long before evidence suggests. 
 
 
 
@@ -537,14 +537,14 @@ While the Mexican and Colombian plots can be interpretted similarly, the other t
 
 
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-!!!!!!!!!!!!!!! DISCUSSION NOT COMPLETE YET, THESE ARE JUST NOTES !!!!!!!!!!!!!!
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\
+!!!!!!!!!!!!!!! DISCUSSION NOT COMPLETE YET, THESE ARE JUST NOTES !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\\
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 \subsection{Data Preparation \& Ancestry Proportion}
 
-Remember above 99pc PEL individuals are included in ref sample, hence assignment of PEL ancestry will be a bit weird - definitely a bias. I went forward with both populations, but the one with will match native very perfectly, and the one without will A. show as less native than it truly is as a population as v native ones are excluded, and B. might have a native bias in assignment, where there are similarities between two PEL individuals which may not be a general native trait but a specific PEL trait. 
+Remember above 99pc PEL individuals are included in ref sample, hence assignment of PEL ancestry will be a bit weird - definitely a bias. I went forward with the population in both populations, but the one with will match native very perfectly, and the one without will A. show as less native than it truly is as a population as v native ones are excluded, and B. might have a native bias in assignment, where there are similarities between two PEL individuals which may not be a general native trait but a specific PEL trait. 
 
 Remember, ASW is Americans of Sub-Saharan African Ancestry in Oklahoma, Southwest USA, MXL is Mexican Ancestry in Los Angeles CA United States - so significant sample bias; ASW will have more african than the average US SW resident; MXL will have more European, and possibly african could have come later when in LA vs generations ago in Mexico
 
@@ -567,6 +567,9 @@ could do this analysis with sex chromosomes, see if assortative mating varied by
 (basically mentioned in discussion) For frag length histograms, 2nd peaks suggest another migration event, ie new gene flow, as one would expect it to simply be a normal distribution if only one migration event occured. Similarly, right-tailed distributions suggest constant strean of subsequent immigrants after main migration event (and vice versa). test.
 
 Homozygous CAT not only tells us some right-skewness is due to migration (ASW and ACB) but also shows how 2 peaks can mascerade as 1 (PEL and MXL)
+
+Simulations with various migration events and AM parameters to match the distributions?
+
 
 
 
