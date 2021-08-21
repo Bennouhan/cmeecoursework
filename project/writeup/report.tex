@@ -131,7 +131,7 @@ Hence, the aim of this project is to use genomic data from admixed populations o
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Methods %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\vspace{5mm}
+\vspace{8mm}
 \section{Methods}
 
 % This should contain details of any methods used extensively during the project, layout of field experiments, theoretical methods, methods of statistical analyses etc.
@@ -284,7 +284,7 @@ One measure of assortative mating is the assortative mating index (AMI), which t
 \vspace{3mm}
 
 
-Three ancestries are being investigated, hence expected homozygous and heterozygous allelic frequencies can be thought of in terms of the biallelic (\textbf{(Equation 2)}) or triallelic (\textbf{(Equation 3)}) Hardy-Weinberg models \parencite{Norris2019}: 
+Three ancestries are being investigated, hence expected homozygous and heterozygous allelic frequencies can be thought of in terms of the biallelic (\textbf{Equation 2}) or triallelic (\textbf{Equation 3}) Hardy-Weinberg models \parencite{Norris2019}: 
 
 \begin{equation}
     (x + \bar{x})^{2} = x^{2} + 2\bar{x}x + \bar{x}^{2}
@@ -333,7 +333,7 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Results %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\vspace{8mm}
 \section{Results}
 
 % Describe your results in a logical order: this may not necessarily be the order in which you did the experiments.
@@ -396,7 +396,7 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 
 
 
-
+\vspace{1cm} %NB may interfere if things move
 \begin{figure}[htb!]%%%%%%%%%%% POPULATIONS ANC PROP
     \centering
     \includegraphics[width=4.5in,height=4in]{
@@ -412,23 +412,8 @@ The \_mig file outputs of TRACTS contain what proportion each newly introduced a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Ancestry Proportion}
 
-ADMIXTURE was used to estimate ancestry proportion of three ancestries - African, European and Native - for all 1690 individuals represented in \textbf{Table 1}. The averaged output for each of the 31 populations is visualised in \textbf{Fig. 1}, which displays Peruvians and LA Mexicans as predominantly of Native ancestry and minimially African; Colombians and Puerto Ricans as predominantly European but more Native than African; and Barbadians and African Americans from US Southwest (ASWs) as predominantly African with minimal Native ancestry.
+Pruning led to the dataset being reduced to 4,111,226 AIMs per sample. ADMIXTURE was used on these AIMs to estimate ancestry proportion of three ancestries - African, European and Native - for all 1690 individuals represented in \textbf{Table 1}. The averaged output for each of the 31 populations is visualised in \textbf{Fig. 1}, which displays Peruvians and LA Mexicans as predominantly of Native ancestry and minimially African; Colombians and Puerto Ricans as predominantly European but more Native than African; and Barbadians and African Americans from US Southwest (ASWs) as predominantly African with minimal Native ancestry.
 The distribution of ancestry proportions on the individual level within these six admixed populations is shown in \textbf{Fig. 2}, which largely corresponds with \textbf{Fig. 1} while suggesting aproximately 25\% of LA Mexicans and Colombians have no African ancestry, fewer than 5\% and 50\% of Barbadians and ASWs respectively have Native ancestry, and that only around 20\% of Peruvians have African ancestry while around 25\% of them are of exclusively Native ancestry.
-These individual-level ancestry proportion distributions are further visualised in \textbf{Fig. S1}, with the distribution for each population of a given ancestry displayed side-by-side in box plots. All distributions were different at the 5\% significance level, except for Barbadian and Peruvian European ancestry proportion distributions. However, their Native and African ancestry distributions contrast starkly, lending credence to the assumption all six admixed populations have entirely different ethnological structures.
-Following the admixture run, the 25 reference populations were filtered to remove all samples with less than 99\% of the corresponding ancestry. This left a - somewhat imbalanced - reference panel of 72, 507 and 550 people of 99\% or more Native, European and African ancestry for use in the local ancestry inference by RFMIX of the 504 query samples from the admixed populations. 
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -449,10 +434,30 @@ Following the admixture run, the 25 reference populations were filtered to remov
 
 
 
+These individual-level ancestry proportion distributions are further visualised in \textbf{Fig. S1}, with the distribution for each population of a given ancestry displayed side-by-side in box plots. All distributions were different at the 5\% significance level, except for Barbadian and Peruvian European ancestry proportion distributions. However, their Native and African ancestry distributions contrast starkly, lending credence to the assumption all six admixed populations have entirely different ethnological structures.
+Following the admixture run, the 25 reference populations were filtered to remove all samples with less than 99\% of the corresponding ancestry. This left a - somewhat imbalanced - reference panel of 72, 507 and 550 people of 99\% or more Native, European and African ancestry for use in the local ancestry inference by RFMIX of the 504 query samples from the admixed populations. 
+
+
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Assortative Mating Index}
 
 
+
+
+
+One of the outputs of RFMIX is equivalent to that of ADMIXTURE, and a comparison of their relative performance on the 1690 studied individuals is shown in \textbf{Fig. S2}. Briefly, RFMIX tends to give lower African ancestry proportion estimates than ADMIXTURE in those both deem to have higher African Ancestry, and higher European ancestry proportion estimates in those both deem to have lower European Ancestries. ADMIXTURE seems to estimate 100\% African or 0\% European earlier more readily than RFMIX, suggesting it may be less sensitive at those two extremes.
+The main RFMIX output was used to calculate assortative mating index values for each AIM in each population. The triallelic AMI values for each position and population are plotted in \textbf{Fig. 3}. In a population without assortative mating, we would expect the mean AMI value to be zero. With a sample size of 4,111,226 AIMs, and the standard deviations being of similar sizes to the corresponding means, the standard errors of the means are negligable and hence the sample means are accurate estimates of the true means. Based on this, we can see all means are significantly higher than zero, indicating positive assortative mating in all admixed populations.
+
+
+
+\vspace{3mm}
 \begin{figure}[htb!]%%%%%%%%%%% OVERALL AMI
     \centering
     \includegraphics[width=5in]{../results/AMI_plot.png} 
@@ -460,27 +465,48 @@ Following the admixture run, the 25 reference populations were filtered to remov
     \caption{\textbf{
         Comparative box plots displaying the distribution of the triallelic assortative mating index calculated for each ancestry-informative marker for each admixed population.
     }
-        The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution.
+        The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used to better display the distribution.
     }
 \end{figure}
 
 
 
-\begin{figure}[htb!]%%%%%%%%%%% ANCESTRAL AMIs
+
+\begin{figure}[p]%%%%%%%%%%% ANCESTRAL AMIs
     \centering
-    \includegraphics[height=0.93\textheight]{../results/anc_AMI_plot.png} 
+    \includegraphics[height=0.91\textheight]{../results/anc_AMI_plot.png} 
     \vspace{.2cm}
     \caption{\textbf{
         Comparative box plots displaying the distribution of the biallelic ancestry-specific assortative mating indicies calculated for each ancestry-informative marker for each admixed population.
     }
-        The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution.
+        The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used to better display the distribution.
     }
 \end{figure}
 
 
 
+Wilcoxin tests were performed to also ascertain whether the AMI distribution of each population are significantly different from the other populations, which was confirmed to be the case (\textbf{Fig. S4A}). 
+The same analyses were carried out for the biallelic ancestry-specific AMI values. With the same large sample size, the distribution of each population is significantly higher than zero for all three ancestries, confirming that assortative mating has occurred in each population with respect to all three ancestries. Wilcoxin tests were the performed to compare the AMI distributions of each ancestry by population and of each population by ancestry (\textbf{Fig. S4B} and \textbf{C} respectively). With the exception of European-specific AMI distriutions for Puerto Rico and Peru, all combinations of ancestries or populations were significantly different. 
+To test whether mean ADMIXTURE-estimated ancestry proportion is correlated with mean ancestry-specific AMI value they were plotted for each admixed population (\textbf{Fig. S3}) but, with a p-value 0f 0.133, no significant correlation was found. 
+
+
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Continuous Ancestral Tracts}
+\subsection{Continuous Ancestry Tract Lengths}
+
+
+The final use of the RFMIX output was analysisng the lengths of continuous anestry tracts. Displaying the haplotype CATs in a histogram allows visual comparison between the CAT length distriutions of the different ancestries (\textbf{Fig. 5A}). As would be expected, there's a clear correlation between the relative heights and x-axis positions of the distributions in a given population and the corrrespinding mean ancestry proportion. Skewed distributions, such as the right-skewed African distributions of the ASW and ACB plots, suggest some form of deviation from HWE but whether they are caused by migration, assortative mating or some other phenomenon is unclear.
+A supplementary approach is finding and plotting homozygous CAT lengths, as in \textbf{Fig. 5B}. This exagerates HWE deviations, and provides additional peaks to some of the distributions. These peaks are more informative than just skewness: they show different CAT length distributions of the same ancestry that have been merged, suggesting significant migration is the likely cause of corresponding skewness in the haplotype CAT length visualisation, for example with ASW and ACB. Less intense right skewness, such as with European ancestry in the ASW population, could indicate either minor and sustained European migration, or European assortative mating, where at least some of the European population disproportionately interbred thereby preserving longer CATs than would be expected under HWE.
+Each homozygous CAT length distribution has a left tail absent in the haplotype CAT lengths, likely an artefact of heterozygous alleles breaking large homozygous CATs which would leave one of the two haplotype CATs intact.
+
+
+
+
+
 
 
 
@@ -508,18 +534,16 @@ Following the admixture run, the 25 reference populations were filtered to remov
     \caption{\textbf{
         Number of slaves transported to the general regions of the admixed populations every five years, and stacked barplots showing how the proportion of the three ancestries changed in said populations generation to generation as estimated by TRACTS, between the years 1500 and 2000 CE.
     }
-        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports North of Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS to 25 bootstraps, with generations being estimated as 25 year perdiods.
+        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports north of the Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS to 25 bootstraps, with generations being estimated as 25-year periods.
     }
 \end{figure}
-
-
-NB: ACB is obviously wrong, likely due to natic proportion being so low the algorithm cannot predict it used to be all native.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Discussion %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\vspace{8mm}
 \section{Discussion}
 
 % This should attempt to tie together the results, what they indicate in a broader context, the extent to which the original aims have been satisfied and what future work is suggested.
@@ -585,6 +609,7 @@ NB: ACB is obviously wrong, likely due to natic proportion being so low the algo
 
 % Barbados ACB TRACTS - even with the concept of an initital Native population hard-coded into the model, the algorithm could only explain the genomic pattern by predicting that Europeans arrived 50-100 generations ago, 500+ years before it really occured. This will be because ADMIXTURE estimated that only 2 out of the 96 samples contain any Native DNA, both less that 10% - a stark reminder assortative mating and migration weren't the only population-shaping phenomena at play.
 
+% Homozygous CAT not only tells us some right-skewness is due to migration (ASW and ACB) but also shows how 2 peaks can mascerade as 1 (PEL and MXL)
 
 % End of the day, migration and the ending of AM, both the removal of barriers to admixture, manifest themselves identically - hence the two are inextricable absent accurate migration data which can be used to explain the contribution of migration to admixture, leaving information as to the impact of assortative mating.
 % But can machine learning bypass this need? Talk to alex and/or matteo about this
@@ -604,7 +629,7 @@ NB: ACB is obviously wrong, likely due to natic proportion being so low the algo
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Data/Code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\vspace{8mm}
 \section{Data and Code Availability}
 
 % name a data and a code (GitHub) archive from where the data and code can be obtained that will allow replication of your results. The code may be in the form of a single script file. You will be taught the principles of reproducible analyses in the R week of your coursework. If the data cannot be made available publicly (e.g., because it is yet to be formally published), or if there are some other confidentiality issues with submitting the data, speak with your course director and supervisor, and include a clear statement about why the data cannot be made available under the same Code and Data Availability header.
@@ -644,7 +669,6 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 \newpage
 \printbibliography[heading=bibintoc]
-\newpage
 
 
 
@@ -660,7 +684,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Sup Material %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\newpage
 \section*{Supplementary Material} % * prevents numbering
 \addcontentsline{toc}{section}{Supplementary Material} %add to table of contents
 \renewcommand{\thefigure}{S\arabic{figure}}
