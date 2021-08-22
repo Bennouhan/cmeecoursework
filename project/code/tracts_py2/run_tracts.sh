@@ -6,36 +6,40 @@
 # eg python2 taino_ppx_xxp.py [subpop] 1
 #so...
 
+# Lines hashed are obsolete as I didn't go forward with what they created
+
 cd ~/cmeecoursework/project/code/tracts_py2
 
-### 3 POP, 1 = no bootstraps
-python2 taino_ppx_xxp.py ACB 1
-python2 taino_ppx_xxp.py ASW 1
-python2 taino_ppx_xxp.py CLM 1
-python2 taino_ppx_xxp.py MXL 1
-python2 taino_ppx_xxp.py PEL 1
-python2 taino_ppx_xxp.py PEL_sub_99 1
-python2 taino_ppx_xxp.py PUR 1
-### 4 POP, 1 = no bootstraps
-python2 taino_ppxx_xxpp.py ACB 1
-python2 taino_ppxx_xxpp.py ASW 1
-python2 taino_ppxx_xxpp.py CLM 1
-python2 taino_ppxx_xxpp.py MXL 1
-python2 taino_ppxx_xxpp.py PEL 1
-python2 taino_ppxx_xxpp.py PEL_sub_99 1
-python2 taino_ppxx_xxpp.py PUR 1
+# ### 3 POP, 1 = no bootstraps
+# python2 taino_ppx_xxp.py ACB 1
+# python2 taino_ppx_xxp.py ASW 1
+# python2 taino_ppx_xxp.py CLM 1
+# python2 taino_ppx_xxp.py MXL 1
+# python2 taino_ppx_xxp.py PEL 1
+# python2 taino_ppx_xxp.py PEL_sub_99 1
+# python2 taino_ppx_xxp.py PUR 1
+
+# ### 4 POP, 1 = no bootstraps
+# python2 taino_ppxx_xxpp.py ACB 1
+# python2 taino_ppxx_xxpp.py ASW 1
+# python2 taino_ppxx_xxpp.py CLM 1
+# python2 taino_ppxx_xxpp.py MXL 1
+# python2 taino_ppxx_xxpp.py PEL 1
+# python2 taino_ppxx_xxpp.py PEL_sub_99 1
+# python2 taino_ppxx_xxpp.py PUR 1
 
 
 
-### 3 POP, 50 bootstraps
-python2 taino_ppx_xxp.py ACB 25
-python2 taino_ppx_xxp.py ASW 25
-python2 taino_ppx_xxp.py CLM 25
-python2 taino_ppx_xxp.py MXL 25
-python2 taino_ppx_xxp.py PEL 25
-#python2 taino_ppx_xxp.py PEL_sub_99
-python2 taino_ppx_xxp.py PUR 25
-### 4 POP, 50 bootstraps
+# ### 3 POP, 25 bootstraps
+# python2 taino_ppx_xxp.py ACB 25
+# python2 taino_ppx_xxp.py ASW 25
+# python2 taino_ppx_xxp.py CLM 25
+# python2 taino_ppx_xxp.py MXL 25
+# python2 taino_ppx_xxp.py PEL 25
+# #python2 taino_ppx_xxp.py PEL_sub_99
+# python2 taino_ppx_xxp.py PUR 25
+
+### 4 POP, 25 bootstraps
 python2 taino_ppxx_xxpp.py ACB 25
 python2 taino_ppxx_xxpp.py ASW 25
 python2 taino_ppxx_xxpp.py CLM 25
