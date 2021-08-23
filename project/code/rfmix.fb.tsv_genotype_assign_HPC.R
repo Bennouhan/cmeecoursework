@@ -1,3 +1,6 @@
+##### Script to analyse RFMix2 output .fb.tsv file, using haplotypes to assign genotypes for more efficiet analysis later on which can be done on the local machine
+
+
 ### Clear workspace, set working directory
 rm(list = ls())
 #setwd('~/cmeecoursework/project/data/') #for local

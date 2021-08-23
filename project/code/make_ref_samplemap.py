@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+##### Script to use ADMIXTURE output to filter out samples without more than 99% ancestry of one of the ancestries, so those remaining can be used as RFMix2 reference samples
+
 
 from pathlib import Path
 

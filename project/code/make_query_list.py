@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+##### Script to generate an RFMix2-compatible query sample map to communicate for which samples we want local ancestry inference
+
 
 from pathlib import Path
-
 
 ### Delete file, make new one, initialise set
 try:

@@ -1,3 +1,4 @@
+##### Script to make scatterplot comparing outputs of RFMix2 and ADMIXTURE
 
 ### Clear workspace, set working directory
 rm(list = ls())

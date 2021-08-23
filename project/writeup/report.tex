@@ -24,7 +24,8 @@
 
 % titles:
 % Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprint upon Admixed Populations of the Americas
-\title{Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprint upon Admixed Populations of the Americas}
+\title{Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprints upon Admixed Populations% of the Americas
+}
 \author{\\ \\ \\ Ben Nouhan, bjn20@ic.ac.uk \\ \\ Imperial College London \\}
 \date{\today}
 \newcommand\wordcount{\input{report.sum}}
@@ -127,15 +128,17 @@ One such analysis is that of continuous ancestry tract (CAT) lengths: the length
 
 AIM genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently indicate assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under HWE can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity:heterozygosity ratio at a given position based on this concept, which can be used as a proxy for the extent of assortative mating at said position \parencite{Norris2019}.
 
-HWE is commonly used in population genomics as a quality check, whereby alleles with frequencies deviating too far from it are removed and considered misreads \parencite{Linares-Pineda2012}. This does not take into account stratificatiom, present in most if not all societies, within the populations studied herein. Showing allelic deviation from HWE is not an artefact but rather an intrinsic quality may serve as a warning against this practice.
+HWE is commonly used in population genomics as a quality check for genetic markers in genome-wide association study (GWAS) - equivalent to AIMs but for pathological research - whereby alleles with frequencies deviating too far from it are removed and considered sequencing misreads \parencite{Linares-Pineda2012}. This does not take into account stratificatiom, present in most if not all societies, within the populations studied herein. Showing allelic deviation from HWE is not an artefact but rather an intrinsic quality may serve as a warning against this practice.
 
 Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many of such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks due to war, hard labour and disease, while the European population grows via migration. These phenomena continue such that African slaves are transported to the region to supplement or replace the Natives; and colonialism eventually ends in the region after which the population continues evolving with these historical scars \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
 
 These North and South American populations are far from the only examples of meeting points between assortative mating and migration, and with the current geopolitical and economic landscape - globalisation, industrialisation, wars, shifting demographics and global warming - they will not be the last. Further understanding and ideally quantifying ancestry-based assortative mating, and using it as a proxy for ancestry-based social stratification, will not only help us better understand how such stratification historically and presently influence mating behaviours in the Americas, but could also be used to track or predict it in present and future admixed populations. 
 
-To accurately estimate the extent of assortative mating in a population using genomic techniques, the genomic impact of migration on said population must be accounted for. Previous research has either studied genomic impact of migration while assuming otherwise random admixture \parencite{Norris2020,Borda2020,Gravel2012}, or studied assortative mating while assuming a single pulse of migration of each constiuent ancestry \parencite{Norris2019,Risch2009,Zaitlen2017}. However, for reasons outlined, studies on the effects of migration on population genomics must consider assortative mating, and when studying assortative mating one must consider that migration is a continuous process rathen than a single event. Equally, comparing measured assortative mating levels of different populations and cross-referencing this with their histories and current socioeconomic climates could yield interesting insights as to casues and long-term effects of ancestry-based social stratification. 
+To accurately estimate the extent of assortative mating in a population using genomic techniques, the genomic impact of migration on said population must be accounted for, despite them being difficult to differentiate. Previous research has either studied genomic impact of migration while assuming otherwise random admixture \parencite{Norris2020,Borda2020,Gravel2012}, or studied assortative mating while assuming a single pulse of migration of each constiuent ancestry \parencite{Norris2019,Risch2009,Zaitlen2017}. However, for reasons outlined, studies on the effects of migration on population genomics must consider assortative mating, and when studying assortative mating one must consider migration as a continuous process rathen than a single event. Equally, comparing measured assortative mating levels of different populations and cross-referencing this with their histories and current socioeconomic climates could yield interesting insights as to casues and long-term effects of ancestry-based social stratification. 
 
-Hence, the aims of this project are twofold. Firstly, to use genomic data from admixed populations of the Americas to explore different analytical methods designed to unveil non-random admixture in a population, in order to compare these methods by their potential to distigunish between migration and assortative mating as sources for this non-random admixture. Following this, to use the results of these analyses to compare the admixed populations by the level of assortative mating revealed, my hypotheses being that each population will exhibit significant positive assortative mating, and that the level of said assortative mating in each population are significantly different to that of the others. Only by reconciling migration and assortative mating can we confidently infer assortative mating from genomic data, and use this to draw conclusions about past and make predictions about future ancestry-based social stratification.
+Hence, the aims of this project are twofold. Firstly, to use genomic data from admixed populations of the Americas to explore different analytical methods designed to unveil non-random admixture in a population. This will enable me to compare these methods by their potential to distigunish between migration and assortative mating as sources for this non-random admixture. Secondly, to use the results of these analyses to compare the admixed populations by the level of assortative mating revealed. My hypotheses are that each population will exhibit significant positive assortative mating, and that the level of said assortative mating in each population are significantly different to that of the others.
+
+Only by reconciling migration and assortative mating can we confidently infer assortative mating from genomic data, and use this to draw conclusions about past and make predictions about future ancestry-based social stratification.
 
 
 
@@ -258,7 +261,7 @@ Using BCFtools v1.9, the 30x coverage 1KGP and high-coverage HGDP datasets were 
 \subsection{Haplotype Estimation with SHAPEIT4}
 
 
-Phasing was carried out using SHAPEIT4.2.0, which efficiently assigns haplotype estimates for each genotype by cross-referencing the genomic region in question with the corresponding region of a pre-phased reference panel and of the other genomes being phased \parencite{Delaneau2019}. The programme was run using the B38 genetic map recommended by the developers and default parameters, plus an apropriate high-coverage phased reference genome from the 1KGP website (see: \textbf{Data and Code Availability}) to inmprove haplotype estimation accuracy. The individually phased chromosomes were then merged into a single VCF file with BCFtools. 
+Phasing was carried out using SHAPEIT v4.2.0, which efficiently assigns haplotype estimates for each genotype by cross-referencing the genomic region in question with the corresponding region of a pre-phased reference panel and of the other genomes being phased \parencite{Delaneau2019}. The programme was run using the B38 genetic map recommended by the developers and default parameters, plus an apropriate high-coverage phased reference genome from the 1KGP website (see: \textbf{Data and Code Availability}) to inmprove haplotype estimation accuracy. The individually phased chromosomes were then merged into a single VCF file with BCFtools. 
 
 
 
@@ -267,7 +270,7 @@ Phasing was carried out using SHAPEIT4.2.0, which efficiently assigns haplotype 
 \subsection{Ancestry Estimation with PLINK \& ADMIXTURE}
 
 
-Linkage disequilibrium pruning was performed with PLINK on the genomes in VCF format, which creates a subset of largely independent SNPs - thereby significantly reducing the computational power needed for subsequent analyses with minimal information loss - before converting the pruned dataset to PLINK format \parencite{Purcell2007}. This effectively generates a large array of AIMs upon which to base this study.
+Linkage disequilibrium pruning was performed with PLINK v2.0 on the genomes in VCF format, which creates a subset of largely independent SNPs - thereby significantly reducing the computational power needed for subsequent analyses with minimal information loss - before converting the pruned dataset to PLINK format \parencite{Purcell2007}. This effectively generates a large array of AIMs upon which to base this study.
 The programme ADMIXTURE v1.3.0 used cluster analysis and principal component analysis to estimate the proportions of African, European and Native American ancestry for each remaining sample, with default parameters and three ancestries to be detected \parencite{Alexander2009}.
 
 
@@ -458,9 +461,9 @@ The main RFMIX output was used to calculate assortative mating index values for 
 
 
 
-Wilcoxin tests were performed to also ascertain whether the AMI distribution of each population are significantly different from the other populations, which was confirmed to be the case (\textbf{Fig. S4A}). 
+Wilcoxon tests were performed to also ascertain whether the AMI distribution of each population are significantly different from the other populations, which was confirmed to be the case (\textbf{Fig. S4A}). 
 The same analyses were carried out for the biallelic ancestry-specific AMI values. With the same large sample size, the distribution of each population is significantly higher than zero for all three ancestries, confirming that assortative mating has occurred in each population with respect to all three ancestries.
-Wilcoxin tests were the performed to compare the AMI distributions of each ancestry by population and of each population by ancestry (\textbf{Fig. S4B} and \textbf{C} respectively). With the exception of European-specific AMI distriutions for Puerto Rico and Peru, all combinations of ancestries or populations were significantly different. 
+Wilcoxon tests were the performed to compare the AMI distributions of each ancestry by population and of each population by ancestry (\textbf{Fig. S4B} and \textbf{C} respectively). With the exception of European-specific AMI distriutions for Puerto Rico and Peru, all combinations of ancestries or populations were significantly different. 
 To test whether mean ADMIXTURE-estimated ancestry proportion is correlated with mean ancestry-specific AMI value they were plotted for each admixed population (\textbf{Fig. S3}) but, with a p-value 0f 0.133, no significant correlation was found. 
 
 
@@ -681,7 +684,7 @@ https://www.slavevoyages.org/voyage/database\#tables (see tracts\_mig\_plots.R f
 \textbf{Code Repository:} \\
 https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
-
+A detailed visualisation of the project's workflow can be found in \textbf{Fig. S6}, indicating which script(s) were used during each step in the analyses. See the README.md for further details.
 
 
 \newpage
@@ -724,7 +727,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 
 
-\begin{figure}[ht!]%%%%%%%%%%% Admixture boxplots + Wilcoxin
+\begin{figure}[ht!]%%%%%%%%%%% Admixture boxplots + Wilcoxon
     \centering
     \subfloat{\includegraphics[width=0.5\textwidth]{
         ../results/admixture_boxplots.pdf}} \hspace*{0em}
@@ -734,7 +737,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
         \caption{\textbf{
             Comparative box plots displaying the distributions of the three ancestry proportions for each individual of each admixed population, with corresponding p-value heatmaps comparing populations statistically.
         }
-            The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution. To the right of the boxplots for each ancestry is a corresponding p-value heatmap. These show the results of wilcoxin tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
+            The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution. To the right of the boxplots for each ancestry is a corresponding p-value heatmap. These show the results of wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
         }
 \end{figure}
 
@@ -769,7 +772,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 
 
-\begin{figure}[!htb]%%%%%%%%%%% AMI Wilcoxin *3
+\begin{figure}[!htb]%%%%%%%%%%% AMI Wilcoxon *3
 \sffamily
 \begin{tabular}{cc}
     \begin{minipage}{0.46\textwidth}
@@ -789,7 +792,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 \end{tabular}
         \vspace{.2cm}
         \caption{\textbf{
-            Heatmaps displaying p-value results of Wilcoxin tests used to compare assortative mating index values of different populations and ancestries.
+            Heatmaps displaying p-value results of Wilcoxon tests used to compare assortative mating index values of different populations and ancestries.
         }
             Each set of heatmaps correspond to a different set of comparisons between all combinations of assortative mating index (AMI) distributions. \textbf{A} compares all combinations of the six admixed populations with regards to their triallelic AMI distriutions, shown in \textbf{Fig. 3}. \textbf{B} compares all combinations of the three ancestries with regards to their biallelic ancestry-specific AMI distriutions, for each of the six admixed populations. \textbf{C} compares all combinations of the six admixed populations with regards to their biallelic ancestry-specific AMI distriutions, for each of the three ancestries, shown in \textbf{Fig. 4A-C}. Shades of blue indicate differences between populations or ancestries are significant at the 5\% level.
         }
@@ -801,7 +804,7 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
 
 
 
-\begin{figure}[htb!]%%%%%%%%%%% Window length boxplots + Wilcoxin
+\begin{figure}[htb!]%%%%%%%%%%% Window length boxplots + Wilcoxon
     \centering
     \subfloat{\includegraphics[width=0.53\textwidth]{
         ../results/window_lengths_boxplot.png}} \hspace*{0em}
@@ -811,10 +814,23 @@ https://github.com/Bennouhan/cmeecoursework/tree/master/project/code
         \caption{\textbf{
             Comparative box plots displaying the distributions of continuous ancestry tract lengths of each ancestry for all individuals of each admixed population, with corresponding p-value heatmaps comparing populations statistically.
         }
-            Tract length, that is the number of consecutive haplotype asignments of a given ancestry on a single strand, are measured in base pairs in log10 scale. The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath in units of Mbp. Horizontal jitter is used to better display the distribution. To the right of the boxplots for Afrinca, European and Native ancestries (\textbf{A-C}) is a corresponding p-value heatmap. These show the results of wilcoxin tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
+            Tract length, that is the number of consecutive haplotype asignments of a given ancestry on a single strand, are measured in base pairs in log10 scale. The boxes signify upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath in units of Mbp. Horizontal jitter is used to better display the distribution. To the right of the boxplots for Afrinca, European and Native ancestries (\textbf{A-C}) is a corresponding p-value heatmap. These show the results of wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
         }
 \end{figure}
 
+
+
+
+\begin{figure}[htb!]%%%%%%%%%%% ANALYSIS FLOWCHART
+    \centering
+    \includegraphics[width=\textwidth]{../results/Analysis_Flowchart.pdf} 
+    \vspace{-2.5cm}
+    \caption{\textbf{
+        Flowchart representing the analysis workflow of the project, from input data to the output figures. 
+    }
+        Arrows indicate that the output from one step is the input for the next. Below the label of each step is the script(s) from the provided github repository required to run that step. The scripts named in the unlabelled yellow boxes are run automatically by the script in the previous step. Asterisked step labels indicate this step was performed on a high-performance computer due to the computational power required.
+    }
+\end{figure}
 
 
 

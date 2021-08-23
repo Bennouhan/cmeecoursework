@@ -1,5 +1,4 @@
-##### Script to make stacked barchart of RFMix2 output
-
+##### Script to make stacked barcharts of RFMix2 output and save dataframe used as .rda file
 ### Clear workspace, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/')

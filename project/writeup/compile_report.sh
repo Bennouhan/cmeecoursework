@@ -21,6 +21,9 @@ cp ~/bibtex/imperial-Project-Report.bib library.bib
 ### Removes any previous version of compiled report
 if [[ -f ../results/Ben_Nouhan_Report.pdf ]]
  then rm ../results/Ben_Nouhan_Report.pdf; fi
+if [[ -f Ben_Nouhan_Report.pdf ]]
+ then rm Ben_Nouhan_Report.pdf; fi
+
 
 ### Removes any previous version of texcount file before recreating it
 if [[ -f report.sum ]]
@@ -32,7 +35,7 @@ pdflatex report.tex
 biber report
 pdflatex report.tex
 pdflatex report.tex
-mv report.pdf ../results/Ben_Nouhan_Report.pdf #wont work till above fixed
+mv report.pdf ../results/Ben_Nouhan_Report.pdf
 
 ### Project Cleanup
 declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
@@ -40,3 +43,6 @@ declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bc
 for ext in ${ext_ls[@]}; do
     if [[ -f $ext ]]; then rm $ext; fi
 done
+
+### Move report back
+cp ../results/Ben_Nouhan_Report.pdf Ben_Nouhan_Report.pdf

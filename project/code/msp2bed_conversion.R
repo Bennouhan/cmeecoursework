@@ -1,3 +1,5 @@
+##### Script to convert .msp.tsv RFMix2 output files into .bed files for use by TRACTS
+
 
 ### Clear workspace, set working directory
 rm(list = ls())

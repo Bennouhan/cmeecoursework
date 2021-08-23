@@ -1,3 +1,5 @@
+##### Script to analyse genotype assignments made by rfmix.fb.tsv_genotype_assign_HPC.R and use this to calculate biallelic and triallelic assortative mating index values for each ancestry-informative marker position, before using them for various plots
+
 
 ### Clear workspace, set working directory
 rm(list = ls())

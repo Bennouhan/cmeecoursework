@@ -1,4 +1,4 @@
-##### Script to make plots of ancestry proportion over time fromm tracts output
+##### Script to make plots of ancestry proportion over time fromm tracts output, and merge them with slave voyage data
 
 ### Clear workspace and past outputs, set working directory
 rm(list = ls())

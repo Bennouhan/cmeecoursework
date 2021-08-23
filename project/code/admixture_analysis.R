@@ -1,4 +1,4 @@
-##### Script to make stacked barchart of Admixture output
+##### Script to make stacked barcharts of Admixture output and save dataframe used as .rda file
 
 ### Clear workspace and past outputs, set working directory
 rm(list = ls())

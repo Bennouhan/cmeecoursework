@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+##### Script to run the 4 population model on the argued population.
+
+
 # need to download these for python2!
 # and python-tk package before matplotlib (pylab) - sudo apt-get install python-tk
 # and brewer2mpl, pip install brewer2mpl

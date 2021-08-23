@@ -1,3 +1,6 @@
+##### Contains the functions needed by the 4 population model
+
+
 import numpy
 import scipy.optimize
 

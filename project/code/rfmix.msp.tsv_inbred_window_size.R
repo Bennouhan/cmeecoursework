@@ -1,3 +1,6 @@
+##### Script to analyse RFMix output to generate ancestry-specific distributions of homozygous continuous ancestry tract lengths, and to make histograms based on said distributions
+
+
 ### Clear workspace, set working directory
 rm(list = ls())
 setwd('~/cmeecoursework/project/data/') #for local

@@ -1,3 +1,6 @@
+##### Contains various functions and definitions for using other TRACTS scripts.
+
+
 from __future__ import print_function
 
 import numpy as np

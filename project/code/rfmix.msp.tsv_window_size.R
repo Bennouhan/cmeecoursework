@@ -1,3 +1,4 @@
+##### Script to analyse RFMix output to generate ancestry-specific distributions of haplotype continuous ancestry tract lengths, and to make histograms, box plots and p-value heatmaps based on said distributions
 
 ### Clear workspace, set working directory
 rm(list = ls())
