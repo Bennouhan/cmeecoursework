@@ -470,6 +470,40 @@ To test whether mean ancestry-specific AMI value is correlated with or driven by
 \subsection{Continuous Ancestry Tract Lengths}
 
 
+
+
+\begin{figure}[hbt!]%%%%%%%%%%% Normal and inbred window length distributions
+    \centering
+    \subfloat{\includegraphics[width=\textwidth,height=4.1in]{
+        ../results/window_lengths_histogram.png}}\vspace*{-1em}
+    \subfloat{\includegraphics[width=6.5in,height=4.1in]{
+        ../results/inbred_window_lengths_histogram.png}}
+    \vspace{.2cm}
+    \caption{\textbf{
+        Histograms of continuous ancestry tract lengths of each of the three ancestries for each admixed population.
+    }
+        Fragment lengths are measured in base pairs in log10 scale, and are seperated into 100 bins in each plot. Fragment length is considered either the number of consecutive haplotype asignments of a given ancestry on a single strand (A), or the number of consecutive homozygous genotype asignments of a given ancestry on both strands (B).
+    }
+\end{figure}
+
+
+
+\begin{figure}[hbt!]%%%%%%%%%%% Tracts plot
+    \centering
+    \includegraphics[width=\textwidth]{
+        ../results/tracts+voy/4pop_tracts_bs25_mig_plot_5yrs.png}
+    \vspace{-.2cm}
+    \caption{\textbf{
+        Number of slaves transported to the general regions of the admixed populations every five years, and stacked barplots showing how the proportion of the three ancestries changed in said populations generation to generation as estimated by TRACTS, between the years 1500 and 2000 CE.
+    }
+        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports north of the Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS to 25 bootstraps, with generations being estimated as 25-year periods.
+    }
+\end{figure}
+
+
+
+
+
 The final use of the RFMIX output was analysisng the lengths of continuous anestry tracts. Displaying the haplotype continuous ancestry tracts in a histogram allows visual comparison between the tract length distriutions of the different ancestries (\textbf{Fig. 5A}), while box plots better visualise descriptive statistics of the data (\textbf{Fig. S5}).
 
 As would be expected, there's a clear correlation between the relative heights and x-axis positions of the distributions in a given population and the corrrespinding mean ancestry proportion. Skewed distributions, such as the right-skewed African distributions of the ASW and ACB plots, suggest some form of deviation from HWE but whether they are caused by migration, assortative mating or some other phenomenon is unclear.
@@ -488,35 +522,6 @@ While the Mexican and Colombian plots can be interpretted similarly, the other t
 
 
 
-
-
-\begin{figure}[htb!]%%%%%%%%%%% Normal and inbred window length distributions
-    \centering
-    \subfloat{\includegraphics[width=\textwidth,height=4.1in]{
-        ../results/window_lengths_histogram.png}}\vspace*{-1em}
-    \subfloat{\includegraphics[width=6.5in,height=4.1in]{
-        ../results/inbred_window_lengths_histogram.png}}
-    \vspace{.2cm}
-    \caption{\textbf{
-        Histograms of continuous ancestry tract lengths of each of the three ancestries for each admixed population.
-    }
-        Fragment lengths are measured in base pairs in log10 scale, and are seperated into 100 bins in each plot. Fragment length is considered either the number of consecutive haplotype asignments of a given ancestry on a single strand (A), or the number of consecutive homozygous genotype asignments of a given ancestry on both strands (B).
-    }
-\end{figure}
-
-
-
-\begin{figure}[htb!]%%%%%%%%%%% Tracts plot
-    \centering
-    \includegraphics[width=\textwidth]{
-        ../results/tracts+voy/4pop_tracts_bs25_mig_plot_5yrs.png}
-    \vspace{-.2cm}
-    \caption{\textbf{
-        Number of slaves transported to the general regions of the admixed populations every five years, and stacked barplots showing how the proportion of the three ancestries changed in said populations generation to generation as estimated by TRACTS, between the years 1500 and 2000 CE.
-    }
-        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports north of the Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS to 25 bootstraps, with generations being estimated as 25-year periods.
-    }
-\end{figure}
 
 
 
@@ -632,6 +637,7 @@ https://github.com/odelaneau/shapeit4/blob/master/maps/genetic\_maps.b38.tar.gz
 https://www.slavevoyages.org/voyage/database\#tables (see tracts\_mig\_plots.R for details)
 
 
+\vspace{.4cm}
 \subsection{Code}
 
 \textbf{Code Repository:} \\
