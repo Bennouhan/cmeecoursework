@@ -19,10 +19,10 @@ cd ~/cmeecoursework/project/writeup
 cp ~/bibtex/imperial-Project-Report.bib library.bib
 
 ### Removes any previous version of compiled report
-if [[ -f ../results/Ben_Nouhan_Report.pdf ]]
- then rm ../results/Ben_Nouhan_Report.pdf; fi
-if [[ -f Ben_Nouhan_Report.pdf ]]
- then rm Ben_Nouhan_Report.pdf; fi
+if [[ -f ../results/Nouhan_Ben_CMEE_MRes_2021.pdf ]]
+ then rm ../results/Nouhan_Ben_CMEE_MRes_2021.pdf; fi
+if [[ -f Nouhan_Ben_CMEE_MRes_2021.pdf ]]
+ then rm Nouhan_Ben_CMEE_MRes_2021.pdf; fi
 
 
 ### Removes any previous version of texcount file before recreating it
@@ -35,7 +35,7 @@ pdflatex report.tex
 biber report
 pdflatex report.tex
 pdflatex report.tex
-mv report.pdf ../results/Ben_Nouhan_Report.pdf
+mv report.pdf ../results/Nouhan_Ben_CMEE_MRes_2021.pdf
 
 ### Project Cleanup
 declare -a ext_ls=("*.aux" "*.dvi" "*.log" "*.nav" "*.out" "*.snm" "*.toc" "*.bcf" "*.blg" "*.bbl" "*.fls" "*.gz" "*.fdb_latexmk" "*.pdf" "*.run.xml")
@@ -45,4 +45,4 @@ for ext in ${ext_ls[@]}; do
 done
 
 ### Move report back
-cp ../results/Ben_Nouhan_Report.pdf Ben_Nouhan_Report.pdf
+cp ../results/Nouhan_Ben_CMEE_MRes_2021.pdf ../writeup/Nouhan_Ben_CMEE_MRes_2021.pdf

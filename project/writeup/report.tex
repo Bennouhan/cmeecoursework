@@ -19,31 +19,18 @@
 \usepackage{setspace}
 \usepackage[sorting=nyt,style=apa]{biblatex}
 \usepackage{booktabs}
+\usepackage{titling}
+\usepackage{tikz}
 
 \bibliography{library.bib}
 
-% titles:
-% Discerning Ancestry-Based Assortative Mating from Migration by their Genomic Imprint upon Admixed Populations of the Americas
-\title{Discerning Ancestry-Related Assortative Mating from Migration by their Genomic Imprints upon Admixed Populations% of the Americas
-}
-\author{\\ \\ \\ Ben Nouhan, bjn20@ic.ac.uk \\ \\ Imperial College London \\}
+
+% Title
+\setlength{\droptitle}{3.5cm}   
+\title{Discerning Ancestry-Related Assortative Mating from Migration by their Genomic Imprints upon Admixed Populations}
+\author{\\ \\ \\ \\ Ben Nouhan}
 \date{\today}
-\newcommand\wordcount{\input{report.sum}}
-
-
-% general instructions
-% • Structure and Style:
-% All reports should have an Abstract, Introduction, Methods, Results, Discussion and possibly, a separate Conclusions section. Do not format your report to look like a paper from a specific journal.
-% • Word limit:
-% The main text should not exceed 6,000 words in length (excluding figures, tables, references and appendices/supplementary information). Using the full 6,000 words is often not advisable – this is an absolute maximum. Clarity and brevity are better than wordiness, so do not puff up your thesis to reach 6,000 words. More instructions on content are provided below. You must not abuse the exclusion of figure and table legends from the word count to squeeze in more material. They must only explain the contents of the figure or table!
-% • Figure Limit:
-% Most journals have an upper limit of the total number of figures and tables – it is rare to see more than a total of about 6 – 8 figures and tables (not 6 – 8 of each!). We would like you to try and keep under a total of 8 figures and tables. If you have more than this, then think carefully about whether they are all crucial to helping the reader understand your research. If they are, then include them; if not, then move them to supplementary material. Published papers often use complex multipart figures to reduce figure counts. Bringing related figures and tables together is good practice, but is often very time consuming and fiddly. You should prioritize making your selected figures and tables as clear and informative as possible: do not spend time and effort merging figures unless you are sure you have nothing else left to do!
-% • Font:
-% You should use a ‘normal’ font at 11 point or 12 point size. We recommend Helvetica, Arial or Times New Roman – similar fonts are also fine. Do not use highly stylized or bitmap fonts. You may have any number of references, but note that excessive referencing will be as frowned upon as inadequate referencing!
-% The main body of the text should use 1.5 line spacing and page numbering should be used.
-% The thesis margins should be at least 2 cm and the main text font size should not be smaller than 11 point.
-
-
+%\newcommand\wordcount{\input{report.sum}}
 
 
 
@@ -54,16 +41,23 @@
 
 
 
+
 \maketitle
-\thispagestyle{empty}
+%\thispagestyle{empty}
+\vspace{15mm}
+%\centerline{Word Count: \wordcount}
 
-\vspace{4mm}
-\centerline{Word Count: \wordcount}
 
-\vspace{8mm}
+% Statement
+\begin{center}
+\small{A thesis submitted for the partial fulfillment of the requirements for the degree of Master of Research in Computational Methods in Ecology and Evolution \\ at Imperial College London}
+\end{center} 
+
+
+% Abstract
+\vspace{15mm}
 \onehalfspacing
 \renewcommand{\abstractname}{\vspace{-\baselineskip}} %hide abstract title
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Abstract %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NB: follow the usual thing for this, from nature - best resource I reckon
 \begin{abstract}
@@ -74,15 +68,27 @@
         Many human populations throughout history have become socially stratified based on perceived race. Assortative mating, the tendency to mate with those similar to you, is a key reason for this. When ancestral origin of different regions of a genome is mapped out, the effects of this non-random admixture can be inferred by the distribution of the size of fragments consecutively assigned to the same ancestry. However, differentiating assortative mating from migration is difficult since past migration manifests similarly in the genomes of a population. Here I show how significant modern-day assortative mating can be detected in and compared between admixed North and South American populations. This empirical evidence of assortative mating may bring the validity of certain genome-wide association studies and research of the genomic impacts of migration into question. Furthermore, I help to lay the groundwork for a technique that can integrate migration data with genomic data to accurately quantify and timestamp past assortative mating. If successful in doing so, we can hopefully unveil the historical context for modern-day ancestry-related social straitification present in populations throughout the world, and perhaps track it in real time.
     }
 \end{abstract}
-%\vspace{10mm}
 
 
+
+% Logo
+\begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north west,yshift=-1.5pt,xshift=50pt]%
+        at (current page.north west)
+        {\includegraphics[height=40mm]{ICL_logo2.png}};
+\end{tikzpicture}
+
+
+% Table of Contents
 \newpage
 \tableofcontents
 \thispagestyle{empty}
-
 \newpage
 \linenumbers
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Introduction %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -104,27 +110,27 @@
 
 Positive assortative mating, a phenomenon wherein individuals are more likely to mate with those phenotypically similar to themselves, is widely accepted to occur in human populations \parencite{Norris2019}. This has the potential to alter population structure by introducing social stratification and, in turn, create social constructs upon which further assortative mating can be based, such as wealth, class or social policies \parencite{Risch2009}.
 
-From a genetics standpoint, this multigenerational non-random admixture between genetically distinct groups leaves a genomic imprint in the individuals comprising the population, in stark contrast to populations more closely following Hardy-Weinberg equilibrium (HWE) \parencite{Zaitlen2017}. However, the genomic imprint on the population structure left by either sociocultural barriers or geographical barriers limiting admixture is difficult to discern. Afterall, large scale migration of a population will genetically manifest itself similarly to the change of societal rules or norms that condition social interaction, such as the revocation of racial segregation policies. 
+From a genetics standpoint, this multigenerational non-random admixture between genetically distinct groups leaves a genomic imprint in the individuals comprising the population, one that is in stark contrast to populations more closely following Hardy-Weinberg equilibrium (HWE) \parencite{Zaitlen2017}. However, the genomic imprint on the population structure left by either sociocultural barriers or geographical barriers limiting admixture is difficult to discern. Afterall, large scale migration of a population will genetically manifest itself similarly to the change of societal rules or norms that condition social interaction, such as the revocation of racial segregation policies. 
 
-Single nucleotide polymorphisms (SNPs) can be used as indicators of ancestry \parencite{Risch2009}. Population genomics techniques allow us to generate a large array of SNPs which can be analysed using local ancestry inference to map ancestries to positions and regions along the genome, after which further analysis can indicate past assortative mating in a population \parencite{Schubert2020}.
+Single nucleotide polymorphisms (SNPs) can be used as indicators of ancestry \parencite{Risch2009}. Population genomics techniques allow us to generate a large array of SNPs which can be analysed using local ancestry inference to map ancestries to positions and regions along the genome. Further analysis can them indicate past assortative mating in a population \parencite{Schubert2020}.
 
-One such analysis is that of continuous ancestry tract lengths: the lengths of genomic regions consecutively assigned to the same ancestry. Looking at the distribution of these lengths, the ancestry to which they belong and the overall ancestry proprtion of individuals within a population can indicate how long ago the admixture occurred and to what extent. Recombination of the DNA of admixing individuals leads to a decrease in continuous ancestry tract lengths, as those within the parents' genomes interupt one another upon recombination. Hence, admixture more generations ago will manifest as distributions of shorter continuous ancestry tracts and vice versa \parencite{Gravel2012}. 
+One such analysis is that of continuous ancestry tract lengths: the lengths of genomic regions consecutively assigned to the same ancestry. Looking at the distribution of these lengths, the ancestry to which they belong and the overall ancestry proportion of individuals within a population can indicate how long ago the admixture occurred and to what extent. Recombination of the DNA of admixing individuals leads to a decrease in continuous ancestry tract lengths, as those within the parents' genomes interupt one another upon recombination. Hence, admixture more generations ago will manifest as distributions of shorter continuous ancestry tracts and vice versa \parencite{Gravel2012}. 
 
-Genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently indicate assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under HWE can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity-to-heterozygosity ratio at a given position based on this concept, which can be used as a proxy for the extent of assortative mating at said position \parencite{Norris2019}.
+Genotype frequency is another indicator of population admixture; one would expect a more admixed population to have higher heterozygous genotype frequencies at a given position. While this alone does not inherently indicate assortative mating, the extent to which the observed genotype frequency deviates from what would be expected under HWE can also be considered. The assortative mating index (AMI) quantifies the relative local ancestry homozygosity-to-heterozygosity ratio at a given position based on this concept;  this can be used as a proxy for the extent of assortative mating at said position \parencite{Norris2019}.
 
-HWE is commonly used in population genomics as a quality check for genetic markers in genome-wide association study (GWAS) - SNPs chosen for being particularly informative for certain pathological research - whereby alleles with frequencies deviating too far from it are removed and deemed sequencing misreads \parencite{Linares-Pineda2012}. This does not take into account stratificatiom, present in most if not all societies, within the populations studied therein. Showing that allelic deviation from HWE is not an artefact but rather an intrinsic quality may serve as a warning against this practice.
+HWE is commonly used in population genomics as a quality check for genetic markers - SNPs chosen for being particularly informative for certain pathological research - in genome-wide association study (GWAS). Alleles with frequencies deviating too far from it are removed and deemed sequencing misreads \parencite{Linares-Pineda2012}. This does not take into account stratification, present in most if not all societies, within the studied populations. Showing here that the deviation of allelic frequencies from HWE is not an artefact but rather an intrinsic quality of some populations may serve as a warning against this practice.
 
-Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many of such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks due to war, hard labour and disease, while the European population grows via migration. These phenomena continue such that African slaves are transported to the region as a source of additional labour; after which the population continues evolving with the lingering impacts of colonialism \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
+Populations of the Americas such as Colombia, Barbados, Mexico or the US provide apropriate and well-researched case studies integrating migration, admixture and assortative mating. Many such populations have different but connected histories: a Native American population is colonised by Europeans; the Native population shrinks due to war, hard labour and disease, while the European population grows via migration. These phenomena continue such that African slaves are transported to the region as a source of additional labour, after which the population continues evolving with the lingering impacts of colonialism \parencite{Bryc2010,Mas-Sandoval2019,ESilva2020}. 
 
-These North and South American populations are far from the only examples of where migration and assortative mating coincide and can be studied, indeed most human populations are the result of admixture between multiple populations. However, the three source populations giving rise to the admixed population - African, European and Native - being genetically distinct facilitates the identification of local ancestry fragments and enables the study of the complex admixture process.
+These North and South American populations are far from the only examples of where migration and assortative mating coincide and as such can be studied; indeed most human populations are the result of admixture between multiple populations. However, the three source populations giving rise to the admixed population - African, European and Native - being genetically distinct facilitates the identification of local ancestry fragments and enables the study of the complex admixture process.
 
-Analysing the length of the local ancestry fragments, it is possible to evaluate both the admixture dates and the strength of the ancestry-related assortative mating. Said assortative mating can be understood as the degree of impermeability of the socioeconomic and cultural barriers between subgroups of the admixed population with differentiable genetic ancestries. Further understanding and ideally quantifying ancestry-related assortative mating, and using it as a proxy for ancestry-related social stratification, will not only help us better understand how such stratification historically and presently influence mating behaviours in the Americas, but could also be used to track or predict it in present and future admixed populations. 
+By analysing the length of the local ancestry fragments it is possible to evaluate both the admixture dates and the strength of the ancestry-related assortative mating. Said assortative mating can be understood as the degree of impermeability of the socioeconomic and cultural barriers between subgroups of the admixed population with differentiable genetic ancestries. Further understanding and ideally quantifying ancestry-related assortative mating, and using it as a proxy for ancestry-related social stratification, will not only help us better understand how such stratification historically and presently influence mating behaviours in the Americas, but could also be used to track or predict it in present and future admixed populations. 
 
 To accurately estimate the extent of assortative mating in a population using genomic techniques, the genomic impact of migration on said population must be accounted for, despite them being difficult to differentiate. Previous research has either studied genomic impact of migration while assuming otherwise random admixture \parencite{Norris2020,Borda2020,Gravel2012}, or studied assortative mating while assuming a single pulse of migration from each immigrating ancestry \parencite{Norris2019,Risch2009,Zaitlen2017}. However, for reasons outlined, studies on the effects of migration on population genomics must consider assortative mating, and when studying assortative mating one must consider migration as a continuous process rathen than a single event. Equally, comparing measured assortative mating levels of different populations and cross-referencing this with their histories and current socioeconomic climates could yield interesting insights as to casues and long-term effects of ancestry-related social stratification. 
 
-Hence, the aims of this project are twofold. Firstly, to use genomic data from admixed populations of the Americas to explore different analytical methods designed to unveil non-random admixture in a population. This will enable me to compare these methods by their potential to distigunish between migration and assortative mating as sources for this non-random admixture. Secondly, to use the results of these analyses to compare the admixed populations by the level of assortative mating revealed. My hypotheses are that each population will exhibit significant positive assortative mating, and that the level of said assortative mating in each population will be significantly different to that of the others.
+Hence, the aims of this project are twofold. Firstly, to use genomic data from admixed populations of the Americas to explore different analytical methods designed to reveal non-random admixture in a population. This will enable me to compare these methods by their potential to distigunish between migration and assortative mating as sources for this non-random admixture. Secondly, to use the results of these analyses to compare the admixed populations by the level of assortative mating revealed. My hypotheses are that each population will exhibit significant positive assortative mating, and that the level of said assortative mating in each population will be significantly different to that of the others.
 
-Only by reconciling migration and assortative mating can we confidently infer assortative mating from genomic data, and use this to draw conclusions about past and detect trends of future ancestry-related social stratification.
+Only by reconciling migration and assortative mating can we confidently infer assortative mating from genomic data, which can then be used to draw conclusions about past and detect trends of future ancestry-related social stratification.
 
 
 
@@ -165,7 +171,7 @@ Only by reconciling migration and assortative mating can we confidently infer as
 \subsection{Studied Populations}
 
 
-For the initial analyses, all African, European and American populations from the 1000 Genomes Project (1KGP) and the Human Genome Diversity Project (HGDP) were used \textbf{Table 1}, with the exception of the Russian and Finnish populations. These were excluded owing to minimal colonial-era migration to the Americas from these populations, alongside the genetic similarities between these populations, Siberans and, by extension, Native Americans.
+For the initial analyses, all African, European and American populations from the 1000 Genomes Project (1KGP) and the Human Genome Diversity Project (HGDP) were used (\textbf{Table 1}), with the exception of the Russian and Finnish populations. These were excluded owing to minimal colonial-era migration to the Americas from these populations and the relative genetic similarities between these populations, Siberians and, by extension, Native Americans.
 
 
 
@@ -173,7 +179,7 @@ For the initial analyses, all African, European and American populations from th
     \centering
     \caption{
         \textbf{Details of the populations used throughout this study.} 
-        Populations abbreviated as three capitalised letters are from the 1000 Human Genome Project dataset, while full-word abbreviated populations are from the Human Genome Diversity Project dataset. The number of samples used from each population is denoted by n. \\
+        Populations abbreviated as initialisms are from the 1000 Human Genome Project dataset, while full-word abbreviated populations are from the Human Genome Diversity Project dataset. The number of samples used from each population is denoted by n. \\
         **The Tuscan and Yoruba populations comprise samples from both datasets.
         }
     \vspace{.2cm}
@@ -247,7 +253,7 @@ Using BCFtools v1.9, the 30x coverage 1KGP and high-coverage HGDP datasets were 
 \subsection{Haplotype Estimation with SHAPEIT4}
 
 
-Phasing was carried out using SHAPEIT v4.2.0, which efficiently assigns haplotype estimates for each genotype by cross-referencing the genomic region in question with the corresponding region of a pre-phased reference panel and of the other genomes being phased \parencite{Delaneau2019}. The programme was run using the B38 genetic map recommended by the developers and default parameters, plus an apropriate high-coverage phased reference genome from the 1KGP website (see: \textbf{Data and Code Availability}) to inmprove haplotype estimation accuracy. The individually phased chromosomes were then merged into a single VCF file with BCFtools. 
+Phasing was carried out using SHAPEIT v4.2.0, which efficiently assigns haplotype estimates for each genotype by cross-referencing the genomic region in question with the corresponding region of a pre-phased reference panel and of the other genomes being phased \parencite{Delaneau2019}. The programme was run using default parameters, the B38 genetic map recommended by the developers, and an apropriate high-coverage phased reference genome from the 1KGP websitewas used to inmprove haplotype estimation accuracy (see: \textbf{Data and Code Availability}). The individually phased chromosomes were then merged into a single VCF file with BCFtools. 
 
 
 
@@ -258,7 +264,7 @@ Phasing was carried out using SHAPEIT v4.2.0, which efficiently assigns haplotyp
 
 Linkage disequilibrium pruning was performed with PLINK v2.0 on the genomes in VCF format, which creates a subset of largely independent SNPs - thereby significantly reducing the computational power needed for subsequent analyses with minimal information loss - before converting the pruned dataset to PLINK format \parencite{Purcell2007}. These SNPs form the basis of this study.
 
-The programme ADMIXTURE v1.3.0 used cluster analysis and principal component analysis to estimate the proportions of African, European and Native American ancestry for each remaining sample, with default parameters and three ancestries to be detected \parencite{Alexander2009}.
+The programme ADMIXTURE v1.3.0 used cluster analysis and principal component analysis to estimate the proportions of African, European and Native American ancestry for each remaining sample, with the number of ancestries parameter set at three. \parencite{Alexander2009}.
 
 
 
@@ -267,11 +273,11 @@ The programme ADMIXTURE v1.3.0 used cluster analysis and principal component ana
 \subsection{Local Ancestry Inference with RFMIX v2}
 
 
-The ADMIXTURE outputs were subsequently used to filter out all significantly admixed samples, with a minimum threshold of 99\% African, European or Native American ancestry. This subsetting was executed using BCFTools, yielding a subset VCF of $>$99\% non-admixed samples was used as a reference panel for local ancestry assignment with the programme RFMIX. A query subset was created correspondingly, containing all samples in the "Admixed" superpopulation in \textbf{(Table 1)}.
+The ADMIXTURE outputs were subsequently used to filter out all significantly admixed samples, with a minimum threshold of 99\% African, European or Native American ancestry. This subsetting was executed using BCFTools, yielding a subset VCF of $>$99\% non-admixed samples. THis was used as a reference panel for local ancestry assignment with the programme RFMIX. A query subset was created correspondingly, containing all samples in the "Admixed" superpopulation in \textbf{(Table 1)}.
 
 RFMIX v2.03-r0, based on concepts developed in RFMIX v1, assigns ancestries to segments of an individual's genome, which not only yields ancestry proportions as with ADMIXTURE, but also effectively maps out each genome in terms of each genomic region's estimated ancestry or origin. It does this by progressively modelling ancestry along each chromosome using discriminant random forests, conditional random field modelling and observed haplotype sequences of ancestry infered from an input reference panel \parencite{Maples2013}.
 
-The RFMIX run was performed using the aforementioned query and reference VCF files, and a sample map linking the sample codes to their respective populations. Parameters used were three run-throughs of the algorithm and 20 generations, before which, assuming an average generation length of 25 years, no known European-Native American admixtire had taken place.
+The RFMIX run was performed using the aforementioned query and reference VCF files, and a sample map linking the sample codes to their respective populations. Parameters used were three iterations of the algorithm and 20 generations. Before 20 generations ago, assuming an average generation length of 25 years, no known European-Native American admixtire had taken place.
 
 
 
@@ -280,7 +286,7 @@ The RFMIX run was performed using the aforementioned query and reference VCF fil
 \subsection{Assortative Mating Index Calculation}
 
 
-One measure of assortative mating is the assortative mating index (AMI), which takes a log odds ratio of the relative local ancestry homozygosity and heterozygosity:
+One measure of assortative mating is the assortative mating index (AMI), a log odds ratio test for the relative local ancestry homozygosity and heterozygosity:
 
 
 \begin{equation}
@@ -303,9 +309,9 @@ Three ancestries are being investigated, hence expected homozygous and heterozyg
 \vspace{3mm}
 
 
-The left side of each of these models are haplotype frequencies while the right sides are genotype frequencies, each side of the equation summing to one. In the triallelic model, a, e and n are the initials of the ancestry they represent, while $x$ and $\bar{x}$ in the biallelic model correspond to a given ancestry - African, European or Native - and all other ancestries respectively. Hence, while AMI is calculated only once using the triallelic model, the AMI using the biallelic model must be calculated three times: once with respect to each ancestry. For example, with respect to African ancestry, the homozygous genotype would be both African alleles or both non-African alleles, and the heterozygous genotype would be one African allele and one allele of one of the other ancestries.
+The left side of each of these models are haplotype frequencies, while the right sides are genotype frequencies, each side of the equation summing to one. In the triallelic model, a, e and n are the initials of the ancestry they represent, while $x$ and $\bar{x}$ in the biallelic model correspond to a given ancestry - African, European or Native - and all other ancestries respectively. Hence, while AMI is calculated only once using the triallelic model, the AMI using the biallelic model must be calculated three times: once with respect to each ancestry. For example, with respect to African ancestry, the homozygous genotype would be both African alleles or both non-African alleles, and the heterozygous genotype would be one African allele and one allele of one of the other ancestries.
 
-The outputs of RFMIX v2 were analysed by a series of R Studio scripts I created for this project (see: \textbf{Data and Code Availability}). Firstly, the forward-backward (.fb.tsv) ouput files were read by the script "rfmix.fb.tsv\_genotype\_assign\_HPC.R". These files contain the estimated haplotype probabilities at each genolmic position for each sample. The script then assigns the genotype for each genomic position in each sample, with a probability threshold of 0.9, and returns the frequencies of each of the six triallelic genotypes at each position across samples as a table. This genotype frequency table is then read by the script "rfmix.fb.tsv\_genotype\_analysis.R", before calculating the triallelic AMI, and the three biallelic AMIs with respect to each ancestry, at each position.
+The outputs of RFMIX v2 were analysed by a series of R Studio scripts I created for this project (see: \textbf{Data and Code Availability}). Firstly, the forward-backward (\textit{.fb.tsv}) ouput files are read by the script "rfmix.fb.tsv\_genotype\_assign\_HPC.R". These files contain the estimated haplotype probabilities at each genomic position for each sample. The script then assigns the genotype for each genomic position in each sample, with a probability threshold of 0.9, and returns the frequencies of each of the six triallelic genotypes at each position across samples as a table. This genotype frequency table is then read by the script "rfmix.fb.tsv\_genotype\_analysis.R" before calculating the triallelic AMI and the three biallelic AMIs, at each position with respect to each ancestry.
 
 
 
@@ -314,9 +320,9 @@ The outputs of RFMIX v2 were analysed by a series of R Studio scripts I created 
 
 \subsection{Continuous Ancestry Tract Length Analysis}
 
-Ancestry assignments of lower certainty in the forward-backward file, using the 0.9 probability threshold, have the potential to fracture continuous ancestry tracts thereby completely alter the distribution of their lengths. Hence the .msp.tsv RFMIX output files were used instead, equivalent to the forward-backward files but with automatic haplotype assignment to haploytype with highest estimated liklihood.
+Ancestry assignments of lower certainty in the forward-backward file, using the 0.9 probability threshold, have the potential to fracture continuous ancestry tracts thereby completely alter the distribution of their lengths. Hence the \textit{.msp.tsv} RFMIX output files were used instead, equivalent to the forward-backward files but with automatic haplotype assignment to haploytype with highest estimated liklihood.
 
-To generate the fragment length distributions, the script "rfmix.msp.tsv\_window\_size.R" reads the .msp.tsv files, sums the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv\_inbred\_window\_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assignments. 
+To generate the fragment length distributions, the script "rfmix.msp.tsv\_window\_size.R" reads the \textit{.msp.tsv} files, sums the length of consecutive genomic windows assigned to the same ancestry, and appends the lengths to the vector containing the lengths of other fragments corresponding to the fragment's ancestry and population. The script "rfmix.msp.tsv\_inbred\_window\_size.R" works similarly, but generates fragment length distributions of consecutive homozygous genotype assignments, rather than haplotype assignments. 
 
 
 
@@ -324,11 +330,11 @@ To generate the fragment length distributions, the script "rfmix.msp.tsv\_window
 
 \subsection{Timeline of Admixture Estimation with TRACTS}
 
-TRACTS is a software for modelling migration histories using ancestry tracts data, incorporating the theory of time-dependent gene-flow and correcting for chromosomal end effects and haplotype assignment errors. In doing so, it predicts how many generations prior to the query genomes the migration events bringing the different populations together occured \parencite{Gravel2012}.
+TRACTS is a software for modelling migration histories using ancestry tracts data, incorporating time-dependent gene-flow theory and correcting for chromosomal end effects and haplotype assignment errors. In doing so, it predicts how many generations prior to the query genomes the migration events bringing the different populations together occured \parencite{Gravel2012}.
 
-The software uses the .bed file format as input, a file output of the original RFMIX but not of RFMIX v2, hence I created a script to convert .msp.tsv to .bed, "msp2bed\_conversion.R". This merges together each chromosome from the 22 .msp.tsv files, and merges each consecutive intrachromosomal fragment - pre-defined by RFMIX - of the same ancestry into single fragments whereby adjhacent fragments can be of vastly different lengths and always different assigned ancestries. It then recalculates each cell based on this mergeing of fragments assigned to the same ancestry, reshuffles and reformats the columns, and saves one .bed file per query sample, each .bed file containing fragments constituing the entire genome of one individual, as required to run TRACTS.
+The software uses the \textit{.bed} file format as input, a file output of the original RFMIX but not of RFMIX v2, hence I created a script to convert \textit{.msp.tsv} to \textit{.bed}, "msp2bed\_conversion.R". This merges together each chromosome from the 22 .msp.tsv files, and merges each consecutive intrachromosomal fragment - pre-defined by RFMIX - of the same ancestry into single fragments, whereby adjhacent fragments can be of vastly different lengths and always different assigned ancestries. It then recalculates each cell based on this mergeing of fragments assigned to the same ancestry, reshuffles and reformats the columns, and saves one \textit{.bed} file per query sample, each \textit{.bed} file containing fragments constituing the entire genome of one individual, as required to run TRACTS.
 
-Because in each of the admixed query populations there was initial admixture between Native Americans and Europeans populations, followed by African and further European ancestry being added to the gene pool, none of the models provided by TRACTS were entirely apropriate. I therefore adjusted the provided four population model, which assumes admixture of two initial populations and subsequently two further populations with three migration events, to instead assume initial admixture between two populations and subsequent admixture with one of those two populations (European) and a third population (African). Said adjusted model is encoded in the Python 2 script "models\_4pop.py", which is run by "taino\_ppxx\_xxpp.py" for each admixed query populations with 25 bootstraps.
+Because in each of the admixed query populations there was initial admixture between Native Americans and Europeans populations, followed by African and further European ancestry being added to the gene pool, none of the models provided by TRACTS were entirely apropriate. I therefore adjusted the provided four population model, which assumes admixture of two initial populations and subsequently two further populations with three migration events. The adjusted version instead assumes initial admixture between two populations and subsequent admixture with one of those two populations (European) and a third population (African). Said adjusted model is encoded in the Python 2 script "models\_4pop.py", which is run by "taino\_ppxx\_xxpp.py" for each admixed query populations with 25 bootstraps.
 
 The \_mig file outputs of TRACTS contain what proportion each newly introduced ancestry contributes to the query population after each migration event, and how many generations ago that migration event occurred. The script "tracts\_mig\_plots.R" uses this data to calculate the estimated relative proportion of the three ancestries during each of the past 25 generations for each query population. 
 
@@ -378,7 +384,7 @@ Pruning led to the dataset being reduced to 4,111,226 SNPs per sample. ADMIXTURE
 
 The averaged output for each of the 31 populations is visualised in \textbf{Fig. 1}, which displays Peruvians and LA Mexicans as predominantly of Native ancestry and minimially African; Colombians and Puerto Ricans as predominantly European but more Native than African; and Barbadians and African Americans from US Southwest (ASWs) as predominantly African with minimal Native ancestry.
 
-The distribution of ancestry proportions on the individual level within these six admixed populations is shown in \textbf{Fig. 2}, which largely corresponds with \textbf{Fig. 1} while suggesting aproximately 25\% of LA Mexicans and Colombians have no African ancestry, fewer than 5\% and 50\% of Barbadians and ASWs respectively have Native ancestry, and that only around 20\% of Peruvians have African ancestry while around 25\% of them are of exclusively Native ancestry.
+The distribution of ancestry proportions on the individual level within these six admixed populations is shown in \textbf{Fig. 2}, which largely corresponds with \textbf{Fig. 1}. This suggests aproximately 25\% of LA Mexicans and Colombians have no African ancestry, fewer than 5\% and 50\% of Barbadians and ASWs respectively have Native ancestry, and that only around 20\% of Peruvians have African ancestry while around 25\% of them are of exclusively Native ancestry.
 
 
 
@@ -391,7 +397,7 @@ The distribution of ancestry proportions on the individual level within these si
     \caption{\textbf{
         Stacked barplots showing the proportions of the three ancestries of each individual comprising the six query admixed populations, generated by ADMIXTURE.
     }
-        Genomic data from individuals of the six from the 1000 Genomes Project and the Human Genome Diversity Project were processed and subjected to ADMIXTURE. The number of individuals comprising each poppulation is denoted by n, and inviduals are ordered within each respective admixed population's plot by increasing African and then European ancestry.
+        Genomic data from individual samples of the six admixed populations from the 1000 Genomes Project were processed and subjected to ADMIXTURE. The number of samples comprising each poppulation is denoted by n, and inviduals are ordered within the plot of each respective admixed population by increasing African and then European ancestry.
     }
 \end{figure}
 
@@ -399,7 +405,7 @@ The distribution of ancestry proportions on the individual level within these si
 
 
 
-These individual-level ancestry proportion distributions are further visualised in \textbf{Fig. S1}, with the distribution for each population of a given ancestry displayed side-by-side in box plots. All distributions were different at the 5\% significance level, except for Barbadian and Peruvian European ancestry proportion distributions. However, their Native and African ancestry distributions contrast starkly, lending credence to the assumption all six admixed populations have entirely different ethnological structures.
+These individual-level ancestry proportion distributions are further presented in \textbf{Fig. S1}, with the distribution for each population of a given ancestry displayed side-by-side in box plots. All distributions were different at the 5\% significance level - except for Barbadian and Peruvian European ancestry proportion distributions. However, their Native and African ancestry distributions contrast starkly, supporting the assumption that all six studied admixed populations have highly different ethnological structures.
 
 Following the admixture run, the 25 reference populations were filtered to remove all samples with less than 99\% of the corresponding ancestry. This left a reference panel of 72, 507 and 550 people of 99\% or more Native, European and African ancestry respectively for use in the local ancestry inference by RFMIX of the 504 query samples from the admixed populations. 
 
@@ -418,21 +424,21 @@ Following the admixture run, the 25 reference populations were filtered to remov
 
 
 
-One of the outputs of RFMIX is equivalent to that of ADMIXTURE, and a comparison of their relative performance on the 1690 studied individuals is shown in \textbf{Fig. S2}. Briefly, RFMIX tends to give lower African ancestry proportion estimates than ADMIXTURE in those both deem to have higher African Ancestry, and higher European ancestry proportion estimates in those both deem to have lower European Ancestries. 
+One of the outputs of RFMIX is equivalent to that of ADMIXTURE, and a comparison of their relative performance on the 1690 studied individuals is shown in \textbf{Fig. S2}. Briefly, RFMIX tends to give lower African ancestry proportion estimates than ADMIXTURE in samples which both deem to have higher African Ancestry, and higher European ancestry proportion estimates in samples which both deem to have lower European Ancestries. 
 
-The main RFMIX output was used to calculate assortative mating index values for each SNP in each population. The triallelic AMI values for each position and population are plotted in \textbf{Fig. 3}. In a population without assortative mating, we would expect the mean AMI value to be zero. With a sample size of 4,111,226 SNPs, and the standard deviations being of similar sizes to the corresponding means, the standard errors of the means are negligable and hence the sample means are accurate estimates of the true means. Based on this, we can see all means are significantly higher than zero, indicating positive assortative mating in all admixed populations.
+The main RFMIX output was used to calculate assortative mating index values for each SNP in each population. The triallelic AMI values for each position and population are plotted in \textbf{Fig. 3}. In a population without assortative mating, we would expect the mean AMI value to be zero. With a sample size of 4,111,226 SNPs, and the standard deviations being of similar sizes to the corresponding means, the standard errors of the means are negligable and hence the sample means can be considered accurate estimates of the true means. Based on this, we can see all means are significantly higher than zero, indicating positive assortative mating in all admixed populations.
 
 
 
 \vspace{3mm}
 \begin{figure}[htb!]%%%%%%%%%%% OVERALL AMI
     \centering
-    \includegraphics[width=5in]{../results/AMI_plot.png} 
+    \includegraphics[width=4.8in]{../results/AMI_plot.png} 
     \vspace{.1cm}
     \caption{\textbf{
-        Comparative box plots displaying the distribution of the triallelic assortative mating index calculated for each studied single nucleotide polymorphism for each admixed population.
+        Comparative box plots displaying the distribution of the triallelic assortative mating index calculated for each studied single nucleotide polymorphism for each studied admixed population.
     }
-        The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used to better display the distribution.
+        The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used simply to better display the distribution.
     }
 \end{figure}
 
@@ -444,21 +450,21 @@ The main RFMIX output was used to calculate assortative mating index values for 
     \includegraphics[height=0.91\textheight]{../results/anc_AMI_plot.png} 
     \vspace{.2cm}
     \caption{\textbf{
-        Comparative box plots displaying the distribution of the biallelic ancestry-specific assortative mating indicies calculated for each studied single nucleotide polymorphism for each admixed population.
+        Comparative box plots displaying the distribution of biallelic ancestry-specific assortative mating indicies (AMIs) calculated for each studied single nucleotide polymorphism for each studied admixed population.
     }
-        The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used to better display the distribution.
+        The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath; the standard error of the mean is negligable owing to the sample size of 4,111,226. Horizontal jitter is used simply to better display the distribution.
     }
 \end{figure}
 
 
 
-Wilcoxon tests were performed to also ascertain whether the AMI distribution of each population are significantly different from the other populations, which was confirmed to be the case (\textbf{Fig. S4A}). 
+Wilcoxon tests were performed to also ascertain whether the AMI distribution of each population are significantly different from the other populations: this was confirmed to be the case (\textbf{Fig. S4A}). 
 
 The same analyses were carried out for the biallelic ancestry-specific AMI values. With the same large sample size, the distribution of each population is significantly higher than zero for all three ancestries, confirming that assortative mating has occurred in each population with respect to all three ancestries.
 
 Wilcoxon tests were then performed to compare the AMI distributions of each ancestry by population and of each population by ancestry (\textbf{Fig. S4B} and \textbf{C} respectively). With the exception of European-specific AMI distriutions for Puerto Rico and Peru, all combinations of ancestries or populations were significantly different. 
 
-To test whether mean ancestry-specific AMI value is correlated with or driven by mean ADMIXTURE-estimated ancestry proportion they were plotted for each admixed population (\textbf{Fig. S3}), but no significant correlation was found (p-value = 0.133). 
+To test whether mean ancestry-specific AMI value is correlated with or driven by mean ADMIXTURE-estimated ancestry proportion, they were plotted for each admixed population (\textbf{Fig. S3}). However, no significant correlation was found (p-value = 0.133). 
 
 
 
@@ -475,14 +481,14 @@ To test whether mean ancestry-specific AMI value is correlated with or driven by
 \begin{figure}[hbt!]%%%%%%%%%%% Normal and inbred window length distributions
     \centering
     \subfloat{\includegraphics[width=\textwidth,height=4.1in]{
-        ../results/window_lengths_histogram.png}}\vspace*{-1em}
+        ../results/window_lengths_histogram.png}}\vspace*{0em}
     \subfloat{\includegraphics[width=6.5in,height=4.1in]{
         ../results/inbred_window_lengths_histogram.png}}
     \vspace{.2cm}
     \caption{\textbf{
         Histograms of continuous ancestry tract lengths of each of the three ancestries for each admixed population.
     }
-        Fragment lengths are measured in base pairs in log10 scale, and are seperated into 100 bins in each plot. Fragment length is considered either the number of consecutive haplotype asignments of a given ancestry on a single strand (A), or the number of consecutive homozygous genotype asignments of a given ancestry on both strands (B).
+        Fragment lengths are measured in base pairs in log10 scale, and are seperated into 100 bins in each plot. Fragment length is considered either the number of consecutive haplotype asignments of a given ancestry on a single strand (A), or the number of consecutive homozygous genotype asignments of a given ancestry on both strands taken together (B).
     }
 \end{figure}
 
@@ -494,9 +500,9 @@ To test whether mean ancestry-specific AMI value is correlated with or driven by
         ../results/tracts+voy/4pop_tracts_bs25_mig_plot_5yrs.png}
     \vspace{-.2cm}
     \caption{\textbf{
-        Number of slaves transported to the general regions of the admixed populations every five years, and stacked barplots showing how the proportion of the three ancestries changed in said populations generation to generation as estimated by TRACTS, between the years 1500 and 2000 CE.
+        Number of slaves transported to the general regions of the studied admixed populations every five years, and stacked barplots showing how the proportion of the three ancestries changed in said populations generation to generation as estimated by TRACTS, between the years 1500 and 2000 CE.
     }
-        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports north of the Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS to 25 bootstraps, with generations being estimated as 25-year periods.
+        Data on the number of slaves transported to each region, in log10 scale, are cumulative estimates of slaves disembarked there every 5 years based on records of trans-atlantic slave voyages from https://www.slavevoyages.org. Regions used are ports in North-Eastern South America for PEL \& CLM, ports in what is now Mexico for MXL, ports on Spanish Carribean islands for PUR, ports north of the Rio Grande in North America for ASW, and ports on British Carribean islands for ACB. Genomic data of the individuals from each admixed population was analysed with TRACTS with 25 bootstraps, with generations being estimated as 25-year periods.
     }
 \end{figure}
 
@@ -504,19 +510,19 @@ To test whether mean ancestry-specific AMI value is correlated with or driven by
 
 
 
-The final use of the RFMIX output was analysisng the lengths of continuous anestry tracts. Displaying the haplotype continuous ancestry tracts in a histogram allows visual comparison between the tract length distriutions of the different ancestries (\textbf{Fig. 5A}), while box plots better visualise descriptive statistics of the data (\textbf{Fig. S5}).
+The final use of the RFMIX output was analysing the lengths of continuous anestry tracts. Displaying the haplotype continuous ancestry tracts in a histogram allows visual comparison between the tract length distriutions of the different ancestries (\textbf{Fig. 5A}), while box plots better display descriptive statistics of the data (\textbf{Fig. S5}).
 
-As would be expected, there's a clear correlation between the relative heights and x-axis positions of the distributions in a given population and the corrrespinding mean ancestry proportion. Skewed distributions, such as the right-skewed African distributions of the ASW and ACB plots, suggest some form of deviation from HWE but whether they are caused by migration, assortative mating or some other phenomenon is unclear.
+As would be expected, there is a clear correlation between the relative heights and x-axis positions of the distributions in a given population and the corrrespinding mean ancestry proportion. Skewed distributions, such as the right-skewed African distributions of the ASW and ACB plots, suggest some form of deviation from HWE, but whether these are caused by migration, assortative mating or some other phenomenon is unclear.
 
-A supplementary approach is finding and plotting homozygous continuous ancestry tract lengths, as in \textbf{Fig. 5B}. This exagerates HWE deviations, and provides additional peaks to some of the distributions. These peaks are more informative than just skewness: they show different tract length distributions of the same ancestry that have been merged, essentially representing two populations of the same ancestry to merging into one. Hence significant same-ancestry migration is the likely cause of corresponding skewness in the haplotype continuous ancestry tract length visualisations, for example with ASW and ACB.
+A supplementary approach is finding and plotting homozygous continuous ancestry tract lengths, as in \textbf{Fig. 5B}. This exagerates HWE deviations, and provides additional peaks to some of the distributions. These peaks are more informative than just skewness: they show different tract length distributions of the same ancestry that have been merged, essentially representing two populations of the same ancestry merging into one. Hence significant same-ancestry migration is the likely cause of corresponding skewness in the haplotype continuous ancestry tract length visualisations, for example with ASW and ACB.
 
-Less intense right skewness, such as with European ancestry in the ASW population, could indicate either minor and sustained European migration, or European assortative mating, where at least some of the European population disproportionately interbred thereby preserving longer continuous ancestry tracts than would be expected under HWE.
+Less intense right skewness, such as with European ancestry in the ASW population, could indicate either minor but sustained European migration, or European assortative mating, where at least some of the European population disproportionately interbred thereby preserving longer continuous ancestry tracts than would be expected under HWE.
 
-Each homozygous continuous ancestry tract length distribution has a left tail absent in their haplotype counterparts, likely an artefact of heterozygous alleles breaking large homozygous tracts which would leave one of the two haplotype ones intact.
+Each homozygous continuous ancestry tract length distribution has a left tail absent in their haplotype counterparts, likely an artefact of heterozygous alleles breaking large homozygous tracts which would leave one of the two haplotype tracts intact.
 
-A more sophisticated software for continuous ancestry tract length analysis is TRACTS, which uses them to infer how many generations ago migration events took place. Cross-referencing this with relevent slave migration data provides a picture of delays between migration and significant admixture, ie assortative mating (\textbf{Fig. 6}). As it was Europeans transporting slaves accross the Atlantic, we know Europeans arrived in the region the same generation Africans began to arrive or earlier.
+A more sophisticated software for continuous ancestry tract length analysis is TRACTS, which uses tract length distributions to infer how many generations ago migration events took place. Cross-referencing this with relevent slave migration data provides a picture of delays between migration and significant admixture: assortative mating (\textbf{Fig. 6}). As it was Europeans that transported slaves accross the Atlantic, we know Europeans arrived in the region the same generation that Africans began to arrive, or earlier.
 
-Therefore, for example in Peru, we can see that Europeans and Africans began arriving around 1525, the majority of Africans had arrived by 1575, significant admixture between Europeans and Natives occurred around 1650, and significant admixture between Africans and the rest of the population occurred around 1675. This suggests extreme assortative mating for 4-6 generations in Europeans and a similar length, albeit lagging by a generation, in Africans.
+Therefore, for example in Peru, we can see that Europeans and Africans began arriving around 1525, the majority of Africans had arrived by 1575. Significant admixture between Europeans and Natives occurred around 1650, and significant admixture between Africans and the rest of the population occurred around 1675. This suggests extreme assortative mating for 4-6 generations in Europeans and a similar length, albeit lagging by a generation, in Africans.
 
 While the Mexican and Colombian plots can be interpretted similarly, the other three seem to suggest that the most significant African admixture occurred prior to 80-95\% of the slaves being transported to the region, and spuriously that Europeans arrived at Barbados long before evidence suggests. 
 
@@ -678,7 +684,7 @@ A detailed visualisation of the project's workflow can be found in \textbf{Fig. 
         \caption{\textbf{
             Comparative box plots displaying the distributions of the three ancestry proportions for each individual of each admixed population, with corresponding p-value heatmaps comparing populations statistically.
         }
-            The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution. To the right of the boxplots for each ancestry is a corresponding p-value heatmap. These show the results of wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
+            The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath. Horizontal jitter is used to better display the distribution. To the right of the boxplots for each ancestry is a corresponding p-value heatmap. These show the results of Wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
         }
 \end{figure}
 
@@ -755,7 +761,7 @@ A detailed visualisation of the project's workflow can be found in \textbf{Fig. 
         \caption{\textbf{
             Comparative box plots displaying the distributions of continuous ancestry tract lengths of each ancestry for all individuals of each admixed population, with corresponding p-value heatmaps comparing populations statistically.
         }
-        Fragment length, that is the number of consecutive haplotype asignments of a given ancestry on a single strand, are measured in base pairs in log10 scale. The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath in units of Mbp. Horizontal jitter is used to better display the distribution. To the right of the boxplots for Afrinca, European and Native ancestries (\textbf{A-C}) is a corresponding p-value heatmap. These show the results of wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
+        Fragment length, that is the number of consecutive haplotype asignments of a given ancestry on a single strand, are measured in base pairs in log10 scale. The boxes highlight the upper quartile, median and lower quartile values of the distribtuion, while the whiskers signify the last data point within the closest quartile value plus 150\% of the interquartile range. Mean ± standard deviation is given beneath in units of Mbp. Horizontal jitter is used to better display the distribution. To the right of the boxplots for Afrinca, European and Native ancestries (\textbf{A-C}) is a corresponding p-value heatmap. These show the results of Wilcoxon tests conducted between every combination of two admixed populations, with shades of blue indicating differences between populations are significant at the 5\% level.
         }
 \end{figure}
 
